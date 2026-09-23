@@ -4,6 +4,7 @@ struct CompositionStyle: Equatable {
     var model: DeviceModel?
     var showsBezel: Bool
     var finish: DeviceFinish?
+    var showsDynamicIsland = true
     var background: CompositionBackground
     /// Space around the device, as a fraction of the device width.
     var margin: Double
@@ -123,7 +124,8 @@ struct ScreenshotComposition: View {
                 .scaledToFill()
                 .frame(width: layout.screen.width, height: layout.screen.height)
                 .clipShape(RoundedRectangle(cornerRadius: layout.screenRadius, style: .continuous))
-            if frame > 0, layout.isPortrait, let cutout = style.model?.cutout {
+            if frame > 0, layout.isPortrait, let cutout = style.model?.cutout,
+               cutout != .dynamicIsland || style.showsDynamicIsland {
                 Cutout(kind: cutout, pixelsPerPoint: layout.pixelsPerPoint)
                     .frame(width: layout.screen.width, height: layout.screen.height, alignment: .top)
             }

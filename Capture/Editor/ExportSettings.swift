@@ -73,6 +73,7 @@ final class ExportSettings {
     /// Chosen device model, or nil to pick one matching the capture.
     var modelID: String? { didSet { save(modelID, "modelID") } }
     var finishHex: String? { didSet { save(finishHex, "finishHex") } }
+    var showsDynamicIsland: Bool { didSet { save(showsDynamicIsland, "showsDynamicIsland") } }
     var backgroundKind: BackgroundKind { didSet { save(backgroundKind.rawValue, "backgroundKind") } }
     var hasBackground: Bool { didSet { save(hasBackground, "hasBackground") } }
     var colorHex: String { didSet { save(colorHex, "colorHex") } }
@@ -94,6 +95,7 @@ final class ExportSettings {
         showsBezel = d.object(forKey: p + "showsBezel") as? Bool ?? true
         modelID = d.string(forKey: p + "modelID")
         finishHex = d.string(forKey: p + "finishHex")
+        showsDynamicIsland = d.object(forKey: p + "showsDynamicIsland") as? Bool ?? true
         backgroundKind = BackgroundKind(rawValue: d.string(forKey: p + "backgroundKind") ?? "") ?? .gradient
         hasBackground = d.object(forKey: p + "hasBackground") as? Bool ?? true
         colorHex = d.string(forKey: p + "colorHex") ?? Self.defaultColors[0]
@@ -136,6 +138,7 @@ final class ExportSettings {
             model: model,
             showsBezel: showsBezel && model != nil,
             finish: model.map(finish(for:)),
+            showsDynamicIsland: showsDynamicIsland,
             background: background,
             margin: background == .none ? 0 : margin,
             showsShadow: showsShadow

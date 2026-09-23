@@ -681,6 +681,16 @@
         }
       }
     },
+    "Dynamic Island": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic Island"
+          }
+        }
+      }
+    },
     "End": {
       "localizations": {
         "fr": {

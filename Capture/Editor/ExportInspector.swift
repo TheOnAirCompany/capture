@@ -208,6 +208,11 @@ private struct BezelSection: View {
                 }
                 .disabled(!settings.showsBezel)
 
+                if model.cutout == .dynamicIsland {
+                    Toggle("Dynamic Island", isOn: $settings.showsDynamicIsland)
+                        .disabled(!settings.showsBezel)
+                }
+
                 if !matching.isEmpty, !matching.contains(model) {
                     Text("This model has a different screen size: the capture is scaled to fill it.")
                         .font(.caption)

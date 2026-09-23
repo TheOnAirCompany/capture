@@ -154,6 +154,7 @@ FR = {
     "Cosmic Orange": "Orange cosmique",
     "Deep Blue": "Bleu intense",
     "Glacier": "Glacier",
+    "Dynamic Island": "Dynamic Island",
     "Natural": "Naturel",
     "Desert": "Sable",
     "Burgundy": "Bordeaux",
