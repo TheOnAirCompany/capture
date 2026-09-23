@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1
+
+- Captures are now saved to **Documents › Capture** by default, instead of the Desktop. If you already chose a folder, Capture keeps using it.
+- The update window now shows what's new in each version, in English or French.
+
 ## 0.2.0
 
 - **iPad support**: every iPad from 2015 to 2026, with its own device frame (Home button, front camera, official colors).

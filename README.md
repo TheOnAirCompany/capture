@@ -50,7 +50,7 @@ Capture is a small, native macOS app designed around it: plug in your iPhone or 
 - [x] Automatic updates from GitHub releases (Sparkle)
 - [x] Styled, signed and notarized DMG
 
-Screenshots and videos are saved to the folder chosen during onboarding (`~/Desktop/Capture` by default). File names can use variables such as `{device}`, `{date}`, `{time}`, `{counter}` and `{type}`, and captures can be sorted into subfolders by date or device. Shortcuts: **⇧⌘S** for a screenshot, **⇧⌘R** to start or stop a recording.
+Screenshots and videos are saved to the folder chosen during onboarding (`~/Documents/Capture` by default). File names can use variables such as `{device}`, `{date}`, `{time}`, `{counter}` and `{type}`, and captures can be sorted into subfolders by date or device. Shortcuts: **⇧⌘S** for a screenshot, **⇧⌘R** to start or stop a recording.
 
 ## Requirements
 

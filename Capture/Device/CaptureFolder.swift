@@ -5,7 +5,7 @@ enum CaptureFolder {
     static let defaultsKey = "captureFolderPath"
 
     static var defaultURL: URL {
-        URL.desktopDirectory.appending(path: "Capture", directoryHint: .isDirectory)
+        URL.documentsDirectory.appending(path: "Capture", directoryHint: .isDirectory)
     }
 
     static var url: URL {
@@ -16,7 +16,7 @@ enum CaptureFolder {
         set { UserDefaults.standard.set(newValue.path, forKey: defaultsKey) }
     }
 
-    /// Localized path for display, such as "Bureau › Capture".
+    /// Localized path for display, such as "Documents › Capture".
     static func displayPath(of url: URL) -> String {
         let components = FileManager.default.componentsToDisplay(forPath: url.path) ?? [url.lastPathComponent]
         let home = FileManager.default.componentsToDisplay(forPath: URL.homeDirectory.path) ?? []
@@ -24,7 +24,7 @@ enum CaptureFolder {
     }
 
     /// Creates the folder and reads it, so macOS asks for access now
-    /// (for example to the Desktop) rather than during the first capture.
+    /// (for example to Documents) rather than during the first capture.
     static func prepare(_ url: URL = url) throws {
         try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
         _ = try FileManager.default.contentsOfDirectory(atPath: url.path)

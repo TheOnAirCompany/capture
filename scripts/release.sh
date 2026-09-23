@@ -91,24 +91,41 @@ codesign --sign "Developer ID Application" --timestamp "$DMG"
 notarize "$DMG"
 xcrun stapler staple "$DMG"
 
+# Prints the section of a changelog for this version, without its heading.
+changelog_section() {
+    [[ -f "$1" ]] && awk -v version="## $VERSION" '$0 == version { found = 1; next } /^## / { found = 0 } found' "$1"
+}
+
 echo "==> Writing the Sparkle appcast"
 mkdir -p "$BUILD/appcast"
 cp "$DMG" "$BUILD/appcast/"
+# Release notes shown in the update window, in the user's language: one Markdown file
+# per language, published with the release and linked from the appcast.
+NOTES="$(changelog_section CHANGELOG.md || true)"
+NOTES_FR="$(changelog_section CHANGELOG.fr.md || true)"
+NOTES_FILES=()
+if [[ -n "${NOTES//[[:space:]]/}" && -n "${NOTES_FR//[[:space:]]/}" ]]; then
+    printf '%s\n' "$NOTES" > "$BUILD/appcast/Capture-$VERSION.en.md"
+    printf '%s\n' "$NOTES_FR" > "$BUILD/appcast/Capture-$VERSION.fr.md"
+    NOTES_FILES=("$BUILD/appcast/Capture-$VERSION.en.md" "$BUILD/appcast/Capture-$VERSION.fr.md")
+else
+    echo "Warning: no section for $VERSION in CHANGELOG.md and CHANGELOG.fr.md, the update window will show no release notes."
+fi
 KEY_ARGS=()
 SPARKLE_KEY_FILE="${SPARKLE_KEY_FILE:-$HOME/Desktop/_BACKUP/Capture/sparkle-private-key.txt}"
 [[ -f "$SPARKLE_KEY_FILE" ]] && KEY_ARGS=(--ed-key-file "$SPARKLE_KEY_FILE")
 "$SPARKLE_BIN/generate_appcast" ${KEY_ARGS[@]+"${KEY_ARGS[@]}"} \
     --download-url-prefix "https://github.com/$REPO/releases/download/v$VERSION/" \
+    --release-notes-url-prefix "https://github.com/$REPO/releases/download/v$VERSION/" \
     --link "https://github.com/$REPO" \
     -o "$BUILD/appcast.xml" "$BUILD/appcast"
 
 if [[ "$PUBLISH" == 1 ]]; then
     echo "==> Publishing the GitHub release"
     # Release notes come from the matching section of CHANGELOG.md, or from the commits.
-    NOTES="$(awk -v version="## $VERSION" '$0 == version { found = 1; next } /^## / { found = 0 } found' CHANGELOG.md)"
     NOTES_ARGS=(--generate-notes)
     [[ -n "${NOTES//[[:space:]]/}" ]] && NOTES_ARGS=(--notes "$NOTES")
-    gh release create "v$VERSION" "$DMG" "$BUILD/appcast.xml" \
+    gh release create "v$VERSION" "$DMG" "$BUILD/appcast.xml" ${NOTES_FILES[@]+"${NOTES_FILES[@]}"} \
         --repo "$REPO" --title "Capture $VERSION" "${NOTES_ARGS[@]}" $DRAFT
 fi
 
