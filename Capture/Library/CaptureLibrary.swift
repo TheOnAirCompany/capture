@@ -10,22 +10,47 @@ struct CaptureItem: Identifiable, Hashable {
     var name: String { url.deletingPathExtension().lastPathComponent }
 }
 
-/// Screenshots and videos found in the capture folder, newest first.
+/// Screenshots and videos found in the capture folder and its subfolders, newest first.
+/// Exports are kept apart, in the `_Exports` folder.
 @Observable
 final class CaptureLibrary {
     private(set) var screenshots: [CaptureItem] = []
     private(set) var videos: [CaptureItem] = []
+    private(set) var exports: [CaptureItem] = []
+
+    var allItems: [CaptureItem] { screenshots + videos + exports }
 
     func reload() {
-        let keys: [URLResourceKey] = [.creationDateKey, .contentTypeKey]
-        let urls = (try? FileManager.default.contentsOfDirectory(
-            at: CaptureFolder.url, includingPropertiesForKeys: keys, options: .skipsHiddenFiles
-        )) ?? []
+        (screenshots, videos) = Self.scan(CaptureFolder.url, skippingExports: true)
+        let exports = Self.scan(CaptureFolder.url.appending(path: Preferences.exportsFolderName), skippingExports: false)
+        self.exports = exports.screenshots + exports.videos
+    }
+
+    /// Moves every screenshot, video and export to the Trash, then removes the
+    /// subfolders left empty. Other files in the folder are left untouched.
+    func moveAllToTrash() throws {
+        for item in allItems {
+            try FileManager.default.trashItem(at: item.url, resultingItemURL: nil)
+        }
+        Self.removeEmptySubfolders(of: CaptureFolder.url)
+        reload()
+    }
+
+    private static func scan(_ folder: URL, skippingExports: Bool) -> (screenshots: [CaptureItem], videos: [CaptureItem]) {
+        let keys: [URLResourceKey] = [.creationDateKey, .contentTypeKey, .isDirectoryKey]
+        guard let enumerator = FileManager.default.enumerator(
+            at: folder, includingPropertiesForKeys: keys, options: [.skipsHiddenFiles, .skipsPackageDescendants]
+        ) else { return ([], []) }
 
         var screenshots: [CaptureItem] = []
         var videos: [CaptureItem] = []
-        for url in urls {
-            guard let values = try? url.resourceValues(forKeys: Set(keys)), let type = values.contentType else { continue }
+        for case let url as URL in enumerator {
+            guard let values = try? url.resourceValues(forKeys: Set(keys)) else { continue }
+            if values.isDirectory == true {
+                if skippingExports, url.lastPathComponent == Preferences.exportsFolderName { enumerator.skipDescendants() }
+                continue
+            }
+            guard let type = values.contentType else { continue }
             let item = CaptureItem(url: url, date: values.creationDate ?? .distantPast)
             if type.conforms(to: .image) {
                 screenshots.append(item)
@@ -33,8 +58,18 @@ final class CaptureLibrary {
                 videos.append(item)
             }
         }
-        self.screenshots = screenshots.sorted { $0.date > $1.date }
-        self.videos = videos.sorted { $0.date > $1.date }
+        return (screenshots.sorted { $0.date > $1.date }, videos.sorted { $0.date > $1.date })
+    }
+
+    private static func removeEmptySubfolders(of folder: URL) {
+        let manager = FileManager.default
+        guard let enumerator = manager.enumerator(at: folder, includingPropertiesForKeys: [.isDirectoryKey]) else { return }
+        let subfolders = enumerator.compactMap { $0 as? URL }
+            .filter { (try? $0.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true }
+            .sorted { $0.pathComponents.count > $1.pathComponents.count }
+        for subfolder in subfolders where (try? manager.contentsOfDirectory(atPath: subfolder.path))?.allSatisfy({ $0 == ".DS_Store" }) == true {
+            try? manager.removeItem(at: subfolder)
+        }
     }
 
     func moveToTrash(_ item: CaptureItem) {

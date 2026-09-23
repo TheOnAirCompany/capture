@@ -83,28 +83,32 @@ nonisolated final class PreviewSession: NSObject, @unchecked Sendable {
 
     // MARK: Screenshots
 
-    /// Writes the latest frame as a PNG at the native resolution of the iPhone.
-    func writeScreenshot(to url: URL) throws {
+    /// Writes the latest frame, at the native resolution of the iPhone times `scale`.
+    func writeScreenshot(to url: URL, format: ExportFormat, scale: Double) throws {
         guard let frame = lock.withLock({ latestFrame }),
               let pixelBuffer = CMSampleBufferGetImageBuffer(frame) else {
             throw CaptureError.noFrame
         }
-        let image = CIImage(cvPixelBuffer: pixelBuffer)
+        var image = CIImage(cvPixelBuffer: pixelBuffer)
         let colorSpace = image.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB)!
-        guard let cgImage = imageContext.createCGImage(image, from: image.extent, format: .RGBA8, colorSpace: colorSpace),
-              let destination = CGImageDestinationCreateWithURL(url as CFURL, UTType.png.identifier as CFString, 1, nil) else {
+        if scale != 1 {
+            image = image.applyingFilter("CILanczosScaleTransform", parameters: [kCIInputScaleKey: scale])
+        }
+        guard let cgImage = imageContext.createCGImage(image, from: image.extent.integral, format: .RGBA8, colorSpace: colorSpace),
+              let destination = CGImageDestinationCreateWithURL(url as CFURL, format.contentType.identifier as CFString, 1, nil) else {
             throw CaptureError.writeFailed
         }
-        CGImageDestinationAddImage(destination, cgImage, nil)
+        let options: [CFString: Any] = format == .png ? [:] : [kCGImageDestinationLossyCompressionQuality: 0.95]
+        CGImageDestinationAddImage(destination, cgImage, options as CFDictionary)
         guard CGImageDestinationFinalize(destination) else { throw CaptureError.writeFailed }
     }
 
     // MARK: Recordings
 
     /// Records the screen and sound of the iPhone to a QuickTime movie.
-    func startRecording(to url: URL) throws {
+    func startRecording(to url: URL, recordsSound: Bool) throws {
         try lock.withLock {
-            recorder = try MovieRecorder(url: url, audioFormat: audioFormat, queue: outputQueue)
+            recorder = try MovieRecorder(url: url, audioFormat: recordsSound ? audioFormat : nil, queue: outputQueue)
         }
     }
 

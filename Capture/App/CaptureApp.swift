@@ -18,6 +18,7 @@ struct CaptureApp: App {
     var body: some Scene {
         Window("Capture", id: "main") {
             MainView()
+                .onAppear { Preferences.appearance.apply() }
                 .environment(deviceManager)
                 .environment(captureController)
                 .environment(library)

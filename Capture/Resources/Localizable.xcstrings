@@ -1,6 +1,26 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%lld files will be moved to the Trash.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld fichiers seront placés dans la corbeille."
+          }
+        }
+      }
+    },
+    "1x (Original Size)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1x (taille originale)"
+          }
+        }
+      }
+    },
     "9:41, full battery and full signal, automatically.": {
       "localizations": {
         "fr": {
@@ -41,12 +61,32 @@
         }
       }
     },
+    "Adapt the interface to your preferences.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adaptez l’interface à vos préférences."
+          }
+        }
+      }
+    },
     "Add an iPhone frame to your captures when you edit them.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Ajoutez un cadre d’iPhone à vos captures lors de l’édition."
+          }
+        }
+      }
+    },
+    "Advanced Options": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Options avancées"
           }
         }
       }
@@ -71,12 +111,12 @@
         }
       }
     },
-    "Automatic": {
+    "Appearance": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Automatique"
+            "value": "Apparence"
           }
         }
       }
@@ -221,6 +261,16 @@
         }
       }
     },
+    "Choose where your screenshots and recordings are saved.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez l’emplacement de sauvegarde de vos captures et enregistrements."
+          }
+        }
+      }
+    },
     "Close": {
       "localizations": {
         "fr": {
@@ -271,6 +321,16 @@
         }
       }
     },
+    "Contact Us": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nous contacter"
+          }
+        }
+      }
+    },
     "Continue": {
       "localizations": {
         "fr": {
@@ -301,6 +361,16 @@
         }
       }
     },
+    "Couldn't Erase the Captures": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’effacer les captures"
+          }
+        }
+      }
+    },
     "Couldn't Export the Screenshot": {
       "localizations": {
         "fr": {
@@ -321,6 +391,26 @@
         }
       }
     },
+    "Counter": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compteur"
+          }
+        }
+      }
+    },
+    "Custom": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Personnalisé"
+          }
+        }
+      }
+    },
     "Custom Color": {
       "localizations": {
         "fr": {
@@ -331,12 +421,62 @@
         }
       }
     },
-    "Demo Mode": {
+    "Customize your experience with Capture.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mode démo"
+            "value": "Personnalisez votre expérience avec Capture."
+          }
+        }
+      }
+    },
+    "Dark": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sombre"
+          }
+        }
+      }
+    },
+    "Date": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date"
+          }
+        }
+      }
+    },
+    "Date and Time": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date et heure"
+          }
+        }
+      }
+    },
+    "Default Quality": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qualité par défaut"
+          }
+        }
+      }
+    },
+    "Device": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appareil"
           }
         }
       }
@@ -361,12 +501,62 @@
         }
       }
     },
+    "Device, Date and Time": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appareil, date et heure"
+          }
+        }
+      }
+    },
+    "Erase All…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout effacer…"
+          }
+        }
+      }
+    },
+    "Erase Data": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Effacer les données"
+          }
+        }
+      }
+    },
     "Everything QuickTime does, only faster and more powerful.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Tout ce que fait QuickTime, en plus pratique et plus complet."
+          }
+        }
+      }
+    },
+    "Example: %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exemple : %@"
+          }
+        }
+      }
+    },
+    "Export": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exporter"
           }
         }
       }
@@ -381,6 +571,36 @@
         }
       }
     },
+    "Export to the Capture Folder": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exporter dans le dossier de capture"
+          }
+        }
+      }
+    },
+    "Exported": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exporté"
+          }
+        }
+      }
+    },
+    "Exports are saved in the _Exports folder, without a dialog.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les exports sont enregistrés dans le dossier _Exports, sans fenêtre de dialogue."
+          }
+        }
+      }
+    },
     "Export…": {
       "localizations": {
         "fr": {
@@ -391,22 +611,52 @@
         }
       }
     },
+    "Extra features for advanced users.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fonctionnalités supplémentaires pour les utilisateurs avancés."
+          }
+        }
+      }
+    },
+    "File Name": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nom du fichier"
+          }
+        }
+      }
+    },
+    "File Names": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nom des fichiers"
+          }
+        }
+      }
+    },
+    "Files are moved to the Trash. Other files in the folder are left untouched.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les fichiers sont placés dans la corbeille. Les autres fichiers du dossier ne sont pas touchés."
+          }
+        }
+      }
+    },
     "Find all your captures in one place.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Retrouvez toutes vos captures au même endroit."
-          }
-        }
-      }
-    },
-    "Folder": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dossier"
           }
         }
       }
@@ -461,12 +711,32 @@
         }
       }
     },
+    "Help": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aide"
+          }
+        }
+      }
+    },
     "Image": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Image"
+          }
+        }
+      }
+    },
+    "Include Sound (Video)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inclure le son (vidéo)"
           }
         }
       }
@@ -481,12 +751,42 @@
         }
       }
     },
+    "Light": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clair"
+          }
+        }
+      }
+    },
     "Margin": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Marge"
+          }
+        }
+      }
+    },
+    "Match System": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comme le système"
+          }
+        }
+      }
+    },
+    "Move all captures to the Trash?": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Placer toutes les captures dans la corbeille ?"
           }
         }
       }
@@ -517,6 +817,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Besoin d’aide ?"
+          }
+        }
+      }
+    },
+    "Need help? Read the documentation or contact us.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Besoin d’aide ? Consultez la documentation ou contactez-nous."
           }
         }
       }
@@ -571,6 +881,16 @@
         }
       }
     },
+    "Numbered": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Numérotés"
+          }
+        }
+      }
+    },
     "OK": {
       "localizations": {
         "fr": {
@@ -597,6 +917,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ouvrir les Réglages Système"
+          }
+        }
+      }
+    },
+    "Organize By": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Organiser par"
           }
         }
       }
@@ -671,22 +1001,22 @@
         }
       }
     },
+    "Remove all the screenshots, recordings and exports made with Capture.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimez toutes les captures, vidéos et exports réalisés avec Capture."
+          }
+        }
+      }
+    },
     "Resolution": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Résolution"
-          }
-        }
-      }
-    },
-    "Save Location": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Emplacement d’enregistrement"
           }
         }
       }
@@ -731,16 +1061,6 @@
         }
       }
     },
-    "Screenshots and videos are saved in this folder.": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Les captures d’écran et vidéos sont enregistrées dans ce dossier."
-          }
-        }
-      }
-    },
     "Screenshots you take will appear here.": {
       "localizations": {
         "fr": {
@@ -767,6 +1087,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Réglages"
+          }
+        }
+      }
+    },
+    "Settings applied to your next captures.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paramètres appliqués à vos prochaines captures."
           }
         }
       }
@@ -801,22 +1131,22 @@
         }
       }
     },
-    "Status Bar": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Barre d’état"
-          }
-        }
-      }
-    },
     "Stop Recording": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Arrêter l’enregistrement"
+          }
+        }
+      }
+    },
+    "Storage": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stockage"
           }
         }
       }
@@ -851,12 +1181,42 @@
         }
       }
     },
+    "Theme": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thème"
+          }
+        }
+      }
+    },
+    "Time": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heure"
+          }
+        }
+      }
+    },
     "Try unplugging your iPhone and plugging it back in.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Essayez de débrancher puis de rebrancher votre iPhone."
+          }
+        }
+      }
+    },
+    "Type": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Type"
           }
         }
       }
@@ -881,6 +1241,16 @@
         }
       }
     },
+    "Video": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vidéo"
+          }
+        }
+      }
+    },
     "Videos": {
       "localizations": {
         "fr": {
@@ -891,22 +1261,22 @@
         }
       }
     },
+    "View Documentation": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voir la documentation"
+          }
+        }
+      }
+    },
     "Welcome to Capture": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Bienvenue dans Capture"
-          }
-        }
-      }
-    },
-    "While Capture displays your iPhone, iOS switches its status bar to demo mode: 9:41, full battery and full signal.": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pendant que Capture affiche votre iPhone, iOS passe sa barre d’état en mode démo : 9:41, batterie pleine et réseau au maximum."
           }
         }
       }
@@ -931,16 +1301,6 @@
         }
       }
     },
-    "Your screenshots and videos look clean and consistent, like Apple's own product shots, whatever the real time or battery level. No retouching needed, and nothing personal shows up in the status bar.": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vos captures et vidéos sont propres et homogènes, comme les visuels d’Apple, quels que soient l’heure réelle ou le niveau de batterie. Aucune retouche nécessaire, et rien de personnel n’apparaît dans la barre d’état."
-          }
-        }
-      }
-    },
     "Your screenshots and videos will be saved in this folder.": {
       "localizations": {
         "fr": {
@@ -961,22 +1321,22 @@
         }
       }
     },
-    "iOS controls this mode: it turns on when Capture starts displaying your iPhone and turns off when you disconnect it. It can't be turned off from the Mac.": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ce mode est géré par iOS : il s’active quand Capture commence à afficher votre iPhone et se désactive quand vous le débranchez. Il ne peut pas être désactivé depuis le Mac."
-          }
-        }
-      }
-    },
     "macOS treats your iPhone's screen like a camera. Capture needs this access to display and record it.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "macOS considère l’écran de votre iPhone comme une caméra. Capture a besoin de cet accès pour l’afficher et l’enregistrer."
+          }
+        }
+      }
+    },
+    "½x (Half Size)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "½x (moitié)"
           }
         }
       }

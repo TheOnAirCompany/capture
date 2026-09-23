@@ -32,7 +32,23 @@ enum ScreenshotExporter {
         return pasteboard.setData(data, forType: .png)
     }
 
-    /// Asks where to save, next to the original capture by default.
+    /// Saves into the `_Exports` folder of the capture folder, without asking.
+    static func saveToExportsFolder(_ image: CGImage, as format: ExportFormat, name: String) throws -> URL {
+        let folder = CaptureFolder.url.appending(path: Preferences.exportsFolderName, directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let pathExtension = format.contentType.preferredFilenameExtension ?? "png"
+        var url = folder.appending(path: "\(name).\(pathExtension)")
+        var index = 2
+        while FileManager.default.fileExists(atPath: url.path) {
+            url = folder.appending(path: "\(name) (\(index)).\(pathExtension)")
+            index += 1
+        }
+        guard let data = encode(image, as: format) else { throw CaptureError.writeFailed }
+        try data.write(to: url)
+        return url
+    }
+
+    /// Asks where to save, in the capture folder by default.
     static func save(_ image: CGImage, as format: ExportFormat, suggestedName: String) throws -> URL? {
         let panel = NSSavePanel()
         panel.allowedContentTypes = [format.contentType]

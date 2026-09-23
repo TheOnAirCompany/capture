@@ -32,11 +32,12 @@ Capture is a small, native macOS app designed around it: plug in your iPhone, ta
 - [x] Screenshot editor: device frame with the display corners of each model, background (color, gradient, image), margin and shadow
 - [x] Export as PNG, JPEG or HEIC at ½x, 1x or 2x, or copy to the clipboard
 - [x] Recent captures
-- [x] Settings: save location, demo mode explained
+- [x] Settings: save location, erase data, default quality, theme, file name templates, folder organization, direct export to `_Exports`
 - [ ] Video editor
+- [ ] Automatic updates from GitHub releases
 - [ ] Signed and notarized DMG
 
-Screenshots and videos are saved to the folder chosen during onboarding (`~/Desktop/Capture` by default). Shortcuts: **⇧⌘S** for a screenshot, **⇧⌘R** to start or stop a recording.
+Screenshots and videos are saved to the folder chosen during onboarding (`~/Desktop/Capture` by default). File names can use variables such as `{device}`, `{date}`, `{time}`, `{counter}` and `{type}`, and captures can be sorted into subfolders by date or device. Shortcuts: **⇧⌘S** for a screenshot, **⇧⌘R** to start or stop a recording.
 
 ## Requirements
 
@@ -82,7 +83,10 @@ Capture/
 ├── App/            App entry point
 ├── Device/         iPhone discovery, capture session and live preview
 ├── Main/           Main window: sidebar, empty state, preview
+├── Editor/         Screenshot editor: device frame, background, export
+├── Library/        Captures found in the save folder
 ├── Onboarding/     First-launch walkthrough
+├── Settings/       Preferences and the Settings screen
 └── Resources/      Assets and string catalogs (en, fr)
 scripts/
 ├── make-icons.swift  Generates the AppIcon set from Design/AppIcon.png

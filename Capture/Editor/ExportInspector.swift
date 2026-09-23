@@ -7,6 +7,8 @@ struct ExportInspector: View {
 
     @Environment(ExportSettings.self) private var settings
     @State private var copied = false
+    @State private var exported = false
+    @Environment(CaptureLibrary.self) private var library
     @State private var errorMessage: String?
 
     var body: some View {
@@ -63,7 +65,7 @@ struct ExportInspector: View {
                 .keyboardShortcut("c", modifiers: [.command, .shift])
 
                 Button(action: export) {
-                    Label("Export…", systemImage: "square.and.arrow.up")
+                    Label(exportTitle, systemImage: exported ? "checkmark" : "square.and.arrow.up")
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
@@ -79,6 +81,11 @@ struct ExportInspector: View {
         } message: {
             Text(verbatim: errorMessage ?? "")
         }
+    }
+
+    private var exportTitle: LocalizedStringKey {
+        if exported { return "Exported" }
+        return Preferences.exportsToCaptureFolder ? "Export" : "Export…"
     }
 
     private func section<Content: View>(_ title: LocalizedStringKey, @ViewBuilder content: () -> Content) -> some View {
@@ -112,9 +119,19 @@ struct ExportInspector: View {
             return
         }
         do {
-            let name = "\(item.name) (\(String(localized: "edited")))"
-            if let url = try ScreenshotExporter.save(rendered, as: format, suggestedName: name) {
-                NSWorkspace.shared.activateFileViewerSelecting([url])
+            if Preferences.exportsToCaptureFolder {
+                _ = try ScreenshotExporter.saveToExportsFolder(rendered, as: format, name: item.name)
+                library.reload()
+                exported = true
+                Task {
+                    try? await Task.sleep(for: .seconds(1.5))
+                    exported = false
+                }
+            } else {
+                let name = "\(item.name) (\(String(localized: "edited")))"
+                if let url = try ScreenshotExporter.save(rendered, as: format, suggestedName: name) {
+                    NSWorkspace.shared.activateFileViewerSelecting([url])
+                }
             }
         } catch {
             errorMessage = error.localizedDescription

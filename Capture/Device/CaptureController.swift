@@ -20,11 +20,12 @@ final class CaptureController {
 
     func takeScreenshot() {
         let session = deviceManager.previewSession
+        let format = Preferences.captureFormat, scale = Preferences.captureScale.value
         do {
-            let url = try nextFileURL(extension: "png")
+            let url = try nextFileURL(extension: format.contentType.preferredFilenameExtension ?? "png", isVideo: false)
             Task.detached(priority: .userInitiated) {
                 do {
-                    try session.writeScreenshot(to: url)
+                    try session.writeScreenshot(to: url, format: format, scale: scale)
                     await MainActor.run {
                         self.screenshotCount += 1
                         self.library.reload()
@@ -51,7 +52,10 @@ final class CaptureController {
             return
         }
         do {
-            try deviceManager.previewSession.startRecording(to: try nextFileURL(extension: "mov"))
+            try deviceManager.previewSession.startRecording(
+                to: try nextFileURL(extension: "mov", isVideo: true),
+                recordsSound: Preferences.recordsSound
+            )
             recordingStartDate = .now
         } catch {
             errorMessage = error.localizedDescription
@@ -64,18 +68,25 @@ final class CaptureController {
         NSWorkspace.shared.open(folder)
     }
 
-    /// Names files like macOS screenshots: "iPhone – 2026-09-23 at 10.24.31.png".
-    private func nextFileURL(extension pathExtension: String) throws -> URL {
-        let folder = CaptureFolder.url
-        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+    /// Builds the file name from the naming template, in the subfolder chosen in Settings.
+    private func nextFileURL(extension pathExtension: String, isVideo: Bool) throws -> URL {
+        let now = Date.now
+        let deviceName = deviceManager.device?.localizedName ?? "iPhone"
+        let baseName = Preferences.fileName(
+            template: Preferences.fileNameTemplate,
+            device: deviceName,
+            date: now,
+            counter: Preferences.nextCounter(),
+            isVideo: isVideo
+        )
 
-        let deviceName = (deviceManager.device?.localizedName ?? "iPhone")
-            .replacingOccurrences(of: "/", with: "-")
-            .replacingOccurrences(of: ":", with: "-")
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "yyyy-MM-dd HH.mm.ss"
-        let baseName = "\(deviceName) – \(formatter.string(from: .now))"
+        var folder = CaptureFolder.url
+        switch Preferences.folderOrganization {
+        case .none: break
+        case .date: folder.append(path: Preferences.fileName(template: "{date}", device: deviceName, date: now, counter: 0, isVideo: isVideo))
+        case .device: folder.append(path: Preferences.fileName(template: "{device}", device: deviceName, date: now, counter: 0, isVideo: isVideo))
+        }
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
 
         var url = folder.appending(path: "\(baseName).\(pathExtension)")
         var index = 2

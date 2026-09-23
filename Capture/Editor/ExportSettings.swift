@@ -1,7 +1,7 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-enum ExportFormat: String, CaseIterable, Identifiable {
+nonisolated enum ExportFormat: String, CaseIterable, Identifiable {
     case png, jpeg, heic
 
     var id: Self { self }
