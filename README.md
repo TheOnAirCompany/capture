@@ -88,6 +88,17 @@ The Xcode project is generated from `project.yml` with [XcodeGen](https://github
 xcodegen generate
 ```
 
+### Launch options
+
+For testing, the app accepts these arguments:
+
+```sh
+open -n Capture.app --args --onboarding     # show the onboarding again
+open -n Capture.app --args --language en    # use a language for this launch only (en, fr)
+```
+
+In Xcode, add them in *Product › Scheme › Edit Scheme › Run › Arguments*.
+
 ## Project structure
 
 ```

@@ -26,6 +26,7 @@
 		8AF109D3B8E19AF6ADC59FE6 /* ScreenshotComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FA7EE8B57DB800E27B7EFF /* ScreenshotComposition.swift */; };
 		8C466FF2663C7810AE3F05F7 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 161AFAC94DEF4202C8B9238A /* Sparkle */; };
 		8FA57D83A5E5B1E97BEB238F /* MovieRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7BB86498C66053058E1EF8 /* MovieRecorder.swift */; };
+		90451C2A3EA7C005BD81DB4B /* LaunchArguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62E621C4EFD574904232267D /* LaunchArguments.swift */; };
 		95CF826E2949863F0574B130 /* PreviewSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8624BEC384FF7632A890F88 /* PreviewSession.swift */; };
 		9CB4E79386ED69DFB7F30377 /* CaptureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CEA3E11D7C1CA3C0243BF9 /* CaptureController.swift */; };
 		9E7B27EAFD354285A43240B8 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C610CBBDB7B0C09743EF82 /* OnboardingView.swift */; };
@@ -56,6 +57,7 @@
 		4007BBDE6B834F0FA7C409D0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		43B16851DFFEE0D862CA25F5 /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
 		5297FE453ADC5A14C5300026 /* AppMover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMover.swift; sourceTree = "<group>"; };
+		62E621C4EFD574904232267D /* LaunchArguments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchArguments.swift; sourceTree = "<group>"; };
 		67CEA3E11D7C1CA3C0243BF9 /* CaptureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureController.swift; sourceTree = "<group>"; };
 		69BD76531EEF7711AC200E9D /* Capture.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Capture.entitlements; sourceTree = "<group>"; };
 		69D5BA942A8247E543839250 /* ConnectedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedView.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				798E078CFAAD34F2EFA2C525 /* CaptureApp.swift */,
+				62E621C4EFD574904232267D /* LaunchArguments.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				25EF66E79903A48CA0BA50DE /* EmptyStateView.swift in Sources */,
 				8505E7E1B44E814099615C3E /* ExportInspector.swift in Sources */,
 				1C24AB8151FEEF471F6C0D35 /* ExportSettings.swift in Sources */,
+				90451C2A3EA7C005BD81DB4B /* LaunchArguments.swift in Sources */,
 				F3F191B542621ED928834DA3 /* MainView.swift in Sources */,
 				8FA57D83A5E5B1E97BEB238F /* MovieRecorder.swift in Sources */,
 				9E7B27EAFD354285A43240B8 /* OnboardingView.swift in Sources */,

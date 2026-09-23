@@ -9,6 +9,7 @@ struct CaptureApp: App {
     @State private var updater = AppUpdater()
 
     init() {
+        LaunchArguments.apply()
         let deviceManager = DeviceManager()
         let library = CaptureLibrary()
         _deviceManager = State(initialValue: deviceManager)
