@@ -56,7 +56,7 @@ private struct CaptureCommands: Commands {
                 }
                 .keyboardShortcut("r", modifiers: [.command, .shift])
             }
-            .disabled(deviceManager.device == nil || !deviceManager.isCameraAuthorized)
+            .disabled(deviceManager.device == nil || !deviceManager.isCameraAuthorized || deviceManager.isUnsupportedDevice)
             Divider()
             Button("Open Capture Folder") { captureController.openOutputFolder() }
         }

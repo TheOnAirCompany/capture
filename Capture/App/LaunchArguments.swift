@@ -6,6 +6,7 @@ import Foundation
 ///
 /// - `--onboarding`: shows the onboarding again.
 /// - `--language <code>`: uses a language (`en`, `fr`) for this launch only.
+/// - `--simulate-ipad`: treats the connected iPhone as an iPad (see `DeviceManager`).
 enum LaunchArguments {
     private static let languageOverrideKey = "languageOverride"
 

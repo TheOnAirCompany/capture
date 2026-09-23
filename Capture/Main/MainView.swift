@@ -71,6 +71,8 @@ struct MainView: View {
         case .preview:
             if !deviceManager.isCameraAuthorized {
                 CameraAccessView()
+            } else if deviceManager.isUnsupportedDevice {
+                UnsupportedDeviceView()
             } else if deviceManager.device != nil {
                 ConnectedView()
             } else {
@@ -87,6 +89,24 @@ struct MainView: View {
 
     private var showsOnboarding: Binding<Bool> {
         Binding(get: { !hasCompletedOnboarding }, set: { hasCompletedOnboarding = !$0 })
+    }
+}
+
+/// Shown when an iPad is connected: only iPhone is supported for now.
+struct UnsupportedDeviceView: View {
+    @Environment(DeviceManager.self) private var deviceManager
+
+    var body: some View {
+        ContentUnavailableView {
+            Label("iPad Isn't Supported Yet", systemImage: "ipad.landscape")
+        } description: {
+            Text("Capture works with iPhone for now. Connect an iPhone with a USB cable to preview and capture its screen.")
+        } actions: {
+            if deviceManager.devices.count > 1 {
+                Text("Choose an iPhone from the menu in the sidebar.")
+                    .foregroundStyle(.secondary)
+            }
+        }
     }
 }
 

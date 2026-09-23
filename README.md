@@ -95,6 +95,7 @@ For testing, the app accepts these arguments:
 ```sh
 open -n Capture.app --args --onboarding     # show the onboarding again
 open -n Capture.app --args --language en    # use a language for this launch only (en, fr)
+open -n Capture.app --args --simulate-ipad   # treat the connected iPhone as an iPad (not supported yet)
 ```
 
 In Xcode, add them in *Product › Scheme › Edit Scheme › Run › Arguments*.

@@ -23,6 +23,25 @@ final class DeviceManager {
     /// Native pixel size of the iPhone screen, known once the first frame arrives.
     private(set) var screenSize: CGSize?
 
+    /// iPads also stream their screen, but Capture only supports iPhone for now.
+    var isUnsupportedDevice: Bool {
+        guard let device else { return false }
+        return Self.looksLikeIPad(name: device.localizedName, screenSize: screenSize)
+    }
+
+    /// `--simulate-ipad` treats the connected iPhone as an iPad, to test without one.
+    static let simulatesIPad = CommandLine.arguments.contains("--simulate-ipad")
+
+    /// The name is a hint, but can be changed by the user: the shape of the screen decides.
+    /// iPads are close to 4:3 (at most 1.6:1), iPhones are 16:9 or longer.
+    static func looksLikeIPad(name: String, screenSize: CGSize?) -> Bool {
+        if simulatesIPad { return true }
+        if let screenSize, screenSize.width > 0, screenSize.height > 0 {
+            return max(screenSize.width, screenSize.height) / min(screenSize.width, screenSize.height) < 1.6
+        }
+        return name.localizedCaseInsensitiveContains("iPad")
+    }
+
     let previewSession = PreviewSession()
 
     @ObservationIgnored private var observers: [NSObjectProtocol] = []
@@ -82,6 +101,8 @@ final class DeviceManager {
         } else {
             target = connected.first { $0.uniqueID == preferredDeviceID }
                 ?? connected.first { $0.uniqueID == device?.uniqueID }
+                // Without a choice, an iPhone rather than an iPad.
+                ?? connected.first { !Self.looksLikeIPad(name: $0.localizedName, screenSize: nil) }
                 ?? connected.first
         }
         show(target)

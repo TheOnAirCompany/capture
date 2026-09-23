@@ -23,7 +23,7 @@ private struct DeviceHeader: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            Image(systemName: "iphone")
+            Image(systemName: deviceManager.isUnsupportedDevice ? "ipad" : "iphone")
                 .font(.system(size: 36, weight: .ultraLight))
                 .foregroundStyle(deviceManager.device == nil ? .tertiary : .primary)
                 .frame(width: 36)
@@ -37,8 +37,13 @@ private struct DeviceHeader: View {
                             .font(.headline)
                     }
                     HStack(spacing: 5) {
-                        Circle().fill(.green).frame(width: 7, height: 7)
-                        Text("Connected")
+                        if deviceManager.isUnsupportedDevice {
+                            Circle().fill(.orange).frame(width: 7, height: 7)
+                            Text("Not Supported Yet")
+                        } else {
+                            Circle().fill(.green).frame(width: 7, height: 7)
+                            Text("Connected")
+                        }
                     }
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
