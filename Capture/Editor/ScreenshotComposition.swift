@@ -192,7 +192,8 @@ struct ScreenshotComposition: View {
     let imageSize: CGSize
     let style: CompositionStyle
     var part = CompositionPart.all
-    /// Shows a checkerboard behind transparent areas, for on-screen previews only.
+    /// For on-screen previews only: a checkerboard behind transparent areas, and rounded
+    /// screen corners even without a device frame (exports keep the full, square screen).
     var showsTransparency = false
 
     init(image: CGImage, style: CompositionStyle, showsTransparency: Bool = false) {
@@ -273,9 +274,10 @@ struct ScreenshotComposition: View {
             }
             if let image {
                 screenContent(image, layout: layout)
-                    .clipShape(RoundedRectangle(cornerRadius: layout.screenRadius, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: frame > 0 || showsTransparency ? layout.screenRadius : 0,
+                                                style: .continuous))
             } else if part == .belowScreen {
-                RoundedRectangle(cornerRadius: layout.screenRadius, style: .continuous)
+                RoundedRectangle(cornerRadius: frame > 0 ? layout.screenRadius : 0, style: .continuous)
                     .fill(.black)
                     .frame(width: layout.screen.width, height: layout.screen.height)
             }

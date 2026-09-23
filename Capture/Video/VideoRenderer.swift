@@ -29,7 +29,8 @@ nonisolated struct FrameLayers: @unchecked Sendable {
         let screen = layout.screenRect
         let maskView = ZStack(alignment: .topLeading) {
             Color.black
-            RoundedRectangle(cornerRadius: layout.screenRadius, style: .continuous)
+            // Without a device frame, the screen stays square, as in screenshot exports.
+            RoundedRectangle(cornerRadius: layout.border > 0 ? layout.screenRadius : 0, style: .continuous)
                 .fill(.white)
                 .frame(width: screen.width, height: screen.height)
                 .offset(x: screen.minX, y: screen.minY)

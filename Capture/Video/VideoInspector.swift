@@ -40,6 +40,7 @@ struct VideoInspector: View {
             }
             .padding(20)
         }
+        .onChange(of: project.item) { exported = false }
         .alert("Couldn't Export the Video", isPresented: Binding(get: { errorMessage != nil }, set: { if !$0 { errorMessage = nil } })) {
             Button("OK", role: .cancel) {}
         } message: {

@@ -69,6 +69,11 @@ struct ExportInspector: View {
             .padding(20)
             .background(.bar)
         }
+        // The checkmarks belong to the previous capture.
+        .onChange(of: item) {
+            copied = false
+            exported = false
+        }
         .alert("Couldn't Export the Screenshot", isPresented: Binding(get: { errorMessage != nil }, set: { if !$0 { errorMessage = nil } })) {
             Button("OK", role: .cancel) {}
         } message: {

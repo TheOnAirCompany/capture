@@ -7,6 +7,8 @@
 - **Video editor**: cuts now show on the audio track too, aligned with the video segments.
 - **Captures only**: the library and "Erase All" only deal with files made by Capture, never with files you add to the folder yourself.
 - Device frames: the model list only shows devices of the same kind as the capture (iPhone or iPad), and turning to landscape left animates the shorter way.
+- Exports without a device frame keep the full, square screen; rounded corners are only shown in the preview.
+- The Export and Copy buttons reset when you pick another capture.
 - Updates: Capture offers to move itself to the Applications folder before updating from the disk image.
 - Launch options for testing: `--onboarding` and `--language`.
 
