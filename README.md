@@ -12,7 +12,6 @@
 <p align="center">
   <img src="https://img.shields.io/badge/macOS-26%2B-black" alt="macOS 26+">
   <img src="https://img.shields.io/badge/Swift-6-orange" alt="Swift 6">
-  <img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License">
 </p>
 
 ---
@@ -28,11 +27,13 @@ Capture is a small, native macOS app designed around it: plug in your iPhone, ta
 - [x] Guided onboarding (English and French)
 - [x] Automatic iPhone detection over USB
 - [x] Live preview that fits the window
-- [ ] Screenshots at full native resolution
-- [ ] Screen recordings with sound
+- [x] Screenshots at full native resolution
+- [x] Screen recordings with sound
 - [ ] Recent captures library
 - [ ] Device frames (bezels) added when editing
 - [ ] Signed and notarized DMG
+
+Screenshots and videos are saved to `~/Desktop/Capture`. Shortcuts: **⇧⌘S** for a screenshot, **⇧⌘R** to start or stop a recording.
 
 ## Requirements
 
@@ -95,6 +96,6 @@ Issues and pull requests are welcome. Please keep the app native, minimal and in
 
 ## License
 
-Capture is released under the [MIT License](LICENSE).
+See [LICENSE](LICENSE).
 
 iPhone, Mac, macOS and QuickTime are trademarks of Apple Inc. This project is not affiliated with or endorsed by Apple.

@@ -76,17 +76,6 @@ struct MainView: View {
     }
 }
 
-/// Live preview of the connected iPhone.
-struct ConnectedView: View {
-    @Environment(DeviceManager.self) private var deviceManager
-
-    var body: some View {
-        DevicePreview(session: deviceManager.previewSession.session)
-            .padding(32)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-}
-
 struct CameraAccessView: View {
     @Environment(DeviceManager.self) private var deviceManager
 

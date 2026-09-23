@@ -10,6 +10,8 @@ import Observation
 final class DeviceManager {
     private(set) var device: AVCaptureDevice?
     private(set) var cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
+    /// Native pixel size of the iPhone screen, known once the first frame arrives.
+    private(set) var screenSize: CGSize?
 
     let previewSession = PreviewSession()
 
@@ -17,6 +19,7 @@ final class DeviceManager {
 
     init() {
         Self.allowScreenCaptureDevices()
+        previewSession.onScreenSizeChange = { [weak self] size in self?.screenSize = size }
 
         let center = NotificationCenter.default
         for name in [AVCaptureDevice.wasConnectedNotification, AVCaptureDevice.wasDisconnectedNotification] {
@@ -52,6 +55,7 @@ final class DeviceManager {
         guard connected?.uniqueID != device?.uniqueID else { return }
 
         device = connected
+        screenSize = nil
         if let connected, isCameraAuthorized {
             previewSession.start(with: connected)
         } else {

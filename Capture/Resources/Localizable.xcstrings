@@ -21,16 +21,6 @@
         }
       }
     },
-    "A cable is required: the clean status bar isn't available over Wi-Fi.": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Le câble est indispensable : la barre d’état épurée n’est pas disponible en Wi‑Fi."
-          }
-        }
-      }
-    },
     "Access granted": {
       "localizations": {
         "fr": {
@@ -161,16 +151,6 @@
         }
       }
     },
-    "Connect your iPhone to this Mac with a cable.": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Connectez votre iPhone à ce Mac avec un câble."
-          }
-        }
-      }
-    },
     "Connected": {
       "localizations": {
         "fr": {
@@ -187,6 +167,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Continuer"
+          }
+        }
+      }
+    },
+    "Couldn't Save the Capture": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’enregistrer la capture"
           }
         }
       }
@@ -271,6 +261,36 @@
         }
       }
     },
+    "No image has been received from the iPhone yet.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune image n’a encore été reçue de l’iPhone."
+          }
+        }
+      }
+    },
+    "OK": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        }
+      }
+    },
+    "Open Capture Folder": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir le dossier Capture"
+          }
+        }
+      }
+    },
     "Open System Settings": {
       "localizations": {
         "fr": {
@@ -311,6 +331,16 @@
         }
       }
     },
+    "Record Video": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture vidéo"
+          }
+        }
+      }
+    },
     "Record videos with sound, straight from your iPhone.": {
       "localizations": {
         "fr": {
@@ -341,6 +371,16 @@
         }
       }
     },
+    "Screenshot": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture d’écran"
+          }
+        }
+      }
+    },
     "Screenshots": {
       "localizations": {
         "fr": {
@@ -361,6 +401,26 @@
         }
       }
     },
+    "Stop Recording": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter l’enregistrement"
+          }
+        }
+      }
+    },
+    "Take Screenshot": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prendre une capture d’écran"
+          }
+        }
+      }
+    },
     "Take pixel-perfect screenshots and screen recordings of your iPhone, with the clean 9:41 status bar Apple uses in its own product shots.": {
       "localizations": {
         "fr": {
@@ -371,12 +431,12 @@
         }
       }
     },
-    "That's it!": {
+    "The file could not be written.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "C’est tout !"
+            "value": "Le fichier n’a pas pu être enregistré."
           }
         }
       }
@@ -397,16 +457,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Déverrouillez votre iPhone et touchez « Se fier » si on vous le demande."
-          }
-        }
-      }
-    },
-    "Use a USB cable": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Utilisez un câble USB"
           }
         }
       }
@@ -457,16 +507,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Votre iPhone n’apparaît pas ?"
-          }
-        }
-      }
-    },
-    "Your iPhone will appear here automatically.": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Votre iPhone apparaîtra ici automatiquement."
           }
         }
       }

@@ -32,7 +32,7 @@ targets:
         LSApplicationCategoryType: public.app-category.productivity
         LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
         NSCameraUsageDescription: Capture uses camera access to display and record the screen of your connected iPhone.
-        NSHumanReadableCopyright: Copyright © 2026 The On Air Company. MIT License.
+        NSHumanReadableCopyright: Copyright © 2026 The On Air Company.
     entitlements:
       path: Capture/Capture.entitlements
       properties:

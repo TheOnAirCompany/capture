@@ -32,6 +32,6 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Capture uses camera access to display and record the screen of your connected iPhone.</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2026 The On Air Company. MIT License.</string>
+	<string>Copyright © 2026 The On Air Company.</string>
 </dict>
 </plist>

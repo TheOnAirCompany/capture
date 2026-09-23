@@ -42,6 +42,7 @@ private struct DeviceHeader: View {
                         .font(.headline)
                     Text("Connect an iPhone to get started.")
                         .font(.subheadline)
+                        .lineLimit(2, reservesSpace: true)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
