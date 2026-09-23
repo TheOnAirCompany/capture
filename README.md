@@ -78,30 +78,6 @@ The Xcode project is generated from `project.yml` with [XcodeGen](https://github
 xcodegen generate
 ```
 
-## Releasing
-
-Releases are Developer ID signed, notarized, packaged in a styled DMG and published on GitHub. The app updates itself with [Sparkle](https://sparkle-project.org), from the `appcast.xml` attached to the latest release.
-
-**Locally:**
-
-```sh
-xcrun notarytool store-credentials capture   # once
-TEAM_ID=XXXXXXXXXX NOTARY_PROFILE=capture scripts/release.sh 0.2.0
-```
-
-**From GitHub Actions:** push a tag such as `v0.2.0`. The workflow needs these secrets:
-
-| Secret | Content |
-| --- | --- |
-| `TEAM_ID` | Apple Developer team ID |
-| `DEVELOPER_ID_CERTIFICATE_P12` | Developer ID Application certificate, `.p12` in base64 |
-| `DEVELOPER_ID_CERTIFICATE_PASSWORD` | Password of the `.p12` |
-| `NOTARY_API_KEY_P8` | App Store Connect API key, `.p8` in base64 |
-| `NOTARY_API_KEY_ID` / `NOTARY_API_ISSUER_ID` | Identifiers of that key |
-| `SPARKLE_PRIVATE_KEY` | Sparkle EdDSA private key, exported with `generate_keys -x` |
-
-The DMG window is described in `dmg/settings.py`. Its background is drawn by `scripts/make-dmg-background.swift`: replace `dmg/background.png` and `dmg/background@2x.png` with your own design (660 × 400 pt), keeping the icon centers at (180, 165) and (480, 165), then merge them with `tiffutil -cathidpicheck dmg/background.png dmg/background@2x.png -out dmg/background.tiff`.
-
 ## Project structure
 
 ```
