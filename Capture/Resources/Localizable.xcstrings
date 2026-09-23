@@ -211,32 +211,12 @@
         }
       }
     },
-    "Black Titanium": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Titane noir"
-          }
-        }
-      }
-    },
     "Blue": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Bleu"
-          }
-        }
-      }
-    },
-    "Blue Titanium": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Titane bleu"
           }
         }
       }
@@ -641,12 +621,12 @@
         }
       }
     },
-    "Desert Titanium": {
+    "Desert": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Titane sable"
+            "value": "Sable"
           }
         }
       }
@@ -1101,12 +1081,12 @@
         }
       }
     },
-    "Natural Titanium": {
+    "Natural": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Titane naturel"
+            "value": "Naturel"
           }
         }
       }
@@ -1837,16 +1817,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Blanc"
-          }
-        }
-      }
-    },
-    "White Titanium": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Titane blanc"
           }
         }
       }

@@ -8,29 +8,47 @@ nonisolated struct SuggestedBackgrounds: Equatable {
 
     static let empty = SuggestedBackgrounds()
 
+    /// Builds pastel, vivid and deep tones from the two main hues of the capture,
+    /// which make better backgrounds than its raw, often muted, colors.
     nonisolated static func make(from image: CGImage) -> SuggestedBackgrounds {
-        let dominant = Palette.dominantColors(in: image, count: 4)
-        guard !dominant.isEmpty else { return .empty }
-        let colors = dominant.map { Color(.sRGB, red: $0.r, green: $0.g, blue: $0.b) }
+        let hues = Palette.mainHues(in: image)
+        guard let first = hues.first else { return .empty }
+        let second = hues.dropFirst().first ?? (first + 0.08).truncatingRemainder(dividingBy: 1)
 
-        // Soft tones work better behind a device than the raw colors.
-        let soft = colors.map { $0.adjusted(by: 0.45) }
-        let suggestions = Array((soft.prefix(2) + colors.prefix(2)).prefix(4))
-
-        let first = colors[0], second = colors.count > 1 ? colors[1] : colors[0].adjusted(by: -0.3)
-        let third = colors.count > 2 ? colors[2] : second.adjusted(by: 0.3)
-        let gradients: [[Color]] = [
-            [first.adjusted(by: 0.55), second.adjusted(by: 0.35)],
-            [first.adjusted(by: 0.2), first.adjusted(by: -0.35)],
-            [second.adjusted(by: 0.4), third.adjusted(by: 0.1)],
-            [third.adjusted(by: -0.2), first.adjusted(by: -0.55)],
-        ]
-        return SuggestedBackgrounds(colors: suggestions, gradients: gradients)
+        func tone(_ hue: Double, _ saturation: Double, _ brightness: Double) -> Color {
+            Color(hue: hue, saturation: saturation, brightness: brightness)
+        }
+        return SuggestedBackgrounds(
+            colors: [
+                tone(first, 0.28, 0.99),
+                tone(second, 0.22, 0.97),
+                tone(first, 0.55, 0.95),
+                tone(second, 0.45, 0.32),
+            ],
+            gradients: [
+                [tone(first, 0.30, 1), tone(second, 0.25, 0.97)],
+                [tone(first, 0.60, 0.98), tone(second, 0.55, 0.85)],
+                [tone(second, 0.16, 1), tone(first, 0.45, 0.97)],
+                [tone(second, 0.50, 0.28), tone(first, 0.55, 0.62)],
+            ]
+        )
     }
 }
 
 nonisolated enum Palette {
     struct RGB { var r, g, b: Double }
+
+    /// Up to two distinct hues: the most common vivid ones, or the dominant tones' hues.
+    static func mainHues(in image: CGImage) -> [Double] {
+        var hues: [Double] = []
+        for color in dominantColors(in: image, count: 6) where saturation(color) > 0.12 {
+            let candidate = hue(color)
+            let isDistinct = hues.allSatisfy { min(abs($0 - candidate), 1 - abs($0 - candidate)) > 0.06 }
+            if isDistinct { hues.append(candidate) }
+            if hues.count == 2 { break }
+        }
+        return hues
+    }
 
     /// Accent colors first (the most common vivid hues), then the dominant neutral tones.
     static func dominantColors(in image: CGImage, count: Int) -> [RGB] {

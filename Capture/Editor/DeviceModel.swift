@@ -15,6 +15,7 @@ struct DeviceFinish: Identifiable, Hashable {
 }
 
 /// An iPhone with a rounded display, from iPhone X onwards.
+/// Finish names are Apple's color names, without the material.
 struct DeviceModel: Identifiable, Hashable {
     enum Cutout: Hashable {
         /// Width and height in points.
@@ -87,12 +88,12 @@ private let finishes14Pro = [finish("Space Black", "#403E3D"), finish("Silver", 
                              finish("Deep Purple", "#594F63")]
 private let finishes15 = [finish("Black", "#35393B"), finish("Blue", "#D4E4ED"), finish("Green", "#E3E8D8"),
                           finish("Yellow", "#F9F2D4"), finish("Pink", "#F5DDE0")]
-private let finishes15Pro = [finish("Black Titanium", "#3C3C3D"), finish("White Titanium", "#F2F1EB"),
-                             finish("Blue Titanium", "#3F4A58"), finish("Natural Titanium", "#BAB4A9")]
+private let finishes15Pro = [finish("Black", "#3C3C3D"), finish("White", "#F2F1EB"),
+                             finish("Blue", "#3F4A58"), finish("Natural", "#BAB4A9")]
 private let finishes16 = [finish("Black", "#3C4042"), finish("White", "#FAFAFA"), finish("Pink", "#F2ADDA"),
                           finish("Teal", "#B0D4D2"), finish("Ultramarine", "#9AADF6")]
-private let finishes16Pro = [finish("Black Titanium", "#3C3C3D"), finish("White Titanium", "#F2F1ED"),
-                             finish("Natural Titanium", "#C2BCB2"), finish("Desert Titanium", "#BFA48F")]
+private let finishes16Pro = [finish("Black", "#3C3C3D"), finish("White", "#F2F1ED"),
+                             finish("Natural", "#C2BCB2"), finish("Desert", "#BFA48F")]
 private let finishes16e = [finish("Black", "#3C4042"), finish("White", "#FAFAFA")]
 private let finishes17 = [finish("Black", "#353839"), finish("White", "#F5F5F5"), finish("Mist Blue", "#9FB4C9"),
                           finish("Sage", "#A6B39A"), finish("Lavender", "#C8BDE0")]
