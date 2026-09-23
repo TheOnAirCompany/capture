@@ -256,7 +256,7 @@ struct ScreenshotComposition: View {
                     .frame(width: layout.screen.width, height: layout.screen.height)
             }
             if frame > 0, part != .belowScreen, let cutout = style.model?.cutout,
-               cutout != .dynamicIsland || style.showsDynamicIsland {
+               !cutout.isDynamicIsland || style.showsDynamicIsland {
                 Cutout(kind: cutout, pixelsPerPoint: layout.pixelsPerPoint)
                     .frame(width: layout.screen.width, height: layout.screen.height, alignment: .top)
             }
@@ -287,12 +287,11 @@ private struct Cutout: View {
 
     var body: some View {
         switch kind {
-        case .dynamicIsland:
-            // Same size on every model: 126 × 37 pt, 11 pt from the top.
+        case .dynamicIsland(let top, let height):
             Capsule()
                 .fill(.black)
-                .frame(width: 126 * pixelsPerPoint, height: 37 * pixelsPerPoint)
-                .padding(.top, 11 * pixelsPerPoint)
+                .frame(width: 126 * pixelsPerPoint, height: height * pixelsPerPoint)
+                .padding(.top, top * pixelsPerPoint)
         case .notch(let width, let height):
             UnevenRoundedRectangle(
                 bottomLeadingRadius: height * 0.65 * pixelsPerPoint,

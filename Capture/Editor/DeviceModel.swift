@@ -20,7 +20,12 @@ struct DeviceModel: Identifiable, Hashable {
     enum Cutout: Hashable {
         /// Width and height in points.
         case notch(width: CGFloat, height: CGFloat)
-        case dynamicIsland
+        /// Distance from the top of the screen and height, in points. The width is 126 pt.
+        case dynamicIsland(top: CGFloat, height: CGFloat)
+
+        var isDynamicIsland: Bool {
+            if case .dynamicIsland = self { true } else { false }
+        }
     }
 
     let id: String
@@ -50,6 +55,10 @@ struct DeviceModel: Identifiable, Hashable {
 
 private let wideNotch = DeviceModel.Cutout.notch(width: 209, height: 30)
 private let narrowNotch = DeviceModel.Cutout.notch(width: 162, height: 33)
+private let island = DeviceModel.Cutout.dynamicIsland(top: 11, height: 37.33)
+/// Thinner borders from iPhone 16 Pro on: the island sits lower and is a little shorter
+/// (measured on an iPhone 16 Pro Max screen recording).
+private let lowIsland = DeviceModel.Cutout.dynamicIsland(top: 14, height: 36.67)
 
 private func finish(_ name: LocalizedStringResource, _ hex: String) -> DeviceFinish {
     DeviceFinish(name: name, hex: hex)
@@ -123,22 +132,22 @@ extension DeviceModel {
         DeviceModel(id: "iphone-13-pro-max", name: "iPhone 13 Pro Max", screen: max12, scale: 3, cornerRadius: 53.33, cutout: narrowNotch, finishes: finishes13Pro),
         DeviceModel(id: "iphone-14", name: "iPhone 14", screen: regular12, scale: 3, cornerRadius: 47.33, cutout: narrowNotch, finishes: finishes14),
         DeviceModel(id: "iphone-14-plus", name: "iPhone 14 Plus", screen: max12, scale: 3, cornerRadius: 53.33, cutout: narrowNotch, finishes: finishes14),
-        DeviceModel(id: "iphone-14-pro", name: "iPhone 14 Pro", screen: regular14, scale: 3, cornerRadius: 55, cutout: .dynamicIsland, finishes: finishes14Pro),
-        DeviceModel(id: "iphone-14-pro-max", name: "iPhone 14 Pro Max", screen: max14, scale: 3, cornerRadius: 55, cutout: .dynamicIsland, finishes: finishes14Pro),
-        DeviceModel(id: "iphone-15", name: "iPhone 15", screen: regular14, scale: 3, cornerRadius: 55, cutout: .dynamicIsland, finishes: finishes15),
-        DeviceModel(id: "iphone-15-plus", name: "iPhone 15 Plus", screen: max14, scale: 3, cornerRadius: 55, cutout: .dynamicIsland, finishes: finishes15),
-        DeviceModel(id: "iphone-15-pro", name: "iPhone 15 Pro", screen: regular14, scale: 3, cornerRadius: 55, cutout: .dynamicIsland, finishes: finishes15Pro),
-        DeviceModel(id: "iphone-15-pro-max", name: "iPhone 15 Pro Max", screen: max14, scale: 3, cornerRadius: 55, cutout: .dynamicIsland, finishes: finishes15Pro),
-        DeviceModel(id: "iphone-16", name: "iPhone 16", screen: regular14, scale: 3, cornerRadius: 55, cutout: .dynamicIsland, finishes: finishes16),
-        DeviceModel(id: "iphone-16-plus", name: "iPhone 16 Plus", screen: max14, scale: 3, cornerRadius: 55, cutout: .dynamicIsland, finishes: finishes16),
-        DeviceModel(id: "iphone-16-pro", name: "iPhone 16 Pro", screen: regular16, scale: 3, cornerRadius: 62, cutout: .dynamicIsland, finishes: finishes16Pro),
-        DeviceModel(id: "iphone-16-pro-max", name: "iPhone 16 Pro Max", screen: max16, scale: 3, cornerRadius: 62, cutout: .dynamicIsland, finishes: finishes16Pro),
+        DeviceModel(id: "iphone-14-pro", name: "iPhone 14 Pro", screen: regular14, scale: 3, cornerRadius: 55, cutout: island, finishes: finishes14Pro),
+        DeviceModel(id: "iphone-14-pro-max", name: "iPhone 14 Pro Max", screen: max14, scale: 3, cornerRadius: 55, cutout: island, finishes: finishes14Pro),
+        DeviceModel(id: "iphone-15", name: "iPhone 15", screen: regular14, scale: 3, cornerRadius: 55, cutout: island, finishes: finishes15),
+        DeviceModel(id: "iphone-15-plus", name: "iPhone 15 Plus", screen: max14, scale: 3, cornerRadius: 55, cutout: island, finishes: finishes15),
+        DeviceModel(id: "iphone-15-pro", name: "iPhone 15 Pro", screen: regular14, scale: 3, cornerRadius: 55, cutout: island, finishes: finishes15Pro),
+        DeviceModel(id: "iphone-15-pro-max", name: "iPhone 15 Pro Max", screen: max14, scale: 3, cornerRadius: 55, cutout: island, finishes: finishes15Pro),
+        DeviceModel(id: "iphone-16", name: "iPhone 16", screen: regular14, scale: 3, cornerRadius: 55, cutout: island, finishes: finishes16),
+        DeviceModel(id: "iphone-16-plus", name: "iPhone 16 Plus", screen: max14, scale: 3, cornerRadius: 55, cutout: island, finishes: finishes16),
+        DeviceModel(id: "iphone-16-pro", name: "iPhone 16 Pro", screen: regular16, scale: 3, cornerRadius: 62, cutout: lowIsland, finishes: finishes16Pro),
+        DeviceModel(id: "iphone-16-pro-max", name: "iPhone 16 Pro Max", screen: max16, scale: 3, cornerRadius: 62, cutout: lowIsland, finishes: finishes16Pro),
         DeviceModel(id: "iphone-16e", name: "iPhone 16e", screen: regular12, scale: 3, cornerRadius: 47.33, cutout: narrowNotch, finishes: finishes16e),
-        DeviceModel(id: "iphone-17", name: "iPhone 17", screen: regular16, scale: 3, cornerRadius: 62, cutout: .dynamicIsland, finishes: finishes17),
-        DeviceModel(id: "iphone-air", name: "iPhone Air", screen: air, scale: 3, cornerRadius: 62, cutout: .dynamicIsland, finishes: finishesAir),
-        DeviceModel(id: "iphone-17-pro", name: "iPhone 17 Pro", screen: regular16, scale: 3, cornerRadius: 62, cutout: .dynamicIsland, finishes: finishes17Pro),
-        DeviceModel(id: "iphone-17-pro-max", name: "iPhone 17 Pro Max", screen: max16, scale: 3, cornerRadius: 62, cutout: .dynamicIsland, finishes: finishes17Pro),
-        DeviceModel(id: "iphone-18-pro", name: "iPhone 18 Pro", screen: regular16, scale: 3, cornerRadius: 62, cutout: .dynamicIsland, finishes: finishes18Pro),
-        DeviceModel(id: "iphone-18-pro-max", name: "iPhone 18 Pro Max", screen: max16, scale: 3, cornerRadius: 62, cutout: .dynamicIsland, finishes: finishes18Pro),
+        DeviceModel(id: "iphone-17", name: "iPhone 17", screen: regular16, scale: 3, cornerRadius: 62, cutout: lowIsland, finishes: finishes17),
+        DeviceModel(id: "iphone-air", name: "iPhone Air", screen: air, scale: 3, cornerRadius: 62, cutout: lowIsland, finishes: finishesAir),
+        DeviceModel(id: "iphone-17-pro", name: "iPhone 17 Pro", screen: regular16, scale: 3, cornerRadius: 62, cutout: lowIsland, finishes: finishes17Pro),
+        DeviceModel(id: "iphone-17-pro-max", name: "iPhone 17 Pro Max", screen: max16, scale: 3, cornerRadius: 62, cutout: lowIsland, finishes: finishes17Pro),
+        DeviceModel(id: "iphone-18-pro", name: "iPhone 18 Pro", screen: regular16, scale: 3, cornerRadius: 62, cutout: lowIsland, finishes: finishes18Pro),
+        DeviceModel(id: "iphone-18-pro-max", name: "iPhone 18 Pro Max", screen: max16, scale: 3, cornerRadius: 62, cutout: lowIsland, finishes: finishes18Pro),
     ]
 }

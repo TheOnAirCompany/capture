@@ -258,7 +258,7 @@ struct BezelSection: View {
                 }
                 .disabled(!settings.showsBezel)
 
-                if model.cutout == .dynamicIsland {
+                if model.cutout.isDynamicIsland {
                     Toggle("Dynamic Island", isOn: $settings.showsDynamicIsland)
                         .disabled(!settings.showsBezel)
                 }
