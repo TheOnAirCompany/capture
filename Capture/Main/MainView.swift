@@ -22,7 +22,7 @@ enum SidebarItem: Hashable, CaseIterable, Identifiable {
 
     var subtitle: LocalizedStringResource {
         switch self {
-        case .preview: "See your iPhone screen live, then capture it."
+        case .preview: "See your iPhone or iPad screen live, then capture it."
         case .screenshots: "Frame, style and export your screenshots."
         case .videos: "Trim, adjust and export your videos."
         case .settings: "Customize your experience with Capture."
@@ -71,8 +71,6 @@ struct MainView: View {
         case .preview:
             if !deviceManager.isCameraAuthorized {
                 CameraAccessView()
-            } else if deviceManager.isUnsupportedDevice {
-                UnsupportedDeviceView()
             } else if deviceManager.device != nil {
                 ConnectedView()
             } else {
@@ -92,24 +90,6 @@ struct MainView: View {
     }
 }
 
-/// Shown when an iPad is connected: only iPhone is supported for now.
-struct UnsupportedDeviceView: View {
-    @Environment(DeviceManager.self) private var deviceManager
-
-    var body: some View {
-        ContentUnavailableView {
-            Label("iPad Isn't Supported Yet", systemImage: "ipad.landscape")
-        } description: {
-            Text("Capture works with iPhone for now. Connect an iPhone with a USB cable to preview and capture its screen.")
-        } actions: {
-            if deviceManager.devices.count > 1 {
-                Text("Choose an iPhone from the menu in the sidebar.")
-                    .foregroundStyle(.secondary)
-            }
-        }
-    }
-}
-
 struct CameraAccessView: View {
     @Environment(DeviceManager.self) private var deviceManager
 
@@ -117,7 +97,7 @@ struct CameraAccessView: View {
         ContentUnavailableView {
             Label("Camera Access Required", systemImage: "video.slash")
         } description: {
-            Text("Capture needs camera access to display your iPhone's screen.")
+            Text("Capture needs camera access to display the screen of your iPhone or iPad.")
         } actions: {
             if deviceManager.cameraAuthorization == .notDetermined {
                 Button("Allow Access") {

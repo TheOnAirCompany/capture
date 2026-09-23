@@ -11,7 +11,7 @@ packages:
     from: "2.10.0"
 settings:
   base:
-    MARKETING_VERSION: "0.1.0"
+    MARKETING_VERSION: "0.2.0"
     CURRENT_PROJECT_VERSION: "1"
     SWIFT_VERSION: "6.0"
     SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
@@ -37,7 +37,7 @@ targets:
         CFBundleLocalizations: [en, fr]
         LSApplicationCategoryType: public.app-category.productivity
         LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
-        NSCameraUsageDescription: Capture uses camera access to display and record the screen of your connected iPhone.
+        NSCameraUsageDescription: Capture uses camera access to display and record the screen of your connected iPhone or iPad.
         NSHumanReadableCopyright: Copyright © 2026 The On Air Company.
         SUFeedURL: https://github.com/TheOnAirCompany/capture/releases/latest/download/appcast.xml
         SUPublicEDKey: D3Z2kJ8LrUkQNZ7qk1E5GkwFbDwRT5+UEM9y5TGlY4o=

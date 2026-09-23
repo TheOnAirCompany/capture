@@ -23,7 +23,7 @@ private struct DeviceHeader: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            Image(systemName: deviceManager.isUnsupportedDevice ? "ipad" : "iphone")
+            Image(systemName: deviceManager.isIPad ? "ipad" : "iphone")
                 .font(.system(size: 36, weight: .ultraLight))
                 .foregroundStyle(deviceManager.device == nil ? .tertiary : .primary)
                 .frame(width: 36)
@@ -37,20 +37,15 @@ private struct DeviceHeader: View {
                             .font(.headline)
                     }
                     HStack(spacing: 5) {
-                        if deviceManager.isUnsupportedDevice {
-                            Circle().fill(.orange).frame(width: 7, height: 7)
-                            Text("Not Supported Yet")
-                        } else {
-                            Circle().fill(.green).frame(width: 7, height: 7)
-                            Text("Connected")
-                        }
+                        Circle().fill(.green).frame(width: 7, height: 7)
+                        Text("Connected")
                     }
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 } else {
                     Text("No Device")
                         .font(.headline)
-                    Text("Connect an iPhone to get started.")
+                    Text("Connect an iPhone or iPad to get started.")
                         .font(.subheadline)
                         .lineLimit(2, reservesSpace: true)
                         .foregroundStyle(.secondary)
@@ -62,7 +57,7 @@ private struct DeviceHeader: View {
     }
 }
 
-/// Chooses between several connected iPhones. Locked during a capture or recording.
+/// Chooses between several connected iPhones and iPads. Locked during a capture or recording.
 private struct DevicePicker: View {
     @Environment(DeviceManager.self) private var deviceManager
     let current: AVCaptureDevice
@@ -88,7 +83,7 @@ private struct DevicePicker: View {
         .fixedSize()
         .disabled(deviceManager.isLocked)
         .help(deviceManager.isLocked
-              ? Text("You can't switch iPhones during a capture or a recording.")
-              : Text("Choose which iPhone to show."))
+              ? Text("You can't switch devices during a capture or a recording.")
+              : Text("Choose which iPhone or iPad to show."))
     }
 }

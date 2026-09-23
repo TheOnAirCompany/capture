@@ -10,9 +10,9 @@ struct EmptyStateView: View {
             ConnectIllustration()
 
             VStack(spacing: 10) {
-                Text("Connect your iPhone")
+                Text("Connect your iPhone or iPad")
                     .font(.largeTitle.bold())
-                Text("Plug your iPhone into this Mac with a USB cable to preview its screen, take screenshots and record videos.")
+                Text("Plug your iPhone or iPad into this Mac with a USB cable to preview its screen, take screenshots and record videos.")
                     .font(.title3)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
@@ -49,11 +49,11 @@ private struct ConnectIllustration: View {
 private struct HelpView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Your iPhone doesn't appear?")
+            Text("Your iPhone or iPad doesn't appear?")
                 .font(.headline)
-            tip("lock.open", "Unlock your iPhone and tap Trust when asked.")
+            tip("lock.open", "Unlock your iPhone or iPad and tap Trust when asked.")
             tip("cable.connector", "Use a data cable: some cables can only charge.")
-            tip("arrow.triangle.2.circlepath", "Try unplugging your iPhone and plugging it back in.")
+            tip("arrow.triangle.2.circlepath", "Try unplugging your device and plugging it back in.")
         }
         .padding(20)
         .frame(width: 340)

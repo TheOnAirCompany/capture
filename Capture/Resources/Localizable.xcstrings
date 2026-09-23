@@ -201,12 +201,12 @@
         }
       }
     },
-    "Add an iPhone frame to your captures when you edit them.": {
+    "Add an iPhone or iPad frame to your captures when you edit them.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ajoutez un cadre d’iPhone à vos captures lors de l’édition."
+            "value": "Ajoutez un cadre d’iPhone ou d’iPad à vos captures lors de l’édition."
           }
         }
       }
@@ -371,12 +371,12 @@
         }
       }
     },
-    "Built for clean iPhone captures": {
+    "Built for clean iPhone and iPad captures": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pensé pour des captures iPhone impeccables"
+            "value": "Pensé pour des captures iPhone et iPad impeccables"
           }
         }
       }
@@ -451,12 +451,12 @@
         }
       }
     },
-    "Capture needs camera access to display your iPhone's screen.": {
+    "Capture needs camera access to display the screen of your iPhone or iPad.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Capture a besoin de l’accès à la caméra pour afficher l’écran de votre iPhone."
+            "value": "Capture a besoin de l’accès à la caméra pour afficher l’écran de votre iPhone ou iPad."
           }
         }
       }
@@ -471,22 +471,12 @@
         }
       }
     },
-    "Capture works with iPhone for now. Connect an iPhone with a USB cable to preview and capture its screen.": {
+    "Capture your iPhone or iPad screen in one click, at full native resolution.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Capture fonctionne avec l’iPhone pour le moment. Branchez un iPhone avec un câble USB pour afficher et capturer son écran."
-          }
-        }
-      }
-    },
-    "Capture your iPhone screen in one click, at full native resolution.": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Capturez l’écran de votre iPhone en un clic, en pleine résolution."
+            "value": "Capturez l’écran de votre iPhone ou iPad en un clic, en pleine résolution."
           }
         }
       }
@@ -541,16 +531,6 @@
         }
       }
     },
-    "Choose an iPhone from the menu in the sidebar.": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choisissez un iPhone dans le menu de la barre latérale."
-          }
-        }
-      }
-    },
     "Choose where to save your screenshots and videos.": {
       "localizations": {
         "fr": {
@@ -571,12 +551,12 @@
         }
       }
     },
-    "Choose which iPhone to show.": {
+    "Choose which iPhone or iPad to show.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choisissez l’iPhone à afficher."
+            "value": "Choisissez l’iPhone ou l’iPad à afficher."
           }
         }
       }
@@ -611,22 +591,22 @@
         }
       }
     },
-    "Connect an iPhone to get started.": {
+    "Connect an iPhone or iPad to get started.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Connectez un iPhone pour commencer."
+            "value": "Connectez un iPhone ou un iPad pour commencer."
           }
         }
       }
     },
-    "Connect your iPhone": {
+    "Connect your iPhone or iPad": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Connectez votre iPhone"
+            "value": "Connectez votre iPhone ou iPad"
           }
         }
       }
@@ -887,6 +867,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cadres d’appareil"
+          }
+        }
+      }
+    },
+    "Device Sound": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son de l’appareil"
           }
         }
       }
@@ -1531,12 +1521,12 @@
         }
       }
     },
-    "No image has been received from the iPhone yet.": {
+    "No image has been received from the device yet.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aucune image n’a encore été reçue de l’iPhone."
+            "value": "Aucune image n’a encore été reçue de l’appareil."
           }
         }
       }
@@ -1557,16 +1547,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Plus tard"
-          }
-        }
-      }
-    },
-    "Not Supported Yet": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pas encore pris en charge"
           }
         }
       }
@@ -1721,12 +1701,12 @@
         }
       }
     },
-    "Plug your iPhone into this Mac with a USB cable to preview its screen, take screenshots and record videos.": {
+    "Plug your iPhone or iPad into this Mac with a USB cable to preview its screen, take screenshots and record videos.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Branchez votre iPhone à ce Mac avec un câble USB pour prévisualiser son écran, prendre des captures et enregistrer des vidéos."
+            "value": "Branchez votre iPhone ou iPad à ce Mac avec un câble USB pour prévisualiser son écran, prendre des captures et enregistrer des vidéos."
           }
         }
       }
@@ -1811,12 +1791,12 @@
         }
       }
     },
-    "Record videos with sound, straight from your iPhone.": {
+    "Record videos with sound, straight from your iPhone or iPad.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enregistrez des vidéos avec le son, directement depuis votre iPhone."
+            "value": "Enregistrez des vidéos avec le son, directement depuis votre iPhone ou iPad."
           }
         }
       }
@@ -1887,6 +1867,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Résolution"
+          }
+        }
+      }
+    },
+    "Rose Gold": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Or rose"
           }
         }
       }
@@ -2001,12 +1991,12 @@
         }
       }
     },
-    "See your iPhone screen live, then capture it.": {
+    "See your iPhone or iPad screen live, then capture it.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Visualisez l’écran de votre iPhone en direct, puis capturez-le."
+            "value": "Visualisez l’écran de votre iPhone ou iPad en direct, puis capturez-le."
           }
         }
       }
@@ -2191,12 +2181,12 @@
         }
       }
     },
-    "Take pixel-perfect screenshots and screen recordings of your iPhone, with the clean 9:41 status bar Apple uses in its own product shots.": {
+    "Take pixel-perfect screenshots and screen recordings of your iPhone and iPad, with the clean 9:41 status bar Apple uses in its own product shots.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Réalisez des captures d’écran et des vidéos impeccables de votre iPhone, avec la barre d’état épurée à 9:41 qu’Apple utilise dans ses propres visuels."
+            "value": "Réalisez des captures d’écran et des vidéos impeccables de votre iPhone et de votre iPad, avec la barre d’état épurée à 9:41 qu’Apple utilise dans ses propres visuels."
           }
         }
       }
@@ -2291,12 +2281,12 @@
         }
       }
     },
-    "Try unplugging your iPhone and plugging it back in.": {
+    "Try unplugging your device and plugging it back in.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Essayez de débrancher puis de rebrancher votre iPhone."
+            "value": "Essayez de débrancher puis de rebrancher votre appareil."
           }
         }
       }
@@ -2331,12 +2321,12 @@
         }
       }
     },
-    "Unlock your iPhone and tap Trust when asked.": {
+    "Unlock your iPhone or iPad and tap Trust when asked.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Déverrouillez votre iPhone et touchez « Se fier » si on vous le demande."
+            "value": "Déverrouillez votre iPhone ou iPad et touchez « Se fier » si on vous le demande."
           }
         }
       }
@@ -2461,12 +2451,12 @@
         }
       }
     },
-    "You can't switch iPhones during a capture or a recording.": {
+    "You can't switch devices during a capture or a recording.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Impossible de changer d’iPhone pendant une capture ou un enregistrement."
+            "value": "Impossible de changer d’appareil pendant une capture ou un enregistrement."
           }
         }
       }
@@ -2481,12 +2471,12 @@
         }
       }
     },
-    "Your iPhone doesn't appear?": {
+    "Your iPhone or iPad doesn't appear?": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Votre iPhone n’apparaît pas ?"
+            "value": "Votre iPhone ou iPad n’apparaît pas ?"
           }
         }
       }
@@ -2531,32 +2521,32 @@
         }
       }
     },
-    "iPad Isn't Supported Yet": {
+    "iPad": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "L’iPad n’est pas encore pris en charge"
+            "value": "iPad"
           }
         }
       }
     },
-    "iPhone Sound": {
+    "iPhone": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Son de l’iPhone"
+            "value": "iPhone"
           }
         }
       }
     },
-    "macOS treats your iPhone's screen like a camera. Capture needs this access to display and record it.": {
+    "macOS treats the screen of your iPhone or iPad like a camera. Capture needs this access to display and record it.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "macOS considère l’écran de votre iPhone comme une caméra. Capture a besoin de cet accès pour l’afficher et l’enregistrer."
+            "value": "macOS considère l’écran de votre iPhone ou iPad comme une caméra. Capture a besoin de cet accès pour l’afficher et l’enregistrer."
           }
         }
       }

@@ -3,6 +3,8 @@ import SwiftUI
 struct DeviceFinish: Identifiable, Hashable {
     let name: LocalizedStringResource
     let hex: String
+    /// Older iPads in light colors have a white front instead of a black one.
+    var hasWhiteFront = false
 
     var id: String { hex }
     var color: Color { Color(hex: hex) ?? .gray }
@@ -14,9 +16,13 @@ struct DeviceFinish: Identifiable, Hashable {
     func hash(into hasher: inout Hasher) { hasher.combine(hex) }
 }
 
-/// An iPhone with a rounded display, from iPhone X onwards.
+/// An iPhone with a rounded display (iPhone X onwards), or an iPad from 2015 onwards.
 /// Finish names are Apple's color names, without the material.
 struct DeviceModel: Identifiable, Hashable {
+    enum Family: Hashable {
+        case iPhone, iPad
+    }
+
     enum Cutout: Hashable {
         /// Width and height in points.
         case notch(width: CGFloat, height: CGFloat)
@@ -34,8 +40,14 @@ struct DeviceModel: Identifiable, Hashable {
     let screen: CGSize
     let scale: CGFloat
     let cornerRadius: CGFloat
-    let cutout: Cutout
+    /// The notch or Dynamic Island of iPhones. iPads have none.
+    let cutout: Cutout?
     let finishes: [DeviceFinish]
+    var family = Family.iPhone
+    /// iPads before the all-screen design: square display, thick borders and a Home button.
+    var hasHomeButton = false
+    /// Recent iPads have their front camera on the long edge, for landscape video calls.
+    var hasLandscapeCamera = false
 
     static func == (lhs: Self, rhs: Self) -> Bool { lhs.id == rhs.id }
     func hash(into hasher: inout Hasher) { hasher.combine(id) }
@@ -113,8 +125,10 @@ private let finishes18Pro = [finish("Black", "#2F3032"), finish("Silver", "#E3E4
                              finish("Burgundy", "#6B2A35")]
 
 extension DeviceModel {
+    static let all: [DeviceModel] = iPhones + iPads
+
     /// Oldest first. Corner radii come from each model's display corner radius.
-    static let all: [DeviceModel] = [
+    static let iPhones: [DeviceModel] = [
         DeviceModel(id: "iphone-x", name: "iPhone X", screen: x, scale: 3, cornerRadius: 39, cutout: wideNotch, finishes: Array(finishesXS.prefix(2))),
         DeviceModel(id: "iphone-xs", name: "iPhone XS", screen: x, scale: 3, cornerRadius: 39, cutout: wideNotch, finishes: finishesXS),
         DeviceModel(id: "iphone-xs-max", name: "iPhone XS Max", screen: xsMax, scale: 3, cornerRadius: 39, cutout: wideNotch, finishes: finishesXS),
@@ -149,5 +163,90 @@ extension DeviceModel {
         DeviceModel(id: "iphone-17-pro-max", name: "iPhone 17 Pro Max", screen: max16, scale: 3, cornerRadius: 62, cutout: lowIsland, finishes: finishes17Pro),
         DeviceModel(id: "iphone-18-pro", name: "iPhone 18 Pro", screen: regular16, scale: 3, cornerRadius: 62, cutout: lowIsland, finishes: finishes18Pro),
         DeviceModel(id: "iphone-18-pro-max", name: "iPhone 18 Pro Max", screen: max16, scale: 3, cornerRadius: 62, cutout: lowIsland, finishes: finishes18Pro),
+    ]
+}
+
+// MARK: - iPad
+
+private let mini4 = CGSize(width: 1536, height: 2048)
+private let pro105 = CGSize(width: 1668, height: 2224)
+private let ipad102 = CGSize(width: 1620, height: 2160)
+private let pro129 = CGSize(width: 2048, height: 2732)
+private let pro11 = CGSize(width: 1668, height: 2388)
+private let air109 = CGSize(width: 1640, height: 2360)
+private let mini6 = CGSize(width: 1488, height: 2266)
+private let pro11M4 = CGSize(width: 1668, height: 2420)
+private let pro13M4 = CGSize(width: 2064, height: 2752)
+
+private func whiteFront(_ name: LocalizedStringResource, _ hex: String) -> DeviceFinish {
+    DeviceFinish(name: name, hex: hex, hasWhiteFront: true)
+}
+
+private let finishesClassic = [finish("Space Gray", "#4A4A4C"), whiteFront("Silver", "#E3E4E5"), whiteFront("Gold", "#E9D3B4")]
+private let finishesClassicRose = finishesClassic + [whiteFront("Rose Gold", "#E6C7C2")]
+private let finishesPro = [finish("Space Gray", "#4A4A4C"), finish("Silver", "#E3E4E5")]
+private let finishesProBlack = [finish("Space Black", "#2E2E30"), finish("Silver", "#E3E4E5")]
+private let finishesAir4 = [finish("Space Gray", "#4A4A4C"), finish("Silver", "#E3E4E5"), finish("Rose Gold", "#E6C7C2"),
+                            finish("Green", "#B5C9B2"), finish("Sky Blue", "#AFC8DB")]
+private let finishesAir5 = [finish("Space Gray", "#4A4A4C"), finish("Starlight", "#F0E9DD"), finish("Pink", "#EFD3D4"),
+                            finish("Purple", "#C9C2DE"), finish("Blue", "#A8BFD9")]
+private let finishesAirM = [finish("Space Gray", "#4A4A4C"), finish("Blue", "#A8BFD9"), finish("Purple", "#C9C2DE"),
+                            finish("Starlight", "#F0E9DD")]
+private let finishesMini6 = [finish("Space Gray", "#4A4A4C"), finish("Pink", "#EFD3D4"), finish("Purple", "#C9C2DE"),
+                             finish("Starlight", "#F0E9DD")]
+private let finishesMiniA17 = [finish("Space Gray", "#4A4A4C"), finish("Blue", "#A8BFD9"), finish("Purple", "#C9C2DE"),
+                               finish("Starlight", "#F0E9DD")]
+private let finishesIPad10 = [finish("Silver", "#E3E4E5"), finish("Blue", "#7FA7D1"), finish("Pink", "#E9A9B8"),
+                              finish("Yellow", "#F2D65B")]
+
+private func iPad(
+    _ id: String, _ name: String, _ screen: CGSize, _ finishes: [DeviceFinish],
+    homeButton: Bool = false, landscapeCamera: Bool = false
+) -> DeviceModel {
+    // All-screen iPads have 18 pt display corners (iPad Air and iPad Pro, from UIScreen);
+    // iPad mini and the M4 and M5 iPad Pro are assumed to match.
+    DeviceModel(id: id, name: name, screen: screen, scale: 2, cornerRadius: homeButton ? 0 : 18, cutout: nil,
+                finishes: finishes, family: .iPad, hasHomeButton: homeButton, hasLandscapeCamera: landscapeCamera)
+}
+
+extension DeviceModel {
+    /// iPads from 2015 to 2026, oldest first.
+    static let iPads: [DeviceModel] = [
+        iPad("ipad-mini-4", "iPad mini 4", mini4, finishesClassic, homeButton: true),
+        iPad("ipad-pro-12-9-1", "iPad Pro 12.9-inch (1st generation)", pro129, finishesClassic, homeButton: true),
+        iPad("ipad-pro-9-7", "iPad Pro 9.7-inch", mini4, finishesClassicRose, homeButton: true),
+        iPad("ipad-5", "iPad (5th generation)", mini4, finishesClassic, homeButton: true),
+        iPad("ipad-pro-10-5", "iPad Pro 10.5-inch", pro105, finishesClassicRose, homeButton: true),
+        iPad("ipad-pro-12-9-2", "iPad Pro 12.9-inch (2nd generation)", pro129, finishesClassic, homeButton: true),
+        iPad("ipad-6", "iPad (6th generation)", mini4, finishesClassic, homeButton: true),
+        iPad("ipad-pro-11-1", "iPad Pro 11-inch (1st generation)", pro11, finishesPro),
+        iPad("ipad-pro-12-9-3", "iPad Pro 12.9-inch (3rd generation)", pro129, finishesPro),
+        iPad("ipad-air-3", "iPad Air (3rd generation)", pro105, finishesClassic, homeButton: true),
+        iPad("ipad-mini-5", "iPad mini (5th generation)", mini4, finishesClassic, homeButton: true),
+        iPad("ipad-7", "iPad (7th generation)", ipad102, finishesClassic, homeButton: true),
+        iPad("ipad-pro-11-2", "iPad Pro 11-inch (2nd generation)", pro11, finishesPro),
+        iPad("ipad-pro-12-9-4", "iPad Pro 12.9-inch (4th generation)", pro129, finishesPro),
+        iPad("ipad-8", "iPad (8th generation)", ipad102, finishesClassic, homeButton: true),
+        iPad("ipad-air-4", "iPad Air (4th generation)", air109, finishesAir4),
+        iPad("ipad-pro-11-3", "iPad Pro 11-inch (3rd generation)", pro11, finishesPro),
+        iPad("ipad-pro-12-9-5", "iPad Pro 12.9-inch (5th generation)", pro129, finishesPro),
+        iPad("ipad-9", "iPad (9th generation)", ipad102, Array(finishesClassic.prefix(2)), homeButton: true),
+        iPad("ipad-mini-6", "iPad mini (6th generation)", mini6, finishesMini6),
+        iPad("ipad-air-5", "iPad Air (5th generation)", air109, finishesAir5),
+        iPad("ipad-10", "iPad (10th generation)", air109, finishesIPad10, landscapeCamera: true),
+        iPad("ipad-pro-11-4", "iPad Pro 11-inch (4th generation)", pro11, finishesPro),
+        iPad("ipad-pro-12-9-6", "iPad Pro 12.9-inch (6th generation)", pro129, finishesPro),
+        iPad("ipad-air-11-m2", "iPad Air 11-inch (M2)", air109, finishesAirM, landscapeCamera: true),
+        iPad("ipad-air-13-m2", "iPad Air 13-inch (M2)", pro129, finishesAirM, landscapeCamera: true),
+        iPad("ipad-pro-11-m4", "iPad Pro 11-inch (M4)", pro11M4, finishesProBlack, landscapeCamera: true),
+        iPad("ipad-pro-13-m4", "iPad Pro 13-inch (M4)", pro13M4, finishesProBlack, landscapeCamera: true),
+        iPad("ipad-mini-a17-pro", "iPad mini (A17 Pro)", mini6, finishesMiniA17),
+        iPad("ipad-a16", "iPad (A16)", air109, finishesIPad10, landscapeCamera: true),
+        iPad("ipad-air-11-m3", "iPad Air 11-inch (M3)", air109, finishesAirM, landscapeCamera: true),
+        iPad("ipad-air-13-m3", "iPad Air 13-inch (M3)", pro129, finishesAirM, landscapeCamera: true),
+        iPad("ipad-pro-11-m5", "iPad Pro 11-inch (M5)", pro11M4, finishesProBlack, landscapeCamera: true),
+        iPad("ipad-pro-13-m5", "iPad Pro 13-inch (M5)", pro13M4, finishesProBlack, landscapeCamera: true),
+        iPad("ipad-air-11-m4", "iPad Air 11-inch (M4)", air109, finishesAirM, landscapeCamera: true),
+        iPad("ipad-air-13-m4", "iPad Air 13-inch (M4)", pro129, finishesAirM, landscapeCamera: true),
     ]
 }

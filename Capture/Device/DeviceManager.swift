@@ -2,12 +2,12 @@ import AVFoundation
 import CoreMediaIO
 import Observation
 
-/// Discovers iPhones connected over USB and exposes them as capture devices.
+/// Discovers iPhones and iPads connected over USB and exposes them as capture devices.
 ///
-/// When a Mac opens the screen stream of a connected iPhone, iOS switches its
+/// When a Mac opens the screen stream of a connected device, iOS switches its
 /// status bar to demo mode (9:41, full battery, full signal).
 ///
-/// With several iPhones connected, the one chosen last is shown, and it is picked
+/// With several devices connected, the one chosen last is shown, and it is picked
 /// again automatically when it is plugged back in.
 @Observable
 final class DeviceManager {
@@ -23,19 +23,15 @@ final class DeviceManager {
     /// Native pixel size of the iPhone screen, known once the first frame arrives.
     private(set) var screenSize: CGSize?
 
-    /// iPads also stream their screen, but Capture only supports iPhone for now.
-    var isUnsupportedDevice: Bool {
+    /// True for an iPad, from the shape of its screen (or its name before the first frame).
+    var isIPad: Bool {
         guard let device else { return false }
         return Self.looksLikeIPad(name: device.localizedName, screenSize: screenSize)
     }
 
-    /// `--simulate-ipad` treats the connected iPhone as an iPad, to test without one.
-    static let simulatesIPad = CommandLine.arguments.contains("--simulate-ipad")
-
     /// The name is a hint, but can be changed by the user: the shape of the screen decides.
     /// iPads are close to 4:3 (at most 1.6:1), iPhones are 16:9 or longer.
     static func looksLikeIPad(name: String, screenSize: CGSize?) -> Bool {
-        if simulatesIPad { return true }
         if let screenSize, screenSize.width > 0, screenSize.height > 0 {
             return max(screenSize.width, screenSize.height) / min(screenSize.width, screenSize.height) < 1.6
         }
@@ -101,8 +97,6 @@ final class DeviceManager {
         } else {
             target = connected.first { $0.uniqueID == preferredDeviceID }
                 ?? connected.first { $0.uniqueID == device?.uniqueID }
-                // Without a choice, an iPhone rather than an iPad.
-                ?? connected.first { !Self.looksLikeIPad(name: $0.localizedName, screenSize: nil) }
                 ?? connected.first
         }
         show(target)

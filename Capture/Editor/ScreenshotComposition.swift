@@ -83,9 +83,13 @@ struct CompositionLayout {
     let screenRadius: CGFloat
     /// Pixels per point of the device, to size the notch or Dynamic Island.
     let pixelsPerPoint: CGFloat
+    /// Black border on the long sides, and on the short sides (thicker on iPads with a Home button).
     let border: CGFloat
+    let endBorder: CGFloat
     let band: CGFloat
     let buttonDepth: CGFloat
+    /// Outer corner radius of the device.
+    let bodyRadius: CGFloat
     /// Portrait device size.
     let device: CGSize
     let canvas: CGSize
@@ -114,12 +118,21 @@ struct CompositionLayout {
             pixelsPerPoint = 3
         }
 
-        border = hasBezel ? shortSide * 0.030 : 0
-        band = hasBezel ? shortSide * 0.021 : 0
-        buttonDepth = hasBezel ? shortSide * 0.007 : 0
+        let isIPad = style.model?.family == .iPad
+        let hasHomeButton = style.model?.hasHomeButton == true
+        switch (hasBezel, isIPad, hasHomeButton) {
+        case (false, _, _):
+            (border, endBorder, band, buttonDepth) = (0, 0, 0, 0)
+        case (true, true, true):
+            (border, endBorder, band, buttonDepth) = (shortSide * 0.075, shortSide * 0.14, shortSide * 0.008, shortSide * 0.004)
+        case (true, true, false):
+            (border, endBorder, band, buttonDepth) = (shortSide * 0.045, shortSide * 0.045, shortSide * 0.009, shortSide * 0.004)
+        case (true, false, _):
+            (border, endBorder, band, buttonDepth) = (shortSide * 0.030, shortSide * 0.030, shortSide * 0.021, shortSide * 0.007)
+        }
+        bodyRadius = hasHomeButton ? shortSide * 0.075 : screenRadius + border + band
 
-        let frame = border + band
-        device = CGSize(width: screen.width + 2 * (frame + buttonDepth), height: screen.height + 2 * frame)
+        device = CGSize(width: screen.width + 2 * (border + band + buttonDepth), height: screen.height + 2 * (endBorder + band))
 
         // A capture that matches the device orientation stays upright. Otherwise it is
         // shown as it would be on the turned device: sideways.
@@ -232,20 +245,24 @@ struct ScreenshotComposition: View {
     private func device(_ layout: CompositionLayout) -> some View {
         let frame = layout.border + layout.band
         let bandColors = style.finish?.bandColors ?? [.gray]
+        let front = style.finish?.hasWhiteFront == true ? Color(white: 0.95) : Color.black
         return ZStack {
             if frame > 0, part != .aboveScreen {
-                SideButtons(layout: layout, colors: bandColors)
-                RoundedRectangle(cornerRadius: layout.screenRadius + frame, style: .continuous)
+                SideButtons(layout: layout, colors: bandColors, family: style.model?.family ?? .iPhone)
+                RoundedRectangle(cornerRadius: layout.bodyRadius, style: .continuous)
                     .fill(LinearGradient(colors: bandColors, startPoint: .leading, endPoint: .trailing))
                     .overlay(
-                        RoundedRectangle(cornerRadius: layout.screenRadius + frame, style: .continuous)
+                        RoundedRectangle(cornerRadius: layout.bodyRadius, style: .continuous)
                             .strokeBorder(.black.opacity(0.25), lineWidth: layout.band * 0.12)
                     )
                     .padding(.horizontal, layout.buttonDepth)
-                RoundedRectangle(cornerRadius: layout.screenRadius + layout.border, style: .continuous)
-                    .fill(.black)
+                RoundedRectangle(cornerRadius: layout.bodyRadius - layout.band, style: .continuous)
+                    .fill(front)
                     .padding(.horizontal, layout.buttonDepth + layout.band)
                     .padding(.vertical, layout.band)
+                if let model = style.model, model.family == .iPad {
+                    TabletDetails(layout: layout, model: model, front: front)
+                }
             }
             if let image {
                 screenContent(image, layout: layout)
@@ -304,10 +321,39 @@ private struct Cutout: View {
     }
 }
 
-/// Action button and volume buttons on the left, side button on the right.
+/// The front camera, and the Home button on older iPads, drawn in the border.
+private struct TabletDetails: View {
+    let layout: CompositionLayout
+    let model: DeviceModel
+    let front: Color
+
+    var body: some View {
+        let short = layout.screen.width
+        ZStack {
+            Circle()
+                .fill(Color(white: 0.18))
+                .frame(width: short * 0.012, height: short * 0.012)
+                // Landscape cameras sit on the long edge that is on top in landscape left.
+                .offset(model.hasLandscapeCamera
+                        ? CGSize(width: (layout.screen.width + layout.border) / 2, height: 0)
+                        : CGSize(width: 0, height: -(layout.screen.height + layout.endBorder) / 2))
+            if model.hasHomeButton {
+                Circle()
+                    .fill(front)
+                    .overlay(Circle().strokeBorder(Color.gray.opacity(0.45), lineWidth: short * 0.003))
+                    .frame(width: short * 0.075, height: short * 0.075)
+                    .offset(y: (layout.screen.height + layout.endBorder) / 2)
+            }
+        }
+    }
+}
+
+/// iPhone: Action button and volume buttons on the left, side button on the right.
+/// iPad: volume buttons on the right, near the top.
 private struct SideButtons: View {
     let layout: CompositionLayout
     let colors: [Color]
+    let family: DeviceModel.Family
 
     var body: some View {
         let height = layout.device.height
@@ -315,10 +361,16 @@ private struct SideButtons: View {
         ZStack(alignment: .topLeading) {
             Color.clear
             if layout.buttonDepth > 0 {
-                button(at: 0.185, length: 0.035, leading: true, fill: color)
-                button(at: 0.245, length: 0.062, leading: true, fill: color)
-                button(at: 0.325, length: 0.062, leading: true, fill: color)
-                button(at: 0.27, length: 0.105, leading: false, fill: color)
+                switch family {
+                case .iPhone:
+                    button(at: 0.185, length: 0.035, leading: true, fill: color)
+                    button(at: 0.245, length: 0.062, leading: true, fill: color)
+                    button(at: 0.325, length: 0.062, leading: true, fill: color)
+                    button(at: 0.27, length: 0.105, leading: false, fill: color)
+                case .iPad:
+                    button(at: 0.07, length: 0.04, leading: false, fill: color)
+                    button(at: 0.12, length: 0.04, leading: false, fill: color)
+                }
             }
         }
         .frame(width: layout.device.width, height: height)

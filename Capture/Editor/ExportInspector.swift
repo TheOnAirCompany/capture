@@ -250,15 +250,20 @@ struct BezelSection: View {
                             ForEach(matching) { Text(verbatim: $0.name).tag(Optional($0.id)) }
                         }
                     }
-                    Section("Other Models") {
-                        ForEach(DeviceModel.all.reversed().filter { !matching.contains($0) }) {
+                    Section("iPhone") {
+                        ForEach(DeviceModel.iPhones.reversed().filter { !matching.contains($0) }) {
+                            Text(verbatim: $0.name).tag(Optional($0.id))
+                        }
+                    }
+                    Section("iPad") {
+                        ForEach(DeviceModel.iPads.reversed().filter { !matching.contains($0) }) {
                             Text(verbatim: $0.name).tag(Optional($0.id))
                         }
                     }
                 }
                 .disabled(!settings.showsBezel)
 
-                if model.cutout.isDynamicIsland {
+                if model.cutout?.isDynamicIsland == true {
                     Toggle("Dynamic Island", isOn: $settings.showsDynamicIsland)
                         .disabled(!settings.showsBezel)
                 }

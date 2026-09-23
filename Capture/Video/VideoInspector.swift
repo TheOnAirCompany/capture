@@ -202,7 +202,7 @@ struct VideoInspector: View {
             }
             ToolRow(tool: .volume, expanded: $expandedTool) {
                 VStack(alignment: .leading, spacing: 8) {
-                    slider("iPhone Sound", value: binding(\.volume, coalescing: true), range: 0...2, format: .percent)
+                    slider("Device Sound", value: binding(\.volume, coalescing: true), range: 0...2, format: .percent)
                         .disabled(project.edits.isMuted || !project.hasAudio)
                     Toggle("Mute", isOn: binding(\.isMuted))
                         .disabled(!project.hasAudio)

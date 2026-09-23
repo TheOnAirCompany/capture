@@ -111,7 +111,7 @@ private struct WelcomePage: View {
             VStack(spacing: 12) {
                 Text("Welcome to Capture")
                     .font(.largeTitle.bold())
-                Text("Take pixel-perfect screenshots and screen recordings of your iPhone, with the clean 9:41 status bar Apple uses in its own product shots.")
+                Text("Take pixel-perfect screenshots and screen recordings of your iPhone and iPad, with the clean 9:41 status bar Apple uses in its own product shots.")
                     .font(.title3)
                     .foregroundStyle(.secondary)
                 Text("Everything QuickTime does, only faster and more powerful.")
@@ -127,7 +127,7 @@ private struct WelcomePage: View {
 private struct FeaturesPage: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 28) {
-            Text("Built for clean iPhone captures")
+            Text("Built for clean iPhone and iPad captures")
                 .font(.largeTitle.bold())
                 .frame(maxWidth: .infinity)
                 .multilineTextAlignment(.center)
@@ -136,12 +136,12 @@ private struct FeaturesPage: View {
                 FeatureRow(
                     systemImage: "camera.viewfinder",
                     title: "Screenshots",
-                    message: "Capture your iPhone screen in one click, at full native resolution."
+                    message: "Capture your iPhone or iPad screen in one click, at full native resolution."
                 )
                 FeatureRow(
                     systemImage: "record.circle",
                     title: "Screen Recordings",
-                    message: "Record videos with sound, straight from your iPhone."
+                    message: "Record videos with sound, straight from your iPhone or iPad."
                 )
                 FeatureRow(
                     systemImage: "clock.badge.checkmark",
@@ -151,7 +151,7 @@ private struct FeaturesPage: View {
                 FeatureRow(
                     systemImage: "iphone.gen3",
                     title: "Device Frames",
-                    message: "Add an iPhone frame to your captures when you edit them."
+                    message: "Add an iPhone or iPad frame to your captures when you edit them."
                 )
                 FeatureRow(
                     systemImage: "clock.arrow.circlepath",
@@ -252,7 +252,7 @@ private struct PermissionPage: View {
             VStack(spacing: 12) {
                 Text("Allow Camera Access")
                     .font(.largeTitle.bold())
-                Text("macOS treats your iPhone's screen like a camera. Capture needs this access to display and record it.")
+                Text("macOS treats the screen of your iPhone or iPad like a camera. Capture needs this access to display and record it.")
                     .font(.title3)
                     .foregroundStyle(.secondary)
                 Text("Your captures never leave your Mac.")

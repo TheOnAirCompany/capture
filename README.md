@@ -5,7 +5,7 @@
 <h1 align="center">Capture</h1>
 
 <p align="center">
-  Clean iPhone screenshots and screen recordings, straight from your Mac.<br>
+  Clean iPhone and iPad screenshots and screen recordings, straight from your Mac.<br>
   The 9:41 status bar Apple uses in its own product shots, without the QuickTime hassle.
 </p>
 
@@ -22,9 +22,9 @@
 
 ## Why Capture?
 
-When a Mac opens the screen of a USB-connected iPhone (the way QuickTime Player's *New Movie Recording* does), iOS switches to a **demo status bar**: 9:41, full battery, full signal and no notifications. It's perfect for App Store screenshots, marketing visuals and product demos, but QuickTime is not built for that workflow.
+When a Mac opens the screen of a USB-connected iPhone or iPad (the way QuickTime Player's *New Movie Recording* does), iOS switches to a **demo status bar**: 9:41, full battery and full signal. It's perfect for App Store screenshots, marketing visuals and product demos, but QuickTime is not built for that workflow.
 
-Capture is a small, native macOS app designed around it: plug in your iPhone, take a screenshot or record a video, and find everything in one place.
+Capture is a small, native macOS app designed around it: plug in your iPhone or iPad, take a screenshot or record a video, and find everything in one place.
 
 ## Screenshots
 
@@ -35,7 +35,8 @@ Capture is a small, native macOS app designed around it: plug in your iPhone, ta
 ## Features
 
 - [x] Guided onboarding (English and French)
-- [x] Automatic iPhone detection over USB
+- [x] Automatic iPhone and iPad detection over USB, with a menu to switch between several devices
+- [x] Device frames for every iPhone from iPhone X and every iPad from 2015 to 2026, in their official colors
 - [x] Live preview that fits the window
 - [x] Screenshots at full native resolution
 - [x] Screen recordings with sound
@@ -54,8 +55,8 @@ Screenshots and videos are saved to the folder chosen during onboarding (`~/Desk
 ## Requirements
 
 - macOS 26 or later
-- An iPhone connected **with a USB cable** (the demo status bar is not available over Wi-Fi)
-- Camera access: macOS exposes the iPhone screen as a camera device, so Capture asks for it on first launch. Nothing leaves your Mac.
+- An iPhone or iPad connected **with a USB cable** (the demo status bar is not available over Wi-Fi)
+- Camera access: macOS exposes the device's screen as a camera, so Capture asks for it on first launch. Nothing leaves your Mac.
 
 ## How it works
 
@@ -72,7 +73,7 @@ CMIOObjectSetPropertyData(CMIOObjectID(kCMIOObjectSystemObject), &address, 0, ni
                           UInt32(MemoryLayout.size(ofValue: allow)), &allow)
 ```
 
-The iPhone then shows up as an external `AVCaptureDevice` with the `.muxed` media type. As soon as a capture session starts streaming from it, iOS switches its status bar to demo mode.
+The iPhone or iPad then shows up as an external `AVCaptureDevice` with the `.muxed` media type. As soon as a capture session starts streaming from it, iOS switches its status bar to demo mode.
 
 ## Building
 
@@ -95,7 +96,6 @@ For testing, the app accepts these arguments:
 ```sh
 open -n Capture.app --args --onboarding     # show the onboarding again
 open -n Capture.app --args --language en    # use a language for this launch only (en, fr)
-open -n Capture.app --args --simulate-ipad   # treat the connected iPhone as an iPad (not supported yet)
 ```
 
 In Xcode, add them in *Product › Scheme › Edit Scheme › Run › Arguments*.
@@ -105,7 +105,7 @@ In Xcode, add them in *Product › Scheme › Edit Scheme › Run › Arguments*
 ```
 Capture/
 ├── App/            App entry point
-├── Device/         iPhone discovery, capture session and live preview
+├── Device/         iPhone and iPad discovery, capture session and live preview
 ├── Main/           Main window: sidebar, empty state, preview
 ├── Editor/         Screenshot editor: device frame, background, export
 ├── Library/        Captures found in the save folder
@@ -133,4 +133,4 @@ Issues and pull requests are welcome. Please keep the app native, minimal and in
 
 See [LICENSE](LICENSE).
 
-iPhone, Mac, macOS and QuickTime are trademarks of Apple Inc. This project is not affiliated with or endorsed by Apple.
+iPhone, iPad, Mac, macOS and QuickTime are trademarks of Apple Inc. This project is not affiliated with or endorsed by Apple.

@@ -30,7 +30,7 @@
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Capture uses camera access to display and record the screen of your connected iPhone.</string>
+	<string>Capture uses camera access to display and record the screen of your connected iPhone or iPad.</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2026 The On Air Company.</string>
 	<key>SUEnableAutomaticChecks</key>

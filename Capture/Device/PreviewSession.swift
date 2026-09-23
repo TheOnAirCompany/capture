@@ -173,7 +173,7 @@ enum CaptureError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .noFrame: String(localized: "No image has been received from the iPhone yet.")
+        case .noFrame: String(localized: "No image has been received from the device yet.")
         case .writeFailed: String(localized: "The file could not be written.")
         }
     }
