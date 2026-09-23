@@ -10,7 +10,7 @@ struct ConnectedView: View {
         @Bindable var captureController = captureController
 
         VStack(spacing: 20) {
-            DevicePreview(session: deviceManager.previewSession)
+            DevicePreview(session: deviceManager.previewSession, screenSize: deviceManager.screenSize)
                 .aspectRatio(deviceManager.screenSize ?? CGSize(width: 1179, height: 2556), contentMode: .fit)
                 .opacity(flashes ? 0.2 : 1)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
