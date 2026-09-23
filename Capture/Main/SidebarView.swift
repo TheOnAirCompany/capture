@@ -1,3 +1,4 @@
+import AVFoundation
 import SwiftUI
 
 struct SidebarView: View {
@@ -29,8 +30,12 @@ private struct DeviceHeader: View {
 
             VStack(alignment: .leading, spacing: 3) {
                 if let device = deviceManager.device {
-                    Text(verbatim: device.localizedName)
-                        .font(.headline)
+                    if deviceManager.devices.count > 1 {
+                        DevicePicker(current: device)
+                    } else {
+                        Text(verbatim: device.localizedName)
+                            .font(.headline)
+                    }
                     HStack(spacing: 5) {
                         Circle().fill(.green).frame(width: 7, height: 7)
                         Text("Connected")
@@ -49,5 +54,36 @@ private struct DeviceHeader: View {
             }
         }
         .padding(.vertical, 6)
+    }
+}
+
+/// Chooses between several connected iPhones. Locked during a capture or recording.
+private struct DevicePicker: View {
+    @Environment(DeviceManager.self) private var deviceManager
+    let current: AVCaptureDevice
+
+    var body: some View {
+        Menu {
+            ForEach(deviceManager.devices, id: \.uniqueID) { device in
+                Button {
+                    deviceManager.select(device)
+                } label: {
+                    if device.uniqueID == current.uniqueID {
+                        Label { Text(verbatim: device.localizedName) } icon: { Image(systemName: "checkmark") }
+                    } else {
+                        Text(verbatim: device.localizedName)
+                    }
+                }
+            }
+        } label: {
+            Text(verbatim: current.localizedName)
+                .font(.headline)
+        }
+        .menuStyle(.borderlessButton)
+        .fixedSize()
+        .disabled(deviceManager.isLocked)
+        .help(deviceManager.isLocked
+              ? Text("You can't switch iPhones during a capture or a recording.")
+              : Text("Choose which iPhone to show."))
     }
 }

@@ -551,6 +551,16 @@
         }
       }
     },
+    "Choose which iPhone to show.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez l’iPhone à afficher."
+          }
+        }
+      }
+    },
     "Close": {
       "localizations": {
         "fr": {
@@ -2417,6 +2427,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Jaune"
+          }
+        }
+      }
+    },
+    "You can't switch iPhones during a capture or a recording.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de changer d’iPhone pendant une capture ou un enregistrement."
           }
         }
       }

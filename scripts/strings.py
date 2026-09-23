@@ -11,6 +11,8 @@ FR = {
     "No Device": "Aucun appareil",
     "Connect an iPhone to get started.": "Connectez un iPhone pour commencer.",
     "Connected": "Connecté",
+    "You can't switch iPhones during a capture or a recording.": "Impossible de changer d’iPhone pendant une capture ou un enregistrement.",
+    "Choose which iPhone to show.": "Choisissez l’iPhone à afficher.",
     "No Screenshots Yet": "Aucune capture d’écran",
     "Screenshots you take will appear here.": "Vos captures d’écran apparaîtront ici.",
     "No Videos Yet": "Aucune vidéo",

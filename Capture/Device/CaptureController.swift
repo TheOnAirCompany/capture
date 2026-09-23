@@ -23,7 +23,9 @@ final class CaptureController {
         let format = Preferences.captureFormat, scale = Preferences.captureScale.value
         do {
             let url = try nextFileURL(extension: format.contentType.preferredFilenameExtension ?? "png", isVideo: false)
+            deviceManager.isLocked = true
             Task.detached(priority: .userInitiated) {
+                defer { Task { @MainActor in self.deviceManager.isLocked = self.isRecording } }
                 do {
                     try session.writeScreenshot(to: url, format: format, scale: scale)
                     await MainActor.run {
@@ -45,6 +47,7 @@ final class CaptureController {
             recordingStartDate = nil
             deviceManager.previewSession.stopRecording { error in
                 Task { @MainActor in
+                    self.deviceManager.isLocked = false
                     self.library.reload()
                     if let error { self.errorMessage = error.localizedDescription }
                 }
@@ -57,6 +60,7 @@ final class CaptureController {
                 recordsSound: Preferences.recordsSound
             )
             recordingStartDate = .now
+            deviceManager.isLocked = true
         } catch {
             errorMessage = error.localizedDescription
         }
