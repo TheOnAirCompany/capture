@@ -239,8 +239,17 @@ final class VideoProject {
         playerItem.videoComposition = output.videoComposition
         playerItem.audioMix = output.audioMix
         playerItem.audioTimePitchAlgorithm = .spectral
+        // Show a paused frame only once it has been composed, not the frame layers alone.
+        playerItem.seekingWaitsForVideoCompositionRendering = true
         player.replaceCurrentItem(with: playerItem)
-        seek(to: time)
+
+        // Seeking before the item is ready is ignored, which left the screen black while paused.
+        for _ in 0..<40 where playerItem.status == .unknown {
+            try? await Task.sleep(for: .milliseconds(50))
+        }
+        guard player.currentItem === playerItem else { return }
+        currentTime = time
+        await player.seek(to: CMTime(seconds: time, preferredTimescale: 600), toleranceBefore: .zero, toleranceAfter: .zero)
         if wasPlaying { player.play() }
     }
 
