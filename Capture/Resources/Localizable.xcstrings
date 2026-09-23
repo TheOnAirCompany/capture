@@ -1,0 +1,486 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "9:41, full battery and full signal. Automatically, with no notifications.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "9:41, batterie pleine et réseau au maximum. Automatiquement, sans notifications."
+          }
+        }
+      }
+    },
+    "A Perfect Status Bar": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une barre d’état parfaite"
+          }
+        }
+      }
+    },
+    "A cable is required: the clean status bar isn't available over Wi-Fi.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le câble est indispensable : la barre d’état épurée n’est pas disponible en Wi‑Fi."
+          }
+        }
+      }
+    },
+    "Access granted": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accès autorisé"
+          }
+        }
+      }
+    },
+    "Access was denied. You can turn it on in System Settings > Privacy & Security > Camera.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’accès a été refusé. Vous pouvez l’activer dans Réglages Système > Confidentialité et sécurité > Caméra."
+          }
+        }
+      }
+    },
+    "Add an iPhone frame to your captures when you edit them.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajoutez un cadre d’iPhone à vos captures lors de l’édition."
+          }
+        }
+      }
+    },
+    "Allow Access": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autoriser l’accès"
+          }
+        }
+      }
+    },
+    "Allow Camera Access": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autorisez l’accès à la caméra"
+          }
+        }
+      }
+    },
+    "Back": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retour"
+          }
+        }
+      }
+    },
+    "Built for clean iPhone captures": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pensé pour des captures iPhone impeccables"
+          }
+        }
+      }
+    },
+    "Camera Access Required": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accès à la caméra requis"
+          }
+        }
+      }
+    },
+    "Capture": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture"
+          }
+        }
+      }
+    },
+    "Capture needs camera access to display your iPhone's screen.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture a besoin de l’accès à la caméra pour afficher l’écran de votre iPhone."
+          }
+        }
+      }
+    },
+    "Capture your iPhone screen in one click, at full native resolution.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capturez l’écran de votre iPhone en un clic, en pleine résolution."
+          }
+        }
+      }
+    },
+    "Connect an iPhone to get started.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connectez un iPhone pour commencer."
+          }
+        }
+      }
+    },
+    "Connect your iPhone": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connectez votre iPhone"
+          }
+        }
+      }
+    },
+    "Connect your iPhone to this Mac with a cable.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connectez votre iPhone à ce Mac avec un câble."
+          }
+        }
+      }
+    },
+    "Connected": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connecté"
+          }
+        }
+      }
+    },
+    "Continue": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuer"
+          }
+        }
+      }
+    },
+    "Device Frames": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cadres d’appareil"
+          }
+        }
+      }
+    },
+    "Everything QuickTime does, only faster and more powerful.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout ce que fait QuickTime, en plus pratique et plus complet."
+          }
+        }
+      }
+    },
+    "Find all your captures in one place.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retrouvez toutes vos captures au même endroit."
+          }
+        }
+      }
+    },
+    "Get Started": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commencer"
+          }
+        }
+      }
+    },
+    "Need Help?": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Besoin d’aide ?"
+          }
+        }
+      }
+    },
+    "No Device": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun appareil"
+          }
+        }
+      }
+    },
+    "No Screenshots Yet": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune capture d’écran"
+          }
+        }
+      }
+    },
+    "No Videos Yet": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune vidéo"
+          }
+        }
+      }
+    },
+    "Open System Settings": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir les Réglages Système"
+          }
+        }
+      }
+    },
+    "Plug your iPhone into this Mac with a USB cable to preview its screen, take screenshots and record videos.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Branchez votre iPhone à ce Mac avec un câble USB pour prévisualiser son écran, prendre des captures et enregistrer des vidéos."
+          }
+        }
+      }
+    },
+    "Preview": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aperçu"
+          }
+        }
+      }
+    },
+    "Recents": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Récents"
+          }
+        }
+      }
+    },
+    "Record videos with sound, straight from your iPhone.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrez des vidéos avec le son, directement depuis votre iPhone."
+          }
+        }
+      }
+    },
+    "Screen Recordings": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture vidéo"
+          }
+        }
+      }
+    },
+    "Screen recordings you make will appear here.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vos enregistrements vidéo apparaîtront ici."
+          }
+        }
+      }
+    },
+    "Screenshots": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Captures d’écran"
+          }
+        }
+      }
+    },
+    "Screenshots you take will appear here.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vos captures d’écran apparaîtront ici."
+          }
+        }
+      }
+    },
+    "Take pixel-perfect screenshots and screen recordings of your iPhone, with the clean 9:41 status bar Apple uses in its own product shots.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réalisez des captures d’écran et des vidéos impeccables de votre iPhone, avec la barre d’état épurée à 9:41 qu’Apple utilise dans ses propres visuels."
+          }
+        }
+      }
+    },
+    "That's it!": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "C’est tout !"
+          }
+        }
+      }
+    },
+    "Try unplugging your iPhone and plugging it back in.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Essayez de débrancher puis de rebrancher votre iPhone."
+          }
+        }
+      }
+    },
+    "Unlock your iPhone and tap Trust when asked.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déverrouillez votre iPhone et touchez « Se fier » si on vous le demande."
+          }
+        }
+      }
+    },
+    "Use a USB cable": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisez un câble USB"
+          }
+        }
+      }
+    },
+    "Use a data cable: some cables can only charge.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisez un câble de données : certains câbles ne font que charger."
+          }
+        }
+      }
+    },
+    "Videos": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vidéos"
+          }
+        }
+      }
+    },
+    "Welcome to Capture": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bienvenue dans Capture"
+          }
+        }
+      }
+    },
+    "Your captures never leave your Mac.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vos captures ne quittent jamais votre Mac."
+          }
+        }
+      }
+    },
+    "Your iPhone doesn't appear?": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre iPhone n’apparaît pas ?"
+          }
+        }
+      }
+    },
+    "Your iPhone will appear here automatically.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre iPhone apparaîtra ici automatiquement."
+          }
+        }
+      }
+    },
+    "macOS treats your iPhone's screen like a camera. Capture needs this access to display and record it.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS considère l’écran de votre iPhone comme une caméra. Capture a besoin de cet accès pour l’afficher et l’enregistrer."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

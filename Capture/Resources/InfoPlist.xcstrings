@@ -1,0 +1,16 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "NSCameraUsageDescription": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture utilise l’accès à la caméra pour afficher et enregistrer l’écran de votre iPhone connecté."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
