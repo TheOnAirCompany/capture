@@ -72,6 +72,8 @@ struct ScreenshotComposition: View {
         ZStack {
             background(layout)
             device(layout)
+                // One shadow for the whole device, not one per part (such as the Dynamic Island).
+                .compositingGroup()
                 .shadow(
                     color: .black.opacity(style.showsShadow && style.background != .none ? 0.28 : 0),
                     radius: layout.device.width * 0.035,
