@@ -111,18 +111,28 @@ struct VideoTimeline: View {
                 }
                 .frame(height: videoHeight)
 
+                // One block per segment, aligned with the video track, so cuts show on the sound too.
                 HStack(spacing: 0) {
                     ForEach(project.edits.segments) { segment in
+                        let isSelected = project.selectedSegmentID == segment.id
                         Waveform(
                             peaks: project.waveform,
                             segment: segment,
                             isMuted: project.edits.isMuted || !project.hasAudio
                         )
                         .frame(width: segment.duration / project.edits.speed * pointsPerSecond, height: audioHeight)
+                        .background(.blue.opacity(isSelected ? 0.2 : 0.12), in: .rect(cornerRadius: 6))
+                        .clipShape(.rect(cornerRadius: 6))
+                        .overlay {
+                            if isSelected {
+                                RoundedRectangle(cornerRadius: 6).strokeBorder(.yellow.opacity(0.8), lineWidth: 2)
+                            }
+                        }
+                        .padding(.trailing, 2)
+                        .contentShape(.rect)
+                        .onTapGesture { project.selectedSegmentID = segment.id }
                     }
                 }
-                .background(.blue.opacity(0.12), in: .rect(cornerRadius: 8))
-                .clipShape(.rect(cornerRadius: 8))
                 .frame(height: audioHeight)
 
                 MusicTrack(project: project)

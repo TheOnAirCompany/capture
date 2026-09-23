@@ -14,6 +14,10 @@
   <img src="https://img.shields.io/badge/Swift-6-orange" alt="Swift 6">
 </p>
 
+<p align="center">
+  <img src="Design/Screenshots/preview.png" alt="Live preview of a connected iPhone with the 9:41 status bar">
+</p>
+
 ---
 
 ## Why Capture?
@@ -21,6 +25,12 @@
 When a Mac opens the screen of a USB-connected iPhone (the way QuickTime Player's *New Movie Recording* does), iOS switches to a **demo status bar**: 9:41, full battery, full signal and no notifications. It's perfect for App Store screenshots, marketing visuals and product demos, but QuickTime is not built for that workflow.
 
 Capture is a small, native macOS app designed around it: plug in your iPhone, take a screenshot or record a video, and find everything in one place.
+
+## Screenshots
+
+| Screenshot editor | Video editor |
+| --- | --- |
+| ![Screenshot editor with a device frame, background and export options](Design/Screenshots/screenshot-editor.png) | ![Video editor with a timeline, tools and a device frame on a 16:9 background](Design/Screenshots/video-editor.png) |
 
 ## Features
 
