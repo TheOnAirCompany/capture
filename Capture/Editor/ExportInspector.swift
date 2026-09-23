@@ -4,6 +4,7 @@ import SwiftUI
 struct ExportInspector: View {
     let image: CGImage?
     let item: CaptureItem?
+    let suggestions: SuggestedBackgrounds
 
     @Environment(ExportSettings.self) private var settings
     @State private var copied = false
@@ -39,7 +40,7 @@ struct ExportInspector: View {
 
                 BezelSection(image: image)
 
-                BackgroundSection()
+                BackgroundSection(suggestions: suggestions)
 
                 section("Margin") {
                     HStack {
@@ -83,6 +84,10 @@ struct ExportInspector: View {
         }
     }
 
+    private func size(of image: CGImage) -> CGSize {
+        CGSize(width: image.width, height: image.height)
+    }
+
     private var exportTitle: LocalizedStringKey {
         if exported { return "Exported" }
         return Preferences.exportsToCaptureFolder ? "Export" : "Export…"
@@ -97,12 +102,14 @@ struct ExportInspector: View {
 
     private func outputSize(scale: Double) -> CGSize? {
         guard let image else { return nil }
-        let layout = CompositionLayout(screen: CGSize(width: image.width, height: image.height), style: settings.style())
+        let size = CGSize(width: image.width, height: image.height)
+        let layout = CompositionLayout(image: size, style: settings.style(for: size))
         return CGSize(width: (layout.canvas.width * scale).rounded(), height: (layout.canvas.height * scale).rounded())
     }
 
     private func copy() {
-        guard let image, let rendered = ScreenshotExporter.render(image, style: settings.style(for: .png), scale: settings.scale),
+        guard let image,
+              let rendered = ScreenshotExporter.render(image, style: settings.style(for: size(of: image), format: .png), scale: settings.scale),
               ScreenshotExporter.copy(rendered) else { return }
         copied = true
         Task {
@@ -114,7 +121,7 @@ struct ExportInspector: View {
     private func export() {
         guard let image, let item else { return }
         let format = settings.format
-        guard let rendered = ScreenshotExporter.render(image, style: settings.style(for: format), scale: settings.scale) else {
+        guard let rendered = ScreenshotExporter.render(image, style: settings.style(for: size(of: image), format: format), scale: settings.scale) else {
             errorMessage = CaptureError.writeFailed.localizedDescription
             return
         }
@@ -171,10 +178,9 @@ private struct BezelSection: View {
     let image: CGImage?
     @Environment(ExportSettings.self) private var settings
 
-    private var isSupported: Bool {
-        guard let image else { return true }
-        return DisplayCorners.hasRoundedDisplay(CGSize(width: image.width, height: image.height))
-    }
+    private var size: CGSize? { image.map { CGSize(width: $0.width, height: $0.height) } }
+    private var matching: [DeviceModel] { size.map(DeviceModel.matching) ?? [] }
+    private var model: DeviceModel? { size.flatMap(settings.model(for:)) }
 
     var body: some View {
         @Bindable var settings = settings
@@ -184,29 +190,54 @@ private struct BezelSection: View {
                 Text("Device Frame").font(.headline)
             }
             .toggleStyle(.switch)
-            .disabled(!isSupported)
+            .disabled(model == nil)
 
-            if !isSupported {
-                Text("Frames aren't available for iPhones with a Home button.")
-                    .font(.callout)
-                    .foregroundStyle(.secondary)
-            } else {
-                HStack(spacing: 8) {
-                    ForEach(BezelFinish.allCases) { finish in
-                        FinishOption(finish: finish, isSelected: settings.finish == finish) {
-                            settings.finish = finish
+            if let model {
+                Picker("Model", selection: $settings.modelID) {
+                    Text("Automatic (\(matching.first?.name ?? model.name))").tag(String?.none)
+                    if !matching.isEmpty {
+                        Section("Same Screen as This Capture") {
+                            ForEach(matching) { Text(verbatim: $0.name).tag(Optional($0.id)) }
+                        }
+                    }
+                    Section("Other Models") {
+                        ForEach(DeviceModel.all.reversed().filter { !matching.contains($0) }) {
+                            Text(verbatim: $0.name).tag(Optional($0.id))
                         }
                     }
                 }
                 .disabled(!settings.showsBezel)
+
+                if !matching.isEmpty, !matching.contains(model) {
+                    Text("This model has a different screen size: the capture is scaled to fill it.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
+                ScrollView(.horizontal) {
+                    HStack(spacing: 8) {
+                        ForEach(model.finishes) { finish in
+                            FinishOption(finish: finish, isSelected: settings.finish(for: model) == finish) {
+                                settings.finishHex = finish.hex
+                            }
+                        }
+                    }
+                    .padding(2)
+                }
+                .scrollIndicators(.never)
+                .disabled(!settings.showsBezel)
                 .opacity(settings.showsBezel ? 1 : 0.4)
+            } else {
+                Text("Frames aren't available for this capture.")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
             }
         }
     }
 }
 
 private struct FinishOption: View {
-    let finish: BezelFinish
+    let finish: DeviceFinish
     let isSelected: Bool
     let action: () -> Void
 
@@ -215,7 +246,7 @@ private struct FinishOption: View {
             VStack(spacing: 6) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 9, style: .continuous)
-                        .fill(LinearGradient(colors: finish.colors, startPoint: .leading, endPoint: .trailing))
+                        .fill(LinearGradient(colors: finish.bandColors, startPoint: .leading, endPoint: .trailing))
                     RoundedRectangle(cornerRadius: 7, style: .continuous)
                         .fill(.black)
                         .padding(2)
@@ -223,16 +254,18 @@ private struct FinishOption: View {
                         .fill(LinearGradient(colors: [.blue.opacity(0.6), .pink.opacity(0.5)], startPoint: .top, endPoint: .bottom))
                         .padding(3.5)
                 }
-                .frame(width: 30, height: 60)
+                .frame(width: 28, height: 56)
                 .padding(8)
-                .frame(maxWidth: .infinity)
                 .background(isSelected ? AnyShapeStyle(.tint.opacity(0.12)) : AnyShapeStyle(.clear), in: .rect(cornerRadius: 10))
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
                         .strokeBorder(isSelected ? AnyShapeStyle(.tint) : AnyShapeStyle(.clear), lineWidth: 2)
                 )
-                Text(finish.title)
+                Text(finish.name)
                     .font(.caption)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.center)
+                    .frame(width: 64)
                     .foregroundStyle(isSelected ? .primary : .secondary)
             }
             .contentShape(.rect)
@@ -242,7 +275,12 @@ private struct FinishOption: View {
 }
 
 private struct BackgroundSection: View {
+    let suggestions: SuggestedBackgrounds
     @Environment(ExportSettings.self) private var settings
+    @State private var addsColor = false
+    @State private var addsGradient = false
+
+    private let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 6)
 
     var body: some View {
         @Bindable var settings = settings
@@ -256,57 +294,89 @@ private struct BackgroundSection: View {
             .pickerStyle(.segmented)
             .labelsHidden()
 
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 5), spacing: 8) {
-                Swatch(isSelected: !settings.hasBackground, label: "None") {
+            LazyVGrid(columns: columns, spacing: 8) {
+                Swatch(isSelected: !settings.hasBackground) {
                     CheckerSwatch()
                 } action: {
                     settings.hasBackground = false
                 }
+                .help(Text("No Background"))
 
                 switch settings.backgroundKind {
-                case .color:
-                    ForEach(ColorPresets.all.indices, id: \.self) { index in
-                        let color = ColorPresets.all[index]
-                        Swatch(isSelected: settings.hasBackground && settings.color == color) {
-                            color
-                        } action: {
-                            settings.color = color
-                            settings.hasBackground = true
-                        }
-                    }
-                    ColorPicker("Custom Color", selection: Binding(
-                        get: { settings.color },
-                        set: { settings.color = $0; settings.hasBackground = true }
-                    ))
-                    .labelsHidden()
-                case .gradient:
-                    ForEach(GradientPresets.all.indices, id: \.self) { index in
-                        Swatch(isSelected: settings.hasBackground && settings.gradientIndex == index) {
-                            LinearGradient(colors: GradientPresets.all[index], startPoint: .topLeading, endPoint: .bottomTrailing)
-                        } action: {
-                            settings.gradientIndex = index
-                            settings.hasBackground = true
-                        }
-                    }
-                case .image:
-                    if let url = settings.backgroundImage, let image = NSImage(contentsOf: url) {
-                        Swatch(isSelected: settings.hasBackground) {
-                            Image(nsImage: image).resizable().scaledToFill()
-                        } action: {
-                            settings.hasBackground = true
-                        }
-                    }
-                    Swatch(isSelected: false) {
-                        Image(systemName: "plus")
-                            .font(.title3)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .background(.quaternary)
-                    } action: {
-                        chooseImage()
-                    }
+                case .color: colorSwatches
+                case .gradient: gradientSwatches
+                case .image: imageSwatches
                 }
             }
         }
+    }
+
+    @ViewBuilder
+    private var colorSwatches: some View {
+        ForEach(suggestions.colors.map(\.hex), id: \.self) { hex in
+            Swatch(isSelected: isSelected(color: hex), isSuggestion: true) {
+                Color(hex: hex)
+            } action: {
+                settings.selectColor(hex)
+            }
+            .help(Text("Suggested from the capture"))
+        }
+        ForEach(settings.customColors, id: \.self) { hex in
+            Swatch(isSelected: isSelected(color: hex)) {
+                Color(hex: hex)
+            } action: {
+                settings.selectColor(hex)
+            }
+            .help(Text(verbatim: hex))
+            .contextMenu {
+                Button("Remove", role: .destructive) { settings.customColors.removeAll { $0 == hex } }
+            }
+        }
+        AddSwatch { addsColor = true }
+            .popover(isPresented: $addsColor, arrowEdge: .bottom) { AddColorsView() }
+    }
+
+    @ViewBuilder
+    private var gradientSwatches: some View {
+        ForEach(suggestions.gradients.map { $0.map(\.hex) }, id: \.self) { hexes in
+            gradientSwatch(hexes, isSuggestion: true)
+                .help(Text("Suggested from the capture"))
+        }
+        ForEach(settings.customGradients, id: \.self) { hexes in
+            gradientSwatch(hexes)
+                .contextMenu {
+                    Button("Remove", role: .destructive) { settings.customGradients.removeAll { $0 == hexes } }
+                }
+        }
+        ForEach(GradientPresets.all, id: \.self) { hexes in
+            gradientSwatch(hexes)
+        }
+        AddSwatch { addsGradient = true }
+            .popover(isPresented: $addsGradient, arrowEdge: .bottom) { AddGradientView() }
+    }
+
+    @ViewBuilder
+    private var imageSwatches: some View {
+        if let url = settings.backgroundImage, let image = NSImage(contentsOf: url) {
+            Swatch(isSelected: settings.hasBackground) {
+                Image(nsImage: image).resizable().scaledToFill()
+            } action: {
+                settings.hasBackground = true
+            }
+        }
+        AddSwatch(action: chooseImage)
+    }
+
+    private func gradientSwatch(_ hexes: [String], isSuggestion: Bool = false) -> some View {
+        Swatch(isSelected: settings.hasBackground && settings.gradientHexes == hexes, isSuggestion: isSuggestion) {
+            LinearGradient(colors: hexes.compactMap { Color(hex: $0) }, startPoint: .topLeading, endPoint: .bottomTrailing)
+        } action: {
+            settings.selectGradient(hexes)
+        }
+    }
+
+    private func isSelected(color hex: String) -> Bool {
+        settings.hasBackground && settings.colorHex == hex
     }
 
     private func chooseImage() {
@@ -319,30 +389,148 @@ private struct BackgroundSection: View {
     }
 }
 
+/// Paste one or more hex codes, or pick a color, to add it to the palette.
+private struct AddColorsView: View {
+    @Environment(ExportSettings.self) private var settings
+    @Environment(\.dismiss) private var dismiss
+    @State private var text = ""
+    @State private var picked = Color.white
+    @State private var isInvalid = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Add Colors").font(.headline)
+            TextField("#FF9500, #34C759…", text: $text)
+                .textFieldStyle(.roundedBorder)
+                .font(.body.monospaced())
+                .onSubmit(add)
+            Text("Paste one or more hex codes.")
+                .font(.caption)
+                .foregroundStyle(isInvalid ? .red : .secondary)
+            HStack {
+                ColorPicker("Or pick a color", selection: $picked, supportsOpacity: false)
+                Spacer()
+                Button("Add Color") {
+                    _ = settings.addColors(from: picked.hex)
+                    dismiss()
+                }
+            }
+            Divider()
+            HStack {
+                Spacer()
+                Button("Cancel", role: .cancel) { dismiss() }
+                Button("Add", action: add)
+                    .buttonStyle(.borderedProminent)
+                    .disabled(text.isEmpty)
+            }
+        }
+        .padding(16)
+        .frame(width: 300)
+        .onAppear {
+            // Prefill with hex codes already on the clipboard.
+            if let pasted = NSPasteboard.general.string(forType: .string), !Color.hexCodes(in: pasted).isEmpty {
+                text = pasted
+            }
+        }
+    }
+
+    private func add() {
+        if settings.addColors(from: text) {
+            dismiss()
+        } else {
+            isInvalid = true
+        }
+    }
+}
+
+private struct AddGradientView: View {
+    @Environment(ExportSettings.self) private var settings
+    @Environment(\.dismiss) private var dismiss
+    @State private var start = ""
+    @State private var end = ""
+
+    private var colors: [String]? {
+        guard let first = Color(hex: start)?.hex, let last = Color(hex: end)?.hex else { return nil }
+        return [first, last]
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Add a Gradient").font(.headline)
+            HStack {
+                TextField("Start", text: $start, prompt: Text(verbatim: "#A1C4FD"))
+                TextField("End", text: $end, prompt: Text(verbatim: "#FBC2EB"))
+            }
+            .textFieldStyle(.roundedBorder)
+            .font(.body.monospaced())
+            RoundedRectangle(cornerRadius: 8)
+                .fill(LinearGradient(colors: (colors ?? []).compactMap { Color(hex: $0) }, startPoint: .leading, endPoint: .trailing))
+                .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(.separator))
+                .frame(height: 32)
+            HStack {
+                Spacer()
+                Button("Cancel", role: .cancel) { dismiss() }
+                Button("Add") {
+                    guard let colors else { return }
+                    settings.customGradients.insert(colors, at: 0)
+                    settings.selectGradient(colors)
+                    dismiss()
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(colors == nil)
+            }
+        }
+        .padding(16)
+        .frame(width: 300)
+    }
+}
+
 private struct Swatch<Content: View>: View {
     let isSelected: Bool
-    var label: LocalizedStringKey?
+    var isSuggestion = false
     @ViewBuilder let content: Content
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 4) {
-                content
-                    .frame(height: 44)
-                    .frame(maxWidth: .infinity)
-                    .clipShape(.rect(cornerRadius: 8))
-                    .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(.separator))
-                    .padding(2)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .strokeBorder(isSelected ? AnyShapeStyle(.tint) : AnyShapeStyle(.clear), lineWidth: 2)
-                    )
-                if let label {
-                    Text(label).font(.caption2).foregroundStyle(.secondary)
+            content
+                .aspectRatio(1, contentMode: .fill)
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .clipShape(.rect(cornerRadius: 8))
+                .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(.separator))
+                .overlay(alignment: .bottomTrailing) {
+                    if isSuggestion {
+                        Image(systemName: "sparkles")
+                            .font(.system(size: 9, weight: .semibold))
+                            .foregroundStyle(.white)
+                            .shadow(color: .black.opacity(0.5), radius: 1)
+                            .padding(4)
+                    }
                 }
-            }
-            .contentShape(.rect)
+                .padding(2)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .strokeBorder(isSelected ? AnyShapeStyle(.tint) : AnyShapeStyle(.clear), lineWidth: 2)
+                )
+                .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+private struct AddSwatch: View {
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: "plus")
+                .font(.title3)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity)
+                .aspectRatio(1, contentMode: .fit)
+                .background(.quaternary.opacity(0.6), in: .rect(cornerRadius: 8))
+                .padding(2)
+                .contentShape(.rect)
         }
         .buttonStyle(.plain)
     }

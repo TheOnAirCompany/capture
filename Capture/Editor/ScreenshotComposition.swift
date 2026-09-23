@@ -1,18 +1,22 @@
 import SwiftUI
 
 struct CompositionStyle: Equatable {
+    var model: DeviceModel?
     var showsBezel: Bool
-    var finish: BezelFinish
+    var finish: DeviceFinish?
     var background: CompositionBackground
     /// Space around the device, as a fraction of the device width.
     var margin: Double
     var showsShadow: Bool
 }
 
-/// Sizes of a composed screenshot, in pixels of the original capture.
+/// Sizes of a composed screenshot, in pixels of the device screen.
 struct CompositionLayout {
     let screen: CGSize
+    let isPortrait: Bool
     let screenRadius: CGFloat
+    /// Pixels per point of the device, to size the notch or Dynamic Island.
+    let pixelsPerPoint: CGFloat
     let border: CGFloat
     let band: CGFloat
     let buttonDepth: CGFloat
@@ -20,15 +24,28 @@ struct CompositionLayout {
     let margin: CGFloat
     let canvas: CGSize
 
-    init(screen: CGSize, style: CompositionStyle) {
-        self.screen = screen
-        let shortSide = min(screen.width, screen.height)
-        screenRadius = shortSide * DisplayCorners.ratio(for: screen)
+    init(image: CGSize, style: CompositionStyle) {
+        isPortrait = image.height >= image.width
+        let hasBezel = style.showsBezel && style.model != nil
 
-        let hasBezel = style.showsBezel && DisplayCorners.hasRoundedDisplay(screen)
+        // With a frame, the screen takes the size of the chosen model.
+        if hasBezel, let model = style.model {
+            screen = isPortrait ? model.screen : CGSize(width: model.screen.height, height: model.screen.width)
+        } else {
+            screen = image
+        }
+        let shortSide = min(screen.width, screen.height)
+        if let model = style.model {
+            screenRadius = shortSide * model.cornerRadius * model.scale / model.screen.width
+            pixelsPerPoint = shortSide / (model.screen.width / model.scale)
+        } else {
+            screenRadius = shortSide * DisplayCorners.ratio(for: image)
+            pixelsPerPoint = 3
+        }
+
         border = hasBezel ? shortSide * 0.030 : 0
         band = hasBezel ? shortSide * 0.021 : 0
-        buttonDepth = hasBezel && screen.height > screen.width ? shortSide * 0.007 : 0
+        buttonDepth = hasBezel && isPortrait ? shortSide * 0.007 : 0
 
         let frame = border + band
         device = CGSize(width: screen.width + 2 * (frame + buttonDepth), height: screen.height + 2 * frame)
@@ -46,7 +63,7 @@ struct ScreenshotComposition: View {
     var showsTransparency = false
 
     private var layout: CompositionLayout {
-        CompositionLayout(screen: CGSize(width: image.width, height: image.height), style: style)
+        CompositionLayout(image: CGSize(width: image.width, height: image.height), style: style)
     }
 
     var body: some View {
@@ -85,11 +102,12 @@ struct ScreenshotComposition: View {
 
     private func device(_ layout: CompositionLayout) -> some View {
         let frame = layout.border + layout.band
+        let bandColors = style.finish?.bandColors ?? [.gray]
         return ZStack {
             if frame > 0 {
-                SideButtons(layout: layout, finish: style.finish)
+                SideButtons(layout: layout, colors: bandColors)
                 RoundedRectangle(cornerRadius: layout.screenRadius + frame, style: .continuous)
-                    .fill(LinearGradient(colors: style.finish.colors, startPoint: .leading, endPoint: .trailing))
+                    .fill(LinearGradient(colors: bandColors, startPoint: .leading, endPoint: .trailing))
                     .overlay(
                         RoundedRectangle(cornerRadius: layout.screenRadius + frame, style: .continuous)
                             .strokeBorder(.black.opacity(0.25), lineWidth: layout.band * 0.12)
@@ -102,28 +120,51 @@ struct ScreenshotComposition: View {
             }
             Image(decorative: image, scale: 1)
                 .resizable()
+                .scaledToFill()
                 .frame(width: layout.screen.width, height: layout.screen.height)
                 .clipShape(RoundedRectangle(cornerRadius: layout.screenRadius, style: .continuous))
-            if frame > 0, layout.screen.height > layout.screen.width, DisplayCorners.hasDynamicIsland(layout.screen) {
-                // Same size on every model: 126 × 37 pt, 11 pt from the top, at 3x.
-                Capsule()
-                    .fill(.black)
-                    .frame(width: 126 * 3, height: 37 * 3)
-                    .offset(y: -layout.screen.height / 2 + (11 + 37 / 2) * 3)
+            if frame > 0, layout.isPortrait, let cutout = style.model?.cutout {
+                Cutout(kind: cutout, pixelsPerPoint: layout.pixelsPerPoint)
+                    .frame(width: layout.screen.width, height: layout.screen.height, alignment: .top)
             }
         }
         .frame(width: layout.device.width, height: layout.device.height)
     }
 }
 
+/// Screenshots don't include the notch or the Dynamic Island, so frames draw them.
+private struct Cutout: View {
+    let kind: DeviceModel.Cutout
+    let pixelsPerPoint: CGFloat
+
+    var body: some View {
+        switch kind {
+        case .dynamicIsland:
+            // Same size on every model: 126 × 37 pt, 11 pt from the top.
+            Capsule()
+                .fill(.black)
+                .frame(width: 126 * pixelsPerPoint, height: 37 * pixelsPerPoint)
+                .padding(.top, 11 * pixelsPerPoint)
+        case .notch(let width, let height):
+            UnevenRoundedRectangle(
+                bottomLeadingRadius: height * 0.65 * pixelsPerPoint,
+                bottomTrailingRadius: height * 0.65 * pixelsPerPoint,
+                style: .continuous
+            )
+            .fill(.black)
+            .frame(width: width * pixelsPerPoint, height: height * pixelsPerPoint)
+        }
+    }
+}
+
 /// Action button and volume buttons on the left, side button on the right.
 private struct SideButtons: View {
     let layout: CompositionLayout
-    let finish: BezelFinish
+    let colors: [Color]
 
     var body: some View {
         let height = layout.device.height
-        let color = LinearGradient(colors: finish.colors, startPoint: .top, endPoint: .bottom)
+        let color = LinearGradient(colors: colors, startPoint: .top, endPoint: .bottom)
         ZStack(alignment: .topLeading) {
             Color.clear
             if layout.buttonDepth > 0 {

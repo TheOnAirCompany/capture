@@ -25,31 +25,6 @@ nonisolated enum ExportFormat: String, CaseIterable, Identifiable {
     var supportsTransparency: Bool { self != .jpeg }
 }
 
-enum BezelFinish: String, CaseIterable, Identifiable {
-    case black, silver, natural, blue
-
-    var id: Self { self }
-
-    var title: LocalizedStringResource {
-        switch self {
-        case .black: "Black"
-        case .silver: "Silver"
-        case .natural: "Natural"
-        case .blue: "Blue"
-        }
-    }
-
-    /// Metal band gradient, from the lit edge to the shaded edge.
-    var colors: [Color] {
-        switch self {
-        case .black: [Color(white: 0.36), Color(white: 0.16), Color(white: 0.28)]
-        case .silver: [Color(white: 0.93), Color(white: 0.76), Color(white: 0.88)]
-        case .natural: [Color(red: 0.78, green: 0.75, blue: 0.70), Color(red: 0.55, green: 0.53, blue: 0.49), Color(red: 0.70, green: 0.67, blue: 0.62)]
-        case .blue: [Color(red: 0.36, green: 0.42, blue: 0.53), Color(red: 0.20, green: 0.24, blue: 0.32), Color(red: 0.30, green: 0.35, blue: 0.45)]
-        }
-    }
-}
-
 enum BackgroundKind: String, CaseIterable, Identifiable {
     case color, gradient, image
 
@@ -73,22 +48,19 @@ enum CompositionBackground: Equatable {
 }
 
 enum GradientPresets {
-    static let all: [[Color]] = [
-        [Color(red: 0.99, green: 0.91, blue: 0.85), Color(red: 0.87, green: 0.88, blue: 0.97)],
-        [Color(red: 0.63, green: 0.77, blue: 0.99), Color(red: 0.98, green: 0.76, blue: 0.92)],
-        [Color(red: 0.14, green: 0.15, blue: 0.18), Color(red: 0.27, green: 0.29, blue: 0.34)],
-        [Color(red: 0.94, green: 0.58, blue: 0.98), Color(red: 0.36, green: 0.43, blue: 0.88)],
-        [Color(red: 0.99, green: 0.80, blue: 0.53), Color(red: 0.98, green: 0.49, blue: 0.45)],
-    ]
-}
-
-enum ColorPresets {
-    static let all: [Color] = [
-        .white,
-        Color(red: 0.95, green: 0.95, blue: 0.97),
-        Color(red: 0.11, green: 0.11, blue: 0.12),
-        Color(red: 0.0, green: 0.48, blue: 1.0),
-        Color(red: 1.0, green: 0.84, blue: 0.04),
+    static let all: [[String]] = [
+        ["#FDE8D9", "#DEE0F7"],
+        ["#A1C4FD", "#FBC2EB"],
+        ["#232529", "#454A57"],
+        ["#F093FB", "#5B6EE1"],
+        ["#FDCC87", "#FA7D73"],
+        ["#84FAB0", "#8FD3F4"],
+        ["#FAD0C4", "#FFD1FF"],
+        ["#0F2027", "#2C5364"],
+        ["#FFECD2", "#FCB69F"],
+        ["#C2E9FB", "#A1C4FD"],
+        ["#D4FC79", "#96E6A1"],
+        ["#434343", "#000000"],
     ]
 }
 
@@ -98,57 +70,96 @@ final class ExportSettings {
     var format: ExportFormat { didSet { save(format.rawValue, "format") } }
     var scale: Double { didSet { save(scale, "scale") } }
     var showsBezel: Bool { didSet { save(showsBezel, "showsBezel") } }
-    var finish: BezelFinish { didSet { save(finish.rawValue, "finish") } }
+    /// Chosen device model, or nil to pick one matching the capture.
+    var modelID: String? { didSet { save(modelID, "modelID") } }
+    var finishHex: String? { didSet { save(finishHex, "finishHex") } }
     var backgroundKind: BackgroundKind { didSet { save(backgroundKind.rawValue, "backgroundKind") } }
     var hasBackground: Bool { didSet { save(hasBackground, "hasBackground") } }
-    var color: Color = ColorPresets.all[0]
-    var gradientIndex: Int { didSet { save(gradientIndex, "gradientIndex") } }
+    var colorHex: String { didSet { save(colorHex, "colorHex") } }
+    var gradientHexes: [String] { didSet { save(gradientHexes, "gradientHexes") } }
     var backgroundImage: URL? { didSet { save(backgroundImage?.path, "backgroundImage") } }
     var margin: Double { didSet { save(margin, "margin") } }
     var showsShadow: Bool { didSet { save(showsShadow, "showsShadow") } }
+    /// The user's own palette, editable by pasting hex codes.
+    var customColors: [String] { didSet { save(customColors, "customColors") } }
+    var customGradients: [[String]] { didSet { save(customGradients, "customGradients") } }
 
-    private let defaults = UserDefaults.standard
     private static let prefix = "export."
+    static let defaultColors = ["#FFFFFF", "#F2F2F7", "#1C1C1E", "#007AFF", "#FFD60A"]
 
     init() {
         let d = UserDefaults.standard, p = Self.prefix
         format = ExportFormat(rawValue: d.string(forKey: p + "format") ?? "") ?? .png
         scale = d.object(forKey: p + "scale") as? Double ?? 1
         showsBezel = d.object(forKey: p + "showsBezel") as? Bool ?? true
-        finish = BezelFinish(rawValue: d.string(forKey: p + "finish") ?? "") ?? .natural
+        modelID = d.string(forKey: p + "modelID")
+        finishHex = d.string(forKey: p + "finishHex")
         backgroundKind = BackgroundKind(rawValue: d.string(forKey: p + "backgroundKind") ?? "") ?? .gradient
         hasBackground = d.object(forKey: p + "hasBackground") as? Bool ?? true
-        gradientIndex = min(d.integer(forKey: p + "gradientIndex"), GradientPresets.all.count - 1)
+        colorHex = d.string(forKey: p + "colorHex") ?? Self.defaultColors[0]
+        gradientHexes = d.stringArray(forKey: p + "gradientHexes") ?? GradientPresets.all[0]
         backgroundImage = d.string(forKey: p + "backgroundImage").map { URL(filePath: $0) }
         margin = d.object(forKey: p + "margin") as? Double ?? 0.08
         showsShadow = d.object(forKey: p + "showsShadow") as? Bool ?? true
+        customColors = d.stringArray(forKey: p + "customColors") ?? Self.defaultColors
+        customGradients = d.array(forKey: p + "customGradients") as? [[String]] ?? []
     }
 
     var background: CompositionBackground {
         guard hasBackground else { return .none }
         switch backgroundKind {
-        case .color: return .color(color)
-        case .gradient: return .gradient(GradientPresets.all[gradientIndex])
+        case .color: return .color(Color(hex: colorHex) ?? .white)
+        case .gradient: return .gradient(gradientHexes.compactMap { Color(hex: $0) })
         case .image: return backgroundImage.map(CompositionBackground.image) ?? .none
         }
     }
 
-    func style(for format: ExportFormat? = nil) -> CompositionStyle {
+    /// The chosen model when it fits the capture, otherwise the newest matching one.
+    func model(for size: CGSize) -> DeviceModel? {
+        let matching = DeviceModel.matching(size)
+        if let chosen = DeviceModel.model(id: modelID) { return chosen }
+        return matching.first
+    }
+
+    func finish(for model: DeviceModel) -> DeviceFinish {
+        model.finishes.first { $0.hex == finishHex } ?? model.finishes[0]
+    }
+
+    func style(for size: CGSize, format: ExportFormat? = nil) -> CompositionStyle {
         var background = background
         // JPEG has no transparency: fall back to white.
         if background == .none, let format, !format.supportsTransparency {
             background = .color(.white)
         }
+        let model = model(for: size)
         return CompositionStyle(
-            showsBezel: showsBezel,
-            finish: finish,
+            model: model,
+            showsBezel: showsBezel && model != nil,
+            finish: model.map(finish(for:)),
             background: background,
             margin: background == .none ? 0 : margin,
             showsShadow: showsShadow
         )
     }
 
+    func addColors(from text: String) -> Bool {
+        let codes = Color.hexCodes(in: text).filter { !customColors.contains($0) }
+        customColors.append(contentsOf: codes)
+        if let last = codes.last { selectColor(last) }
+        return !codes.isEmpty
+    }
+
+    func selectColor(_ hex: String) {
+        colorHex = hex
+        hasBackground = true
+    }
+
+    func selectGradient(_ hexes: [String]) {
+        gradientHexes = hexes
+        hasBackground = true
+    }
+
     private func save(_ value: Any?, _ key: String) {
-        defaults.set(value, forKey: Self.prefix + key)
+        UserDefaults.standard.set(value, forKey: Self.prefix + key)
     }
 }

@@ -7,6 +7,7 @@ struct ScreenshotsView: View {
     @Environment(ExportSettings.self) private var settings
     @State private var selection: CaptureItem?
     @State private var image: CGImage?
+    @State private var suggestions = SuggestedBackgrounds.empty
     @State private var showsInspector = true
     @State private var showsAll = false
 
@@ -27,7 +28,7 @@ struct ScreenshotsView: View {
             }
         }
         .inspector(isPresented: $showsInspector) {
-            ExportInspector(image: image, item: selection)
+            ExportInspector(image: image, item: selection, suggestions: suggestions)
                 .inspectorColumnWidth(min: 290, ideal: 320, max: 380)
         }
         .toolbar {
@@ -42,15 +43,19 @@ struct ScreenshotsView: View {
         .onChange(of: library.screenshots) { selectLatestIfNeeded() }
         .task(id: selection) {
             guard let url = selection?.url else { image = nil; return }
-            image = await Task.detached(priority: .userInitiated) { ScreenshotExporter.loadImage(at: url) }.value
+            let loaded = await Task.detached(priority: .userInitiated) { ScreenshotExporter.loadImage(at: url) }.value
+            image = loaded
+            guard let loaded else { suggestions = .empty; return }
+            suggestions = await Task.detached(priority: .utility) { SuggestedBackgrounds.make(from: loaded) }.value
         }
     }
 
     private var canvas: some View {
         GeometryReader { proxy in
             if let image {
-                let style = settings.style()
-                let layout = CompositionLayout(screen: CGSize(width: image.width, height: image.height), style: style)
+                let size = CGSize(width: image.width, height: image.height)
+                let style = settings.style(for: size)
+                let layout = CompositionLayout(image: size, style: style)
                 let available = CGSize(width: proxy.size.width - 64, height: proxy.size.height - 64)
                 let scale = max(0.01, min(available.width / layout.canvas.width, available.height / layout.canvas.height))
                 ScreenshotComposition(image: image, style: style, showsTransparency: true)

@@ -84,14 +84,6 @@ enum DisplayCorners {
         1320: (62, 3),     // iPhone 16 Pro Max, 17 Pro Max, 18 Pro Max
     ]
 
-    /// Screen widths of models with a Dynamic Island (iPhone 14 Pro and later).
-    private static let dynamicIslandWidths: Set<Int> = [1179, 1206, 1260, 1290, 1320]
-
-    /// Screenshots don't include the Dynamic Island, so device frames draw it.
-    static func hasDynamicIsland(_ screenSize: CGSize) -> Bool {
-        dynamicIslandWidths.contains(Int(min(screenSize.width, screenSize.height)))
-    }
-
     /// Home button models have square displays and no device frame.
     static func hasRoundedDisplay(_ screenSize: CGSize) -> Bool {
         ratio(for: screenSize) > 0

@@ -71,6 +71,46 @@
         }
       }
     },
+    "Add": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter"
+          }
+        }
+      }
+    },
+    "Add Color": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter la couleur"
+          }
+        }
+      }
+    },
+    "Add Colors": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter des couleurs"
+          }
+        }
+      }
+    },
+    "Add a Gradient": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter un dégradé"
+          }
+        }
+      }
+    },
     "Add an iPhone frame to your captures when you edit them.": {
       "localizations": {
         "fr": {
@@ -111,12 +151,32 @@
         }
       }
     },
+    "Alpine Green": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vert alpin"
+          }
+        }
+      }
+    },
     "Appearance": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Apparence"
+          }
+        }
+      }
+    },
+    "Automatic (%@)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatique (%@)"
           }
         }
       }
@@ -151,12 +211,32 @@
         }
       }
     },
+    "Black Titanium": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Titane noir"
+          }
+        }
+      }
+    },
     "Blue": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Bleu"
+          }
+        }
+      }
+    },
+    "Blue Titanium": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Titane bleu"
           }
         }
       }
@@ -171,12 +251,32 @@
         }
       }
     },
+    "Burgundy": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bordeaux"
+          }
+        }
+      }
+    },
     "Camera Access Required": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Accès à la caméra requis"
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuler"
           }
         }
       }
@@ -197,6 +297,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Capture ne peut pas accéder à ce dossier. Choisissez-en un autre, ou autorisez l’accès dans Réglages Système > Confidentialité et sécurité > Fichiers et dossiers."
+          }
+        }
+      }
+    },
+    "Capture is up to date.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture est à jour."
           }
         }
       }
@@ -227,6 +337,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Modifier…"
+          }
+        }
+      }
+    },
+    "Check for Updates": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher les mises à jour"
           }
         }
       }
@@ -277,6 +397,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Fermer"
+          }
+        }
+      }
+    },
+    "Cloud White": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blanc nuage"
           }
         }
       }
@@ -361,6 +491,26 @@
         }
       }
     },
+    "Coral": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Corail"
+          }
+        }
+      }
+    },
+    "Cosmic Orange": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orange cosmique"
+          }
+        }
+      }
+    },
     "Couldn't Erase the Captures": {
       "localizations": {
         "fr": {
@@ -391,6 +541,16 @@
         }
       }
     },
+    "Couldn't check for updates.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de rechercher les mises à jour."
+          }
+        }
+      }
+    },
     "Counter": {
       "localizations": {
         "fr": {
@@ -407,16 +567,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Personnalisé"
-          }
-        }
-      }
-    },
-    "Custom Color": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Couleur personnalisée"
           }
         }
       }
@@ -461,12 +611,42 @@
         }
       }
     },
+    "Deep Blue": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bleu intense"
+          }
+        }
+      }
+    },
+    "Deep Purple": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Violet intense"
+          }
+        }
+      }
+    },
     "Default Quality": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Qualité par défaut"
+          }
+        }
+      }
+    },
+    "Desert Titanium": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Titane sable"
           }
         }
       }
@@ -507,6 +687,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Appareil, date et heure"
+          }
+        }
+      }
+    },
+    "Download": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Télécharger"
+          }
+        }
+      }
+    },
+    "End": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fin"
           }
         }
       }
@@ -671,12 +871,12 @@
         }
       }
     },
-    "Frames aren't available for iPhones with a Home button.": {
+    "Frames aren't available for this capture.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Les cadres ne sont pas disponibles pour les iPhone avec bouton principal."
+            "value": "Les cadres ne sont pas disponibles pour cette capture."
           }
         }
       }
@@ -691,12 +891,52 @@
         }
       }
     },
+    "Glacier": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Glacier"
+          }
+        }
+      }
+    },
+    "Gold": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Or"
+          }
+        }
+      }
+    },
     "Gradient": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Dégradé"
+          }
+        }
+      }
+    },
+    "Graphite": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Graphite"
+          }
+        }
+      }
+    },
+    "Green": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vert"
           }
         }
       }
@@ -751,12 +991,32 @@
         }
       }
     },
+    "Lavender": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lavande"
+          }
+        }
+      }
+    },
     "Light": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Clair"
+          }
+        }
+      }
+    },
+    "Light Gold": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Or clair"
           }
         }
       }
@@ -781,6 +1041,46 @@
         }
       }
     },
+    "Midnight": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minuit"
+          }
+        }
+      }
+    },
+    "Midnight Green": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vert nuit"
+          }
+        }
+      }
+    },
+    "Mist Blue": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bleu brume"
+          }
+        }
+      }
+    },
+    "Model": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modèle"
+          }
+        }
+      }
+    },
     "Move all captures to the Trash?": {
       "localizations": {
         "fr": {
@@ -801,12 +1101,12 @@
         }
       }
     },
-    "Natural": {
+    "Natural Titanium": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Naturel"
+            "value": "Titane naturel"
           }
         }
       }
@@ -827,6 +1127,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Besoin d’aide ? Consultez la documentation ou contactez-nous."
+          }
+        }
+      }
+    },
+    "No Background": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sans fond"
           }
         }
       }
@@ -867,6 +1177,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aucune image n’a encore été reçue de l’iPhone."
+          }
+        }
+      }
+    },
+    "No release has been published yet.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune version n’a encore été publiée."
           }
         }
       }
@@ -921,6 +1241,16 @@
         }
       }
     },
+    "Or pick a color": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ou choisissez une couleur"
+          }
+        }
+      }
+    },
     "Organize By": {
       "localizations": {
         "fr": {
@@ -931,12 +1261,52 @@
         }
       }
     },
+    "Other Models": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autres modèles"
+          }
+        }
+      }
+    },
     "PNG (High Quality)": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "PNG (haute qualité)"
+          }
+        }
+      }
+    },
+    "Pacific Blue": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bleu Pacifique"
+          }
+        }
+      }
+    },
+    "Paste one or more hex codes.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collez un ou plusieurs codes hexadécimaux."
+          }
+        }
+      }
+    },
+    "Pink": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rose"
           }
         }
       }
@@ -957,6 +1327,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aperçu"
+          }
+        }
+      }
+    },
+    "Purple": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mauve"
           }
         }
       }
@@ -1001,6 +1381,26 @@
         }
       }
     },
+    "Red": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(PRODUCT)RED"
+          }
+        }
+      }
+    },
+    "Remove": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer"
+          }
+        }
+      }
+    },
     "Remove all the screenshots, recordings and exports made with Capture.": {
       "localizations": {
         "fr": {
@@ -1017,6 +1417,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Résolution"
+          }
+        }
+      }
+    },
+    "Sage": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sauge"
+          }
+        }
+      }
+    },
+    "Same Screen as This Capture": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Même écran que cette capture"
           }
         }
       }
@@ -1121,12 +1541,72 @@
         }
       }
     },
+    "Sierra Blue": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bleu alpin"
+          }
+        }
+      }
+    },
     "Silver": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Argent"
+          }
+        }
+      }
+    },
+    "Sky Blue": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bleu ciel"
+          }
+        }
+      }
+    },
+    "Space Black": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noir sidéral"
+          }
+        }
+      }
+    },
+    "Space Gray": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gris sidéral"
+          }
+        }
+      }
+    },
+    "Starlight": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lumière stellaire"
+          }
+        }
+      }
+    },
+    "Start": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Début"
           }
         }
       }
@@ -1151,6 +1631,16 @@
         }
       }
     },
+    "Suggested from the capture": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suggéré d’après la capture"
+          }
+        }
+      }
+    },
     "Take Screenshot": {
       "localizations": {
         "fr": {
@@ -1171,6 +1661,16 @@
         }
       }
     },
+    "Teal": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sarcelle"
+          }
+        }
+      }
+    },
     "The file could not be written.": {
       "localizations": {
         "fr": {
@@ -1187,6 +1687,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Thème"
+          }
+        }
+      }
+    },
+    "This model has a different screen size: the capture is scaled to fill it.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce modèle a une taille d’écran différente : la capture est agrandie pour le remplir."
           }
         }
       }
@@ -1221,6 +1731,16 @@
         }
       }
     },
+    "Ultramarine": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outremer"
+          }
+        }
+      }
+    },
     "Unlock your iPhone and tap Trust when asked.": {
       "localizations": {
         "fr": {
@@ -1231,12 +1751,42 @@
         }
       }
     },
+    "Updates": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mises à jour"
+          }
+        }
+      }
+    },
     "Use a data cable: some cables can only charge.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Utilisez un câble de données : certains câbles ne font que charger."
+          }
+        }
+      }
+    },
+    "Version %@ (%@)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %@ (%@)"
+          }
+        }
+      }
+    },
+    "Version %@ is available.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La version %@ est disponible."
           }
         }
       }
@@ -1277,6 +1827,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bienvenue dans Capture"
+          }
+        }
+      }
+    },
+    "White": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blanc"
+          }
+        }
+      }
+    },
+    "White Titanium": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Titane blanc"
+          }
+        }
+      }
+    },
+    "Yellow": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jaune"
           }
         }
       }
