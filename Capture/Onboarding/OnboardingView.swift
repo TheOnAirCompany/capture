@@ -1,15 +1,17 @@
 import AppKit
 import SwiftUI
 
-/// First-launch walkthrough: pitch, features, then camera permission.
+/// First-launch walkthrough: pitch, features, save location, then camera permission.
 struct OnboardingView: View {
     var onFinish: () -> Void
 
     @Environment(DeviceManager.self) private var deviceManager
     @State private var page: Page = .welcome
+    @State private var folder = CaptureFolder.url
+    @State private var folderError: String?
 
     enum Page: Int, CaseIterable {
-        case welcome, features, permission
+        case welcome, features, location, permission
     }
 
     var body: some View {
@@ -18,6 +20,7 @@ struct OnboardingView: View {
                 switch page {
                 case .welcome: WelcomePage()
                 case .features: FeaturesPage()
+                case .location: LocationPage(folder: $folder, error: $folderError)
                 case .permission: PermissionPage()
                 }
             }
@@ -50,7 +53,9 @@ struct OnboardingView: View {
 
     @ViewBuilder
     private var primaryButton: some View {
-        if page != .permission {
+        if page == .location {
+            Button("Continue", action: confirmFolder)
+        } else if page != .permission {
             Button("Continue") { move(by: 1) }
         } else if deviceManager.cameraAuthorization == .notDetermined {
             Button("Allow Access") {
@@ -58,6 +63,18 @@ struct OnboardingView: View {
             }
         } else {
             Button("Get Started", action: onFinish)
+        }
+    }
+
+    /// Creating the folder now triggers the macOS access prompt in context.
+    private func confirmFolder() {
+        do {
+            try CaptureFolder.prepare(folder)
+            CaptureFolder.url = folder
+            folderError = nil
+            move(by: 1)
+        } catch {
+            folderError = String(localized: "Capture can't access this folder. Choose another one, or allow access in System Settings > Privacy & Security > Files and Folders.")
         }
     }
 
@@ -166,6 +183,58 @@ private struct FeatureRow: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
+    }
+}
+
+private struct LocationPage: View {
+    @Binding var folder: URL
+    @Binding var error: String?
+
+    var body: some View {
+        VStack(spacing: 24) {
+            Image(systemName: "folder")
+                .font(.system(size: 80, weight: .light))
+                .symbolRenderingMode(.hierarchical)
+                .foregroundStyle(.tint)
+                .frame(height: 120)
+
+            VStack(spacing: 12) {
+                Text("Choose Where to Save")
+                    .font(.largeTitle.bold())
+                Text("Your screenshots and videos will be saved in this folder.")
+                    .font(.title3)
+                    .foregroundStyle(.secondary)
+            }
+            .multilineTextAlignment(.center)
+
+            HStack(spacing: 12) {
+                Image(nsImage: NSWorkspace.shared.icon(for: .folder))
+                    .resizable()
+                    .frame(width: 32, height: 32)
+                Text(verbatim: CaptureFolder.displayPath(of: folder))
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                Spacer()
+                Button("Change…") {
+                    if let url = CaptureFolder.choose(startingAt: folder) {
+                        folder = url
+                        error = nil
+                    }
+                }
+            }
+            .padding(12)
+            .background(.background.secondary, in: .rect(cornerRadius: 12))
+            .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(.separator))
+
+            if let error {
+                Text(verbatim: error)
+                    .font(.callout)
+                    .foregroundStyle(.red)
+                    .multilineTextAlignment(.center)
+            }
+        }
+        .padding(.horizontal, 56)
+        .padding(.top, 24)
     }
 }
 

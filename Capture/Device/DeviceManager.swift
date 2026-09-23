@@ -16,6 +16,7 @@ final class DeviceManager {
     let previewSession = PreviewSession()
 
     @ObservationIgnored private var observers: [NSObjectProtocol] = []
+    @ObservationIgnored private var isStreaming = false
 
     init() {
         Self.allowScreenCaptureDevices()
@@ -52,11 +53,14 @@ final class DeviceManager {
             position: .unspecified
         )
         let connected = discovery.devices.first { $0.isConnected }
-        guard connected?.uniqueID != device?.uniqueID else { return }
+        let shouldStream = connected != nil && isCameraAuthorized
+        // Camera access can be granted while the iPhone is already connected.
+        guard connected?.uniqueID != device?.uniqueID || shouldStream != isStreaming else { return }
 
         device = connected
+        isStreaming = shouldStream
         screenSize = nil
-        if let connected, isCameraAuthorized {
+        if let connected, shouldStream {
             previewSession.start(with: connected)
         } else {
             previewSession.stop()

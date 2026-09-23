@@ -15,7 +15,7 @@ nonisolated final class PreviewSession: NSObject, @unchecked Sendable {
     private let queue = DispatchQueue(label: "com.theonaircompany.capture.session")
     private let outputQueue = DispatchQueue(label: "com.theonaircompany.capture.frames")
     private let videoOutput = AVCaptureVideoDataOutput()
-    private let movieOutput = AVCaptureMovieFileOutput()
+    private let audioOutput = AVCaptureAudioDataOutput()
     private let imageContext = CIContext()
 
     // Guarded by `lock`: touched from the main thread and the capture queues.
@@ -23,13 +23,15 @@ nonisolated final class PreviewSession: NSObject, @unchecked Sendable {
     private var displays: [ObjectIdentifier: AVSampleBufferDisplayLayer] = [:]
     private var latestFrame: CMSampleBuffer?
     private var screenSize: CGSize = .zero
-    private var recordingCompletion: (@Sendable (Error?) -> Void)?
+    private var recorder: MovieRecorder?
+    private var audioFormat: CMAudioFormatDescription?
 
     override init() {
         super.init()
         videoOutput.alwaysDiscardsLateVideoFrames = true
         videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA]
         videoOutput.setSampleBufferDelegate(self, queue: outputQueue)
+        audioOutput.setSampleBufferDelegate(self, queue: outputQueue)
     }
 
     func start(with device: AVCaptureDevice) {
@@ -40,7 +42,7 @@ nonisolated final class PreviewSession: NSObject, @unchecked Sendable {
             if let input = try? AVCaptureDeviceInput(device: device), session.canAddInput(input) {
                 session.addInput(input)
             }
-            for output in [videoOutput, movieOutput] as [AVCaptureOutput]
+            for output in [videoOutput, audioOutput] as [AVCaptureOutput]
             where !session.outputs.contains(output) && session.canAddOutput(output) {
                 session.addOutput(output)
             }
@@ -100,20 +102,35 @@ nonisolated final class PreviewSession: NSObject, @unchecked Sendable {
     // MARK: Recordings
 
     /// Records the screen and sound of the iPhone to a QuickTime movie.
-    func startRecording(to url: URL, completion: @escaping @Sendable (Error?) -> Void) {
-        queue.async { [self] in
-            lock.withLock { recordingCompletion = completion }
-            movieOutput.startRecording(to: url, recordingDelegate: self)
+    func startRecording(to url: URL) throws {
+        try lock.withLock {
+            recorder = try MovieRecorder(url: url, audioFormat: audioFormat, queue: outputQueue)
         }
     }
 
-    func stopRecording() {
-        queue.async { [self] in movieOutput.stopRecording() }
+    func stopRecording(completion: @escaping @Sendable (Error?) -> Void) {
+        guard let recorder = lock.withLock({ () -> MovieRecorder? in
+            defer { self.recorder = nil }
+            return self.recorder
+        }) else {
+            completion(nil)
+            return
+        }
+        recorder.finish(completion: completion)
     }
 }
 
-nonisolated extension PreviewSession: AVCaptureVideoDataOutputSampleBufferDelegate {
+nonisolated extension PreviewSession: AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        if output === audioOutput {
+            let recorder = lock.withLock {
+                audioFormat = CMSampleBufferGetFormatDescription(sampleBuffer)
+                return self.recorder
+            }
+            recorder?.appendAudio(sampleBuffer)
+            return
+        }
+
         // Live frames: show them as soon as they arrive instead of scheduling them.
         if let attachments = CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, createIfNecessary: true),
            CFArrayGetCount(attachments) > 0 {
@@ -125,38 +142,25 @@ nonisolated extension PreviewSession: AVCaptureVideoDataOutputSampleBufferDelega
             )
         }
 
-        var size = CGSize.zero
-        if let format = CMSampleBufferGetFormatDescription(sampleBuffer) {
+        let size = CMSampleBufferGetFormatDescription(sampleBuffer).map { format in
             let dimensions = CMVideoFormatDescriptionGetDimensions(format)
-            size = CGSize(width: Int(dimensions.width), height: Int(dimensions.height))
-        }
+            return CGSize(width: Int(dimensions.width), height: Int(dimensions.height))
+        } ?? .zero
 
-        let (targets, sizeChanged) = lock.withLock {
+        let (targets, sizeChanged, recorder) = lock.withLock {
             latestFrame = sampleBuffer
             let changed = size != .zero && size != screenSize
             if changed { screenSize = size }
-            return (Array(displays.values), changed)
+            return (Array(displays.values), changed, self.recorder)
         }
         for layer in targets { Self.enqueue(sampleBuffer, on: layer) }
+        recorder?.appendVideo(sampleBuffer)
 
         if sizeChanged {
             DispatchQueue.main.async { [self] in
                 MainActor.assumeIsolated { onScreenSizeChange?(size) }
             }
         }
-    }
-}
-
-nonisolated extension PreviewSession: AVCaptureFileOutputRecordingDelegate {
-    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL,
-                    from connections: [AVCaptureConnection], error: Error?) {
-        // A recording stopped on purpose can still report an error flagged as successful.
-        let succeeded = (error as NSError?)?.userInfo[AVErrorRecordingSuccessfullyFinishedKey] as? Bool ?? (error == nil)
-        let completion = lock.withLock {
-            defer { recordingCompletion = nil }
-            return recordingCompletion
-        }
-        completion?(succeeded ? nil : error)
     }
 }
 

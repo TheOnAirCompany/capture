@@ -33,7 +33,7 @@ Capture is a small, native macOS app designed around it: plug in your iPhone, ta
 - [ ] Device frames (bezels) added when editing
 - [ ] Signed and notarized DMG
 
-Screenshots and videos are saved to `~/Desktop/Capture`. Shortcuts: **⇧⌘S** for a screenshot, **⇧⌘R** to start or stop a recording.
+Screenshots and videos are saved to the folder chosen during onboarding (`~/Desktop/Capture` by default). Shortcuts: **⇧⌘S** for a screenshot, **⇧⌘R** to start or stop a recording.
 
 ## Requirements
 
@@ -64,7 +64,7 @@ The iPhone then shows up as an external `AVCaptureDevice` with the `.muxed` medi
 2. Clone the repository and open `Capture.xcodeproj`.
 3. Build and run the **Capture** scheme.
 
-The project is signed to run locally by default. Pick your own team in *Signing & Capabilities* if you want to sign with your Developer ID.
+The project is signed to run locally by default. Pick your own team in *Signing & Capabilities* to sign with your certificate: with ad-hoc signing, macOS asks for camera access again after every build.
 
 The Xcode project is generated from `project.yml` with [XcodeGen](https://github.com/yonaskolb/XcodeGen). After adding or removing files, run:
 

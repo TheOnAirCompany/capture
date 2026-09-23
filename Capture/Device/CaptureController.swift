@@ -1,7 +1,7 @@
 import AppKit
 import Observation
 
-/// Takes screenshots and records videos of the connected iPhone into ~/Desktop/Capture.
+/// Takes screenshots and records videos of the connected iPhone into the capture folder.
 @Observable
 final class CaptureController {
     private(set) var recordingStartDate: Date?
@@ -14,10 +14,6 @@ final class CaptureController {
 
     init(deviceManager: DeviceManager) {
         self.deviceManager = deviceManager
-    }
-
-    static var outputFolder: URL {
-        URL.desktopDirectory.appending(path: "Capture", directoryHint: .isDirectory)
     }
 
     func takeScreenshot() {
@@ -42,32 +38,30 @@ final class CaptureController {
 
     func toggleRecording() {
         if isRecording {
-            deviceManager.previewSession.stopRecording()
+            recordingStartDate = nil
+            deviceManager.previewSession.stopRecording { error in
+                guard let error else { return }
+                Task { @MainActor in self.errorMessage = error.localizedDescription }
+            }
             return
         }
         do {
-            let url = try nextFileURL(extension: "mov")
+            try deviceManager.previewSession.startRecording(to: try nextFileURL(extension: "mov"))
             recordingStartDate = .now
-            deviceManager.previewSession.startRecording(to: url) { error in
-                Task { @MainActor in
-                    self.recordingStartDate = nil
-                    if let error { self.errorMessage = error.localizedDescription }
-                }
-            }
         } catch {
             errorMessage = error.localizedDescription
         }
     }
 
     func openOutputFolder() {
-        let folder = Self.outputFolder
-        try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let folder = CaptureFolder.url
+        try? CaptureFolder.prepare(folder)
         NSWorkspace.shared.open(folder)
     }
 
     /// Names files like macOS screenshots: "iPhone – 2026-09-23 at 10.24.31.png".
     private func nextFileURL(extension pathExtension: String) throws -> URL {
-        let folder = Self.outputFolder
+        let folder = CaptureFolder.url
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
 
         let deviceName = (deviceManager.device?.localizedName ?? "iPhone")
