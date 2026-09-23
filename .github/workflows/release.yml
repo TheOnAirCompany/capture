@@ -12,16 +12,29 @@ jobs:
   release:
     runs-on: macos-26
     steps:
+      - name: Skip releases published from a Mac
+        id: existing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            echo "Release $GITHUB_REF_NAME already exists, nothing to do."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/checkout@v4
+        if: steps.existing.outputs.exists != 'true'
         with:
           fetch-depth: 0
 
       - name: Install tools
+        if: steps.existing.outputs.exists != 'true'
         run: |
           brew install xcodegen
           pip3 install --break-system-packages dmgbuild
 
       - name: Import the Developer ID certificate
+        if: steps.existing.outputs.exists != 'true'
         env:
           CERTIFICATE_P12: ${{ secrets.DEVELOPER_ID_CERTIFICATE_P12 }}
           CERTIFICATE_PASSWORD: ${{ secrets.DEVELOPER_ID_CERTIFICATE_PASSWORD }}
@@ -37,6 +50,7 @@ jobs:
           security list-keychains -d user -s "$KEYCHAIN" $(security list-keychains -d user | tr -d '"')
 
       - name: Write the notarization and Sparkle keys
+        if: steps.existing.outputs.exists != 'true'
         env:
           NOTARY_KEY: ${{ secrets.NOTARY_API_KEY_P8 }}
           SPARKLE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
@@ -45,6 +59,7 @@ jobs:
           echo "$SPARKLE_KEY" > "$RUNNER_TEMP/sparkle.key"
 
       - name: Build and publish
+        if: steps.existing.outputs.exists != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           TEAM_ID: ${{ secrets.TEAM_ID }}

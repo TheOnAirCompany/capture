@@ -10,7 +10,8 @@
 #   NOTARY_PROFILE          A keychain profile made with `xcrun notarytool store-credentials`.
 #   NOTARY_KEY_PATH, NOTARY_KEY_ID, NOTARY_ISSUER_ID   An App Store Connect API key (CI).
 # Sparkle signing, optional:
-#   SPARKLE_KEY_FILE        Private EdDSA key file (CI). Defaults to the key in the login keychain.
+#   SPARKLE_KEY_FILE        Private EdDSA key file. Defaults to ~/Desktop/_BACKUP/Capture/sparkle-private-key.txt
+#                           when it exists, otherwise to the key in the login keychain.
 set -euo pipefail
 
 VERSION="${1:?Usage: scripts/release.sh <version> [--draft] [--skip-publish]}"
@@ -38,11 +39,28 @@ cd "$ROOT"
 rm -rf "$BUILD"
 mkdir -p "$BUILD"
 
-notarize() {
+notary() {
     if [[ -n "${NOTARY_PROFILE:-}" ]]; then
-        xcrun notarytool submit "$1" --keychain-profile "$NOTARY_PROFILE" --wait
+        xcrun notarytool "$@" --keychain-profile "$NOTARY_PROFILE"
     else
-        xcrun notarytool submit "$1" --key "$NOTARY_KEY_PATH" --key-id "$NOTARY_KEY_ID" --issuer "$NOTARY_ISSUER_ID" --wait
+        xcrun notarytool "$@" --key "$NOTARY_KEY_PATH" --key-id "$NOTARY_KEY_ID" --issuer "$NOTARY_ISSUER_ID"
+    fi
+}
+
+# Submits, then waits for Apple's answer. Waiting survives network drops: it retries.
+notarize() {
+    local id
+    id="$(notary submit "$1" --output-format json | python3 -c 'import json, sys; print(json.load(sys.stdin)["id"])')"
+    echo "Submitted $1 as $id"
+    local status=""
+    until [[ "$status" == "Accepted" || "$status" == "Invalid" || "$status" == "Rejected" ]]; do
+        notary wait "$id" --timeout 30m > /dev/null 2>&1 || sleep 30
+        status="$(notary info "$id" --output-format json 2>/dev/null | python3 -c 'import json, sys; print(json.load(sys.stdin).get("status", ""))' 2>/dev/null || true)"
+        echo "Notarization status: ${status:-unknown}"
+    done
+    if [[ "$status" != "Accepted" ]]; then
+        notary log "$id" || true
+        exit 1
     fi
 }
 
@@ -77,8 +95,9 @@ echo "==> Writing the Sparkle appcast"
 mkdir -p "$BUILD/appcast"
 cp "$DMG" "$BUILD/appcast/"
 KEY_ARGS=()
-[[ -n "${SPARKLE_KEY_FILE:-}" ]] && KEY_ARGS=(--ed-key-file "$SPARKLE_KEY_FILE")
-"$SPARKLE_BIN/generate_appcast" "${KEY_ARGS[@]}" \
+SPARKLE_KEY_FILE="${SPARKLE_KEY_FILE:-$HOME/Desktop/_BACKUP/Capture/sparkle-private-key.txt}"
+[[ -f "$SPARKLE_KEY_FILE" ]] && KEY_ARGS=(--ed-key-file "$SPARKLE_KEY_FILE")
+"$SPARKLE_BIN/generate_appcast" ${KEY_ARGS[@]+"${KEY_ARGS[@]}"} \
     --download-url-prefix "https://github.com/$REPO/releases/download/v$VERSION/" \
     --link "https://github.com/$REPO" \
     -o "$BUILD/appcast.xml" "$BUILD/appcast"
