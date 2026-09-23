@@ -10,6 +10,7 @@ struct ScreenshotsView: View {
     @State private var suggestions = SuggestedBackgrounds.empty
     @State private var showsInspector = true
     @State private var showsAll = false
+    @AppStorage(CaptureImporter.enabledKey) private var importEnabled = false
 
     var body: some View {
         Group {
@@ -32,6 +33,11 @@ struct ScreenshotsView: View {
                 .inspectorColumnWidth(min: 290, ideal: 320, max: 380)
         }
         .toolbar {
+            if importEnabled {
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Import…", systemImage: "square.and.arrow.down") { CaptureImporter.chooseAndImport(into: library) }
+                }
+            }
             ToolbarItem(placement: .primaryAction) {
                 Button("Export Options", systemImage: "sidebar.right") { showsInspector.toggle() }
             }

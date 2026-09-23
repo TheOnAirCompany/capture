@@ -1221,6 +1221,56 @@
         }
       }
     },
+    "Import": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importer"
+          }
+        }
+      }
+    },
+    "Import Disabled": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import désactivé"
+          }
+        }
+      }
+    },
+    "Import Enabled": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import activé"
+          }
+        }
+      }
+    },
+    "Import is turned off.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’import est désactivé."
+          }
+        }
+      }
+    },
+    "Import…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importer…"
+          }
+        }
+      }
+    },
     "Include Sound": {
       "localizations": {
         "fr": {
@@ -1631,12 +1681,22 @@
         }
       }
     },
-    "Other Models": {
+    "Other iPads": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Autres modèles"
+            "value": "Autres iPad"
+          }
+        }
+      }
+    },
+    "Other iPhones": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autres iPhone"
           }
         }
       }
@@ -2451,6 +2511,16 @@
         }
       }
     },
+    "You can now import images and videos from your Mac, from the Screenshots and Videos tabs or the Capture menu. Your original files are copied, never modified.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous pouvez maintenant importer des images et des vidéos depuis votre Mac, dans les onglets Captures d’écran et Vidéos ou le menu Capture. Vos fichiers originaux sont copiés, jamais modifiés."
+          }
+        }
+      }
+    },
     "You can't switch devices during a capture or a recording.": {
       "localizations": {
         "fr": {
@@ -2517,26 +2587,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "modifiée"
-          }
-        }
-      }
-    },
-    "iPad": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iPad"
-          }
-        }
-      }
-    },
-    "iPhone": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iPhone"
           }
         }
       }

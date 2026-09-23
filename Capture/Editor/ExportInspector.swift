@@ -243,21 +243,29 @@ struct BezelSection: View {
             .disabled(model == nil)
 
             if let model {
-                Picker("Model", selection: $settings.modelID) {
+                // A model chosen for the other kind of device reads as Automatic here.
+                Picker("Model", selection: Binding(
+                    get: { settings.modelID.flatMap(DeviceModel.model(id:))?.id == model.id ? settings.modelID : nil },
+                    set: { settings.modelID = $0 }
+                )) {
                     Text("Automatic (\(matching.first?.name ?? model.name))").tag(String?.none)
                     if !matching.isEmpty {
                         Section("Same Screen as This Capture") {
                             ForEach(matching) { Text(verbatim: $0.name).tag(Optional($0.id)) }
                         }
                     }
-                    Section("iPhone") {
-                        ForEach(DeviceModel.iPhones.reversed().filter { !matching.contains($0) }) {
-                            Text(verbatim: $0.name).tag(Optional($0.id))
+                    // Only frames of the same kind of device as the capture.
+                    if let size, DeviceModel.Family(screen: size) == .iPad {
+                        Section("Other iPads") {
+                            ForEach(DeviceModel.iPads.reversed().filter { !matching.contains($0) }) {
+                                Text(verbatim: $0.name).tag(Optional($0.id))
+                            }
                         }
-                    }
-                    Section("iPad") {
-                        ForEach(DeviceModel.iPads.reversed().filter { !matching.contains($0) }) {
-                            Text(verbatim: $0.name).tag(Optional($0.id))
+                    } else {
+                        Section("Other iPhones") {
+                            ForEach(DeviceModel.iPhones.reversed().filter { !matching.contains($0) }) {
+                                Text(verbatim: $0.name).tag(Optional($0.id))
+                            }
                         }
                     }
                 }

@@ -107,8 +107,11 @@ private struct SettingRow<Control: View>: View {
 
 private struct StorageCard: View {
     @Environment(CaptureLibrary.self) private var library
+    @AppStorage(CaptureImporter.enabledKey) private var importEnabled = false
     @State private var folder = CaptureFolder.url
     @State private var folderError: String?
+    @State private var folderClicks: [Date] = []
+    @State private var showsImportNotice = false
 
     var body: some View {
         SettingsCard(
@@ -120,6 +123,7 @@ private struct StorageCard: View {
                 Image(nsImage: NSWorkspace.shared.icon(forFile: folder.path))
                     .resizable()
                     .frame(width: 36, height: 36)
+                    .onTapGesture(perform: countFolderClick)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(verbatim: FileManager.default.displayName(atPath: folder.path))
                     Text(verbatim: (folder.path as NSString).abbreviatingWithTildeInPath)
@@ -144,6 +148,25 @@ private struct StorageCard: View {
                     .foregroundStyle(.red)
             }
         }
+        .alert(importEnabled ? "Import Enabled" : "Import Disabled", isPresented: $showsImportNotice) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            if importEnabled {
+                Text("You can now import images and videos from your Mac, from the Screenshots and Videos tabs or the Capture menu. Your original files are copied, never modified.")
+            } else {
+                Text("Import is turned off.")
+            }
+        }
+    }
+
+    /// Five quick clicks on the folder icon turn import on or off.
+    private func countFolderClick() {
+        let now = Date.now
+        folderClicks = folderClicks.filter { now.timeIntervalSince($0) < 2 } + [now]
+        guard folderClicks.count >= 5 else { return }
+        folderClicks = []
+        importEnabled.toggle()
+        showsImportNotice = true
     }
 
     /// Accessing the folder right away makes macOS ask for permission now.

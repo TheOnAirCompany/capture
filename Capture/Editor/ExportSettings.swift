@@ -120,11 +120,13 @@ final class ExportSettings {
         }
     }
 
-    /// The chosen model when it fits the capture, otherwise the newest matching one.
+    /// The chosen model when it is the same kind of device as the capture (an iPhone frame
+    /// for an iPhone capture, an iPad frame for an iPad one), otherwise the newest matching one.
     func model(for size: CGSize) -> DeviceModel? {
-        let matching = DeviceModel.matching(size)
-        if let chosen = DeviceModel.model(id: modelID) { return chosen }
-        return matching.first
+        if let chosen = DeviceModel.model(id: modelID), chosen.family == DeviceModel.Family(screen: size) {
+            return chosen
+        }
+        return DeviceModel.matching(size).first
     }
 
     func finish(for model: DeviceModel) -> DeviceFinish {

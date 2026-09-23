@@ -15,6 +15,7 @@
 		20C3198D8389F50E04D2CFC9 /* ScreenshotExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8179F90772BDC74B3BE06180 /* ScreenshotExporter.swift */; };
 		24D0EBCC90AFDD2F1915DE7A /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1F43CD8DC6EDE15E504124 /* Preferences.swift */; };
 		25EF66E79903A48CA0BA50DE /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BD4894FA4DA29672406AB5 /* EmptyStateView.swift */; };
+		2B077CD917790B30564EE4CC /* CaptureImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DB502860F47FF4041C05A9 /* CaptureImporter.swift */; };
 		2B0A40F84FE03D98ABC459B9 /* ScreenshotsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FCC63A2B91680C9CA42AE7 /* ScreenshotsView.swift */; };
 		328B0941285BC2743A4EB05A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D675959D7F8384D5334ACA07 /* SettingsView.swift */; };
 		3B4EA10F03E20387054B2E9A /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7F358BB37C8E456F0C682A /* SidebarView.swift */; };
@@ -83,6 +84,7 @@
 		D8364D0A15C26238D618D64F /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		DDB6A39DC3709D972D9F703D /* VideoEdits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEdits.swift; sourceTree = "<group>"; };
 		DE4D20A52D30A1DAE24114D0 /* VideoInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoInspector.swift; sourceTree = "<group>"; };
+		E2DB502860F47FF4041C05A9 /* CaptureImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureImporter.swift; sourceTree = "<group>"; };
 		E8624BEC384FF7632A890F88 /* PreviewSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSession.swift; sourceTree = "<group>"; };
 		EA708DCCFB9E20781D93AE27 /* VideoRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRenderer.swift; sourceTree = "<group>"; };
 		FC4714E87BA3F454D61AB62E /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 		58BE7339772B9791870E19E4 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				E2DB502860F47FF4041C05A9 /* CaptureImporter.swift */,
 				17DC58180F29A10F15E466AF /* CaptureLibrary.swift */,
 				A2A4D0DB953846D6D40F98B6 /* CaptureMarker.swift */,
 			);
@@ -317,6 +320,7 @@
 				0B79E75052C3F11381B32CBE /* CaptureApp.swift in Sources */,
 				9CB4E79386ED69DFB7F30377 /* CaptureController.swift in Sources */,
 				B1972B5E31E5AC8B1F7FC425 /* CaptureFolder.swift in Sources */,
+				2B077CD917790B30564EE4CC /* CaptureImporter.swift in Sources */,
 				B47DBE531FE0EA022B65725C /* CaptureLibrary.swift in Sources */,
 				5AE67B5362420988B02E513B /* CaptureMarker.swift in Sources */,
 				052616A664731B25D110A1DC /* ColorHex.swift in Sources */,

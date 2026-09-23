@@ -35,7 +35,7 @@ struct CaptureApp: App {
                 Button("Check for Updates…", action: updater.checkForUpdates)
                     .disabled(!updater.canCheckForUpdates)
             }
-            CaptureCommands(captureController: captureController, deviceManager: deviceManager)
+            CaptureCommands(captureController: captureController, deviceManager: deviceManager, library: library)
         }
     }
 }
@@ -43,6 +43,8 @@ struct CaptureApp: App {
 private struct CaptureCommands: Commands {
     let captureController: CaptureController
     let deviceManager: DeviceManager
+    let library: CaptureLibrary
+    @AppStorage(CaptureImporter.enabledKey) private var importEnabled = false
 
     var body: some Commands {
         CommandMenu("Capture") {
@@ -59,6 +61,10 @@ private struct CaptureCommands: Commands {
             .disabled(deviceManager.device == nil || !deviceManager.isCameraAuthorized)
             Divider()
             Button("Open Capture Folder") { captureController.openOutputFolder() }
+            if importEnabled {
+                Button("Import…") { CaptureImporter.chooseAndImport(into: library) }
+                    .keyboardShortcut("i", modifiers: .command)
+            }
         }
     }
 }

@@ -119,7 +119,6 @@ FR = {
     "Model": "Modèle",
     "Automatic (%@)": "Automatique (%@)",
     "Same Screen as This Capture": "Même écran que cette capture",
-    "Other Models": "Autres modèles",
     "This model has a different screen size: the capture is scaled to fill it.": "Ce modèle a une taille d’écran différente : la capture est agrandie pour le remplir.",
     "Frames aren't available for this capture.": "Les cadres ne sont pas disponibles pour cette capture.",
     "No Background": "Sans fond",
@@ -164,8 +163,14 @@ FR = {
     "Deep Blue": "Bleu intense",
     "Glacier": "Glacier",
     "Rose Gold": "Or rose",
-    "iPhone": "iPhone",
-    "iPad": "iPad",
+    "Other iPhones": "Autres iPhone",
+    "Import": "Importer",
+    "Import…": "Importer…",
+    "Import Enabled": "Import activé",
+    "Import Disabled": "Import désactivé",
+    "You can now import images and videos from your Mac, from the Screenshots and Videos tabs or the Capture menu. Your original files are copied, never modified.": "Vous pouvez maintenant importer des images et des vidéos depuis votre Mac, dans les onglets Captures d’écran et Vidéos ou le menu Capture. Vos fichiers originaux sont copiés, jamais modifiés.",
+    "Import is turned off.": "L’import est désactivé.",
+    "Other iPads": "Autres iPad",
     "Dynamic Island": "Dynamic Island",
     "Video Editor": "Éditeur vidéo",
     "See your iPhone or iPad screen live, then capture it.": "Visualisez l’écran de votre iPhone ou iPad en direct, puis capturez-le.",
@@ -281,3 +286,22 @@ for name, entries in [("Localizable", FR), ("InfoPlist", INFO_PLIST_FR)]:
     path = root / f"{name}.xcstrings"
     path.write_text(json.dumps(catalog(entries), ensure_ascii=False, indent=2) + "\n")
     print(f"Wrote {len(entries)} strings to {path.name}")
+
+# Every text shown in the app must have a French translation: fail loudly otherwise.
+import re, sys
+code = "".join(path.read_text() for path in (root.parent).rglob("*.swift"))
+pattern = (r'(?:Text|Button|Label|Toggle|Section|Picker|TextField|navigationTitle|help|alert|confirmationDialog|'
+           r'SettingRow|section|field|title:|message:|subtitle:|messageText =|String\(localized:|case \.\w+:|tip\([^,]+,|slider\()'
+           r'\s*\(?"((?:[^"\\]|\\.)+)"')
+missing = []
+for literal in sorted(set(re.findall(pattern, code))):
+    key = re.sub(r'\\\((.*?)\)', '%@', literal)
+    if key in FR or literal in FR or "%@" in key or "\\(" in literal:
+        continue
+    if re.fullmatch(r'[a-z0-9.\-]+', literal) or literal.startswith(("x-apple", "com.", "http", "mailto", "{", "#", "⌘")):
+        continue
+    missing.append(literal)
+if missing:
+    print("Missing French translations:", *missing, sep="\n  ")
+    sys.exit(1)
+print("All texts are translated.")

@@ -11,6 +11,7 @@ struct VideosView: View {
     @State private var showsInspector = true
     @State private var showsAll = false
     @State private var expandedTool: VideoTool?
+    @AppStorage(CaptureImporter.enabledKey) private var importEnabled = false
 
     private struct PreviewInputs: Equatable {
         let edits: VideoEdits?
@@ -52,6 +53,11 @@ struct VideosView: View {
             .inspectorColumnWidth(min: 300, ideal: 330, max: 400)
         }
         .toolbar {
+            if importEnabled {
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Import…", systemImage: "square.and.arrow.down") { CaptureImporter.chooseAndImport(into: library) }
+                }
+            }
             ToolbarItem(placement: .primaryAction) {
                 Button("Export Options", systemImage: "sidebar.right") { showsInspector.toggle() }
             }

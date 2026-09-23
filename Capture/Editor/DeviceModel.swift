@@ -21,6 +21,12 @@ struct DeviceFinish: Identifiable, Hashable {
 struct DeviceModel: Identifiable, Hashable {
     enum Family: Hashable {
         case iPhone, iPad
+
+        /// iPads are close to 4:3 (at most 1.6:1), iPhones are 16:9 or longer.
+        init(screen size: CGSize) {
+            let ratio = max(size.width, size.height) / max(1, min(size.width, size.height))
+            self = ratio < 1.6 ? .iPad : .iPhone
+        }
     }
 
     enum Cutout: Hashable {

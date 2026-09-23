@@ -46,6 +46,9 @@ notarize() {
     fi
 }
 
+echo "==> Checking translations"
+python3 scripts/strings.py
+
 echo "==> Building Capture $VERSION ($BUILD_NUMBER)"
 xcodegen generate --quiet
 xcodebuild archive -quiet \

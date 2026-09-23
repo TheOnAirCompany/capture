@@ -35,6 +35,13 @@ nonisolated enum DeviceOrientation: String, CaseIterable, Identifiable, Sendable
     var isLandscape: Bool { quarterTurns % 2 == 1 }
 }
 
+/// A clockwise rotation in quarter turns, as the shortest angle: three quarter turns
+/// clockwise become one counterclockwise, so animations turn the natural way.
+func shortestDegrees(quarterTurns: Int) -> Double {
+    let turns = (quarterTurns % 4 + 4) % 4
+    return turns == 3 ? -90 : Double(turns) * 90
+}
+
 /// Shape of the exported image or video.
 nonisolated enum CanvasRatio: String, CaseIterable, Identifiable, Sendable {
     case automatic, square, portrait, landscape
@@ -279,7 +286,7 @@ struct ScreenshotComposition: View {
             }
         }
         .frame(width: layout.device.width, height: layout.device.height)
-        .rotationEffect(.degrees(Double(layout.orientation.quarterTurns) * 90))
+        .rotationEffect(.degrees(shortestDegrees(quarterTurns: layout.orientation.quarterTurns)))
         .frame(width: layout.deviceBounds.width, height: layout.deviceBounds.height)
     }
 
@@ -292,7 +299,7 @@ struct ScreenshotComposition: View {
             .scaledToFill()
             .frame(width: size.width, height: size.height)
             .clipped()
-            .rotationEffect(.degrees(Double(layout.contentTurns) * 90))
+            .rotationEffect(.degrees(shortestDegrees(quarterTurns: layout.contentTurns)))
             .frame(width: layout.screen.width, height: layout.screen.height)
     }
 }
