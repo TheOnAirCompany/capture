@@ -12,7 +12,8 @@ struct CaptureItem: Identifiable, Hashable {
     var isVideo: Bool { UTType(filenameExtension: url.pathExtension)?.conforms(to: .movie) == true }
 }
 
-/// Screenshots and videos found in the capture folder and its subfolders, newest first.
+/// Screenshots and videos made by Capture in the capture folder and its subfolders, newest first.
+/// Files added by hand are ignored: see `CaptureMarker`.
 /// Exports are kept apart, in the `_Exports` folder.
 @Observable
 final class CaptureLibrary {
@@ -28,8 +29,8 @@ final class CaptureLibrary {
         self.exports = exports.screenshots + exports.videos
     }
 
-    /// Moves every screenshot, video and export to the Trash, then removes the
-    /// subfolders left empty. Other files in the folder are left untouched.
+    /// Moves every screenshot, video and export made by Capture to the Trash, then removes
+    /// the subfolders left empty. Other files in the folder are left untouched.
     func moveAllToTrash() throws {
         for item in allItems {
             try FileManager.default.trashItem(at: item.url, resultingItemURL: nil)
@@ -52,7 +53,7 @@ final class CaptureLibrary {
                 if skippingExports, url.lastPathComponent == Preferences.exportsFolderName { enumerator.skipDescendants() }
                 continue
             }
-            guard let type = values.contentType else { continue }
+            guard let type = values.contentType, CaptureMarker.isMarked(url) else { continue }
             let item = CaptureItem(url: url, date: values.creationDate ?? .distantPast)
             if type.conforms(to: .image) {
                 screenshots.append(item)

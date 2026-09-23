@@ -20,6 +20,7 @@
 		3B4EA10F03E20387054B2E9A /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7F358BB37C8E456F0C682A /* SidebarView.swift */; };
 		4BB740CF7E2AA26A36CD9574 /* VideoInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4D20A52D30A1DAE24114D0 /* VideoInspector.swift */; };
 		56EA6C419E41ACDF1443B1B7 /* DeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85E623B479AAFE9D781712C /* DeviceModel.swift */; };
+		5AE67B5362420988B02E513B /* CaptureMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A4D0DB953846D6D40F98B6 /* CaptureMarker.swift */; };
 		677EB461FF6556ECEDBB04AF /* VideosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA07AC3EBFE98EDB4257989 /* VideosView.swift */; };
 		6F18D59DBDE8B569F88BB4DB /* AppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05635D390CEB0C46AB32BFA /* AppUpdater.swift */; };
 		8505E7E1B44E814099615C3E /* ExportInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5F26BF3A02C1C0BF0C5AC7 /* ExportInspector.swift */; };
@@ -69,6 +70,7 @@
 		8179F90772BDC74B3BE06180 /* ScreenshotExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotExporter.swift; sourceTree = "<group>"; };
 		87747926BD259319B628DB73 /* Capture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		914E022D031C2418DB050B65 /* ExportSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSettings.swift; sourceTree = "<group>"; };
+		A2A4D0DB953846D6D40F98B6 /* CaptureMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureMarker.swift; sourceTree = "<group>"; };
 		A85E623B479AAFE9D781712C /* DeviceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModel.swift; sourceTree = "<group>"; };
 		A876D61EAABADA01DB4056AF /* DevicePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicePreview.swift; sourceTree = "<group>"; };
 		B05635D390CEB0C46AB32BFA /* AppUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdater.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				17DC58180F29A10F15E466AF /* CaptureLibrary.swift */,
+				A2A4D0DB953846D6D40F98B6 /* CaptureMarker.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				9CB4E79386ED69DFB7F30377 /* CaptureController.swift in Sources */,
 				B1972B5E31E5AC8B1F7FC425 /* CaptureFolder.swift in Sources */,
 				B47DBE531FE0EA022B65725C /* CaptureLibrary.swift in Sources */,
+				5AE67B5362420988B02E513B /* CaptureMarker.swift in Sources */,
 				052616A664731B25D110A1DC /* ColorHex.swift in Sources */,
 				CB82FFDAAAC8528116E9998E /* ConnectedView.swift in Sources */,
 				12957E342B20D19DC4686DEF /* DeviceManager.swift in Sources */,

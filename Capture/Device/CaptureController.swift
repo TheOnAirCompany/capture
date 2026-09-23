@@ -6,6 +6,7 @@ import Observation
 final class CaptureController {
     private(set) var recordingStartDate: Date?
     private(set) var screenshotCount = 0
+    @ObservationIgnored private var recordingURL: URL?
     var errorMessage: String?
 
     var isRecording: Bool { recordingStartDate != nil }
@@ -28,6 +29,7 @@ final class CaptureController {
                 defer { Task { @MainActor in self.deviceManager.isLocked = self.isRecording } }
                 do {
                     try session.writeScreenshot(to: url, format: format, scale: scale)
+                    CaptureMarker.mark(url)
                     await MainActor.run {
                         self.screenshotCount += 1
                         self.library.reload()
@@ -45,7 +47,9 @@ final class CaptureController {
     func toggleRecording() {
         if isRecording {
             recordingStartDate = nil
+            let url = recordingURL
             deviceManager.previewSession.stopRecording { error in
+                if error == nil, let url { CaptureMarker.mark(url) }
                 Task { @MainActor in
                     self.deviceManager.isLocked = false
                     self.library.reload()
@@ -55,10 +59,9 @@ final class CaptureController {
             return
         }
         do {
-            try deviceManager.previewSession.startRecording(
-                to: try nextFileURL(extension: "mov", isVideo: true),
-                recordsSound: Preferences.recordsSound
-            )
+            let url = try nextFileURL(extension: "mov", isVideo: true)
+            try deviceManager.previewSession.startRecording(to: url, recordsSound: Preferences.recordsSound)
+            recordingURL = url
             recordingStartDate = .now
             deviceManager.isLocked = true
         } catch {

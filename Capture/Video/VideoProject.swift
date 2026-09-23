@@ -308,6 +308,7 @@ final class VideoProject {
         }
         defer { progressTask.cancel() }
         try await session.export(to: url, as: format.fileType)
+        CaptureMarker.mark(url)
     }
 
     // MARK: Waveform

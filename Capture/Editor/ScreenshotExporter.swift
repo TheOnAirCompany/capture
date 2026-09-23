@@ -45,6 +45,7 @@ enum ScreenshotExporter {
         }
         guard let data = encode(image, as: format) else { throw CaptureError.writeFailed }
         try data.write(to: url)
+        CaptureMarker.mark(url)
         return url
     }
 
@@ -58,6 +59,7 @@ enum ScreenshotExporter {
         guard panel.runModal() == .OK, let url = panel.url else { return nil }
         guard let data = encode(image, as: format) else { throw CaptureError.writeFailed }
         try data.write(to: url)
+        CaptureMarker.mark(url)
         return url
     }
 }
