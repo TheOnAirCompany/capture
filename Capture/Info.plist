@@ -33,5 +33,11 @@
 	<string>Capture uses camera access to display and record the screen of your connected iPhone.</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2026 The On Air Company.</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>SUFeedURL</key>
+	<string>https://github.com/TheOnAirCompany/capture/releases/latest/download/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>D3Z2kJ8LrUkQNZ7qk1E5GkwFbDwRT5+UEM9y5TGlY4o=</string>
 </dict>
 </plist>

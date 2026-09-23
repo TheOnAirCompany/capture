@@ -11,7 +11,6 @@
 		052616A664731B25D110A1DC /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B16851DFFEE0D862CA25F5 /* ColorHex.swift */; };
 		0B79E75052C3F11381B32CBE /* CaptureApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798E078CFAAD34F2EFA2C525 /* CaptureApp.swift */; };
 		12957E342B20D19DC4686DEF /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99F88A119AC1A7E27A12238 /* DeviceManager.swift */; };
-		1A033E8B5740A74B192681A0 /* UpdateChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38060926DDE01B9E0B02A7CE /* UpdateChecker.swift */; };
 		1C24AB8151FEEF471F6C0D35 /* ExportSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914E022D031C2418DB050B65 /* ExportSettings.swift */; };
 		20C3198D8389F50E04D2CFC9 /* ScreenshotExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8179F90772BDC74B3BE06180 /* ScreenshotExporter.swift */; };
 		24D0EBCC90AFDD2F1915DE7A /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1F43CD8DC6EDE15E504124 /* Preferences.swift */; };
@@ -22,8 +21,10 @@
 		4BB740CF7E2AA26A36CD9574 /* VideoInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4D20A52D30A1DAE24114D0 /* VideoInspector.swift */; };
 		56EA6C419E41ACDF1443B1B7 /* DeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A85E623B479AAFE9D781712C /* DeviceModel.swift */; };
 		677EB461FF6556ECEDBB04AF /* VideosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA07AC3EBFE98EDB4257989 /* VideosView.swift */; };
+		6F18D59DBDE8B569F88BB4DB /* AppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = B05635D390CEB0C46AB32BFA /* AppUpdater.swift */; };
 		8505E7E1B44E814099615C3E /* ExportInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5F26BF3A02C1C0BF0C5AC7 /* ExportInspector.swift */; };
 		8AF109D3B8E19AF6ADC59FE6 /* ScreenshotComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FA7EE8B57DB800E27B7EFF /* ScreenshotComposition.swift */; };
+		8C466FF2663C7810AE3F05F7 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 161AFAC94DEF4202C8B9238A /* Sparkle */; };
 		8FA57D83A5E5B1E97BEB238F /* MovieRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7BB86498C66053058E1EF8 /* MovieRecorder.swift */; };
 		95CF826E2949863F0574B130 /* PreviewSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8624BEC384FF7632A890F88 /* PreviewSession.swift */; };
 		9CB4E79386ED69DFB7F30377 /* CaptureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CEA3E11D7C1CA3C0243BF9 /* CaptureController.swift */; };
@@ -50,7 +51,6 @@
 		298D1D0616D9C3236B5705BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2DA07AC3EBFE98EDB4257989 /* VideosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideosView.swift; sourceTree = "<group>"; };
 		349A34C451E183983A2671F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		38060926DDE01B9E0B02A7CE /* UpdateChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChecker.swift; sourceTree = "<group>"; };
 		3D5F26BF3A02C1C0BF0C5AC7 /* ExportInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportInspector.swift; sourceTree = "<group>"; };
 		4007BBDE6B834F0FA7C409D0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		43B16851DFFEE0D862CA25F5 /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
@@ -67,6 +67,7 @@
 		914E022D031C2418DB050B65 /* ExportSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSettings.swift; sourceTree = "<group>"; };
 		A85E623B479AAFE9D781712C /* DeviceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModel.swift; sourceTree = "<group>"; };
 		A876D61EAABADA01DB4056AF /* DevicePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicePreview.swift; sourceTree = "<group>"; };
+		B05635D390CEB0C46AB32BFA /* AppUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdater.swift; sourceTree = "<group>"; };
 		BC7BB86498C66053058E1EF8 /* MovieRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRecorder.swift; sourceTree = "<group>"; };
 		BE7F358BB37C8E456F0C682A /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		C83EE4141FEAAA319C110BBE /* VideoProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoProject.swift; sourceTree = "<group>"; };
@@ -80,6 +81,17 @@
 		EA708DCCFB9E20781D93AE27 /* VideoRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRenderer.swift; sourceTree = "<group>"; };
 		FC4714E87BA3F454D61AB62E /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		438986604B2C78AE1274FCCC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C466FF2663C7810AE3F05F7 /* Sparkle in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		01ADD04694DC1788B03E686F /* Editor */ = {
@@ -176,9 +188,9 @@
 		9550B6036C796AF490EBC5E5 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				B05635D390CEB0C46AB32BFA /* AppUpdater.swift */,
 				6C1F43CD8DC6EDE15E504124 /* Preferences.swift */,
 				D675959D7F8384D5334ACA07 /* SettingsView.swift */,
-				38060926DDE01B9E0B02A7CE /* UpdateChecker.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -221,6 +233,7 @@
 			buildPhases = (
 				D8101C438C655EBE9662FB1F /* Sources */,
 				3D80A3ED2E1E524044816B69 /* Resources */,
+				438986604B2C78AE1274FCCC /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -228,6 +241,7 @@
 			);
 			name = Capture;
 			packageProductDependencies = (
+				161AFAC94DEF4202C8B9238A /* Sparkle */,
 			);
 			productName = Capture;
 			productReference = 87747926BD259319B628DB73 /* Capture.app */;
@@ -258,6 +272,9 @@
 			);
 			mainGroup = 996D730C62AE43D58B094870;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				7C2D2A2196FC0C234C9BDC3D /* XCRemoteSwiftPackageReference "Sparkle" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = EC5F676C046689FB3E6D14C3 /* Products */;
 			projectDirPath = "";
@@ -286,6 +303,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F18D59DBDE8B569F88BB4DB /* AppUpdater.swift in Sources */,
 				0B79E75052C3F11381B32CBE /* CaptureApp.swift in Sources */,
 				9CB4E79386ED69DFB7F30377 /* CaptureController.swift in Sources */,
 				B1972B5E31E5AC8B1F7FC425 /* CaptureFolder.swift in Sources */,
@@ -309,7 +327,6 @@
 				2B0A40F84FE03D98ABC459B9 /* ScreenshotsView.swift in Sources */,
 				328B0941285BC2743A4EB05A /* SettingsView.swift in Sources */,
 				3B4EA10F03E20387054B2E9A /* SidebarView.swift in Sources */,
-				1A033E8B5740A74B192681A0 /* UpdateChecker.swift in Sources */,
 				032A86C20037C5F776A35F80 /* VideoEdits.swift in Sources */,
 				4BB740CF7E2AA26A36CD9574 /* VideoInspector.swift in Sources */,
 				FE8C79C48D4ACEA9AE3C5405 /* VideoProject.swift in Sources */,
@@ -521,6 +538,25 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7C2D2A2196FC0C234C9BDC3D /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		161AFAC94DEF4202C8B9238A /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C2D2A2196FC0C234C9BDC3D /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F37CB672B064795DABF49648 /* Project object */;
 }

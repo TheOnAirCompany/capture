@@ -36,8 +36,8 @@ Capture is a small, native macOS app designed around it: plug in your iPhone, ta
 - [x] Video editor: trim, split and delete segments with undo, rotate, speed, volume, an added music or voice-over track, and the same device frame and background as screenshots
 - [x] Portrait, landscape left, landscape right and upside-down device frames, and 1:1, 9:16 or 16:9 output
 - [x] Video export as MP4 or MOV (HEVC), at the source resolution, 1080p or 720p, and 24 to 60 fps
-- [ ] Automatic updates from GitHub releases
-- [ ] Signed and notarized DMG
+- [x] Automatic updates from GitHub releases (Sparkle)
+- [x] Styled, signed and notarized DMG
 
 Screenshots and videos are saved to the folder chosen during onboarding (`~/Desktop/Capture` by default). File names can use variables such as `{device}`, `{date}`, `{time}`, `{counter}` and `{type}`, and captures can be sorted into subfolders by date or device. Shortcuts: **⇧⌘S** for a screenshot, **⇧⌘R** to start or stop a recording.
 
@@ -78,6 +78,30 @@ The Xcode project is generated from `project.yml` with [XcodeGen](https://github
 xcodegen generate
 ```
 
+## Releasing
+
+Releases are Developer ID signed, notarized, packaged in a styled DMG and published on GitHub. The app updates itself with [Sparkle](https://sparkle-project.org), from the `appcast.xml` attached to the latest release.
+
+**Locally:**
+
+```sh
+xcrun notarytool store-credentials capture   # once
+TEAM_ID=XXXXXXXXXX NOTARY_PROFILE=capture scripts/release.sh 0.2.0
+```
+
+**From GitHub Actions:** push a tag such as `v0.2.0`. The workflow needs these secrets:
+
+| Secret | Content |
+| --- | --- |
+| `TEAM_ID` | Apple Developer team ID |
+| `DEVELOPER_ID_CERTIFICATE_P12` | Developer ID Application certificate, `.p12` in base64 |
+| `DEVELOPER_ID_CERTIFICATE_PASSWORD` | Password of the `.p12` |
+| `NOTARY_API_KEY_P8` | App Store Connect API key, `.p8` in base64 |
+| `NOTARY_API_KEY_ID` / `NOTARY_API_ISSUER_ID` | Identifiers of that key |
+| `SPARKLE_PRIVATE_KEY` | Sparkle EdDSA private key, exported with `generate_keys -x` |
+
+The DMG window is described in `dmg/settings.py`. Its background is drawn by `scripts/make-dmg-background.swift`: replace `dmg/background.png` and `dmg/background@2x.png` with your own design (660 × 400 pt), keeping the icon centers at (180, 190) and (480, 190), then merge them with `tiffutil -cathidpicheck dmg/background.png dmg/background@2x.png -out dmg/background.tiff`.
+
 ## Project structure
 
 ```
@@ -92,8 +116,11 @@ Capture/
 ├── Video/          Video editor: timeline, tools, rendering and export
 └── Resources/      Assets and string catalogs (en, fr)
 scripts/
-├── make-icons.swift  Generates the AppIcon set from Design/AppIcon.png
-└── strings.py        Regenerates the string catalogs with French translations
+├── make-icons.swift          Generates the AppIcon set from Design/AppIcon.png
+├── make-dmg-background.swift Draws the DMG background
+├── release.sh                Builds, notarizes and publishes a release
+└── strings.py                Regenerates the string catalogs with French translations
+dmg/                          DMG layout and background
 ```
 
 ## Localization

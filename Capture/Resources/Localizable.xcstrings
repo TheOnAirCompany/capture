@@ -411,16 +411,6 @@
         }
       }
     },
-    "Capture is up to date.": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Capture est à jour."
-          }
-        }
-      }
-    },
     "Capture needs camera access to display your iPhone's screen.": {
       "localizations": {
         "fr": {
@@ -451,12 +441,22 @@
         }
       }
     },
-    "Check for Updates": {
+    "Check Automatically": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Rechercher les mises à jour"
+            "value": "Rechercher automatiquement"
+          }
+        }
+      }
+    },
+    "Check for Updates…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher les mises à jour…"
           }
         }
       }
@@ -661,16 +661,6 @@
         }
       }
     },
-    "Couldn't check for updates.": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Impossible de rechercher les mises à jour."
-          }
-        }
-      }
-    },
     "Counter": {
       "localizations": {
         "fr": {
@@ -827,16 +817,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Appareil, date et heure"
-          }
-        }
-      }
-    },
-    "Download": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Télécharger"
           }
         }
       }
@@ -1211,6 +1191,16 @@
         }
       }
     },
+    "Last checked %@": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dernière recherche %@"
+          }
+        }
+      }
+    },
     "Lavender": {
       "localizations": {
         "fr": {
@@ -1437,16 +1427,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aucune image n’a encore été reçue de l’iPhone."
-          }
-        }
-      }
-    },
-    "No release has been published yet.": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aucune version n’a encore été publiée."
           }
         }
       }
@@ -2257,16 +2237,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Version %@ (%@)"
-          }
-        }
-      }
-    },
-    "Version %@ is available.": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La version %@ est disponible."
           }
         }
       }

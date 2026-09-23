@@ -6,6 +6,7 @@ struct CaptureApp: App {
     @State private var captureController: CaptureController
     @State private var library: CaptureLibrary
     @State private var exportSettings = ExportSettings()
+    @State private var updater = AppUpdater()
 
     init() {
         let deviceManager = DeviceManager()
@@ -23,11 +24,18 @@ struct CaptureApp: App {
                 .environment(captureController)
                 .environment(library)
                 .environment(exportSettings)
+                .environment(updater)
                 .frame(minWidth: 860, minHeight: 600)
         }
         .defaultSize(width: 1180, height: 780)
         .windowToolbarStyle(.unified)
-        .commands { CaptureCommands(captureController: captureController, deviceManager: deviceManager) }
+        .commands {
+            CommandGroup(after: .appInfo) {
+                Button("Check for Updates…", action: updater.checkForUpdates)
+                    .disabled(!updater.canCheckForUpdates)
+            }
+            CaptureCommands(captureController: captureController, deviceManager: deviceManager)
+        }
     }
 }
 

@@ -5,6 +5,10 @@ options:
     macOS: "26.0"
   developmentLanguage: en
   createIntermediateGroups: true
+packages:
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    from: "2.10.0"
 settings:
   base:
     MARKETING_VERSION: "0.1.0"
@@ -21,6 +25,8 @@ targets:
     platform: macOS
     sources:
       - path: Capture
+    dependencies:
+      - package: Sparkle
     info:
       path: Capture/Info.plist
       properties:
@@ -33,6 +39,9 @@ targets:
         LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
         NSCameraUsageDescription: Capture uses camera access to display and record the screen of your connected iPhone.
         NSHumanReadableCopyright: Copyright © 2026 The On Air Company.
+        SUFeedURL: https://github.com/TheOnAirCompany/capture/releases/latest/download/appcast.xml
+        SUPublicEDKey: D3Z2kJ8LrUkQNZ7qk1E5GkwFbDwRT5+UEM9y5TGlY4o=
+        SUEnableAutomaticChecks: true
     entitlements:
       path: Capture/Capture.entitlements
       properties:

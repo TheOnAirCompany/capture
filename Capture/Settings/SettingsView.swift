@@ -328,47 +328,31 @@ private struct TemplateEditor: View {
 }
 
 private struct UpdatesCard: View {
-    @State private var checker = UpdateChecker()
+    @Environment(AppUpdater.self) private var updater
 
     var body: some View {
+        @Bindable var updater = updater
+
         SettingsCard(
             systemImage: "arrow.triangle.2.circlepath",
             title: "Updates",
-            subtitle: "Version \(UpdateChecker.currentVersion) (\(UpdateChecker.currentBuild))"
+            subtitle: "Version \(AppUpdater.currentVersion) (\(AppUpdater.currentBuild))"
         ) {
-            HStack(spacing: 12) {
-                status
-                Spacer(minLength: 8)
-                if case .available(_, let download) = checker.state {
-                    Button("Download") { NSWorkspace.shared.open(download) }
-                        .buttonStyle(.borderedProminent)
-                } else {
-                    Button("Check for Updates") { Task { await checker.check() } }
-                        .disabled(checker.state == .checking)
+            VStack(spacing: 12) {
+                SettingRow("Check Automatically") {
+                    Toggle("Check Automatically", isOn: $updater.checksAutomatically)
+                }
+                HStack {
+                    if let lastCheck = updater.lastCheck {
+                        Text("Last checked \(lastCheck, format: .relative(presentation: .named))")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    Button("Check for Updates…", action: updater.checkForUpdates)
+                        .disabled(!updater.canCheckForUpdates)
                 }
             }
-        }
-    }
-
-    @ViewBuilder
-    private var status: some View {
-        switch checker.state {
-        case .idle:
-            EmptyView()
-        case .checking:
-            ProgressView().controlSize(.small)
-        case .upToDate:
-            Label("Capture is up to date.", systemImage: "checkmark.circle.fill")
-                .foregroundStyle(.green)
-        case .noRelease:
-            Text("No release has been published yet.")
-                .foregroundStyle(.secondary)
-        case .available(let version, _):
-            Label("Version \(version) is available.", systemImage: "arrow.down.circle.fill")
-                .foregroundStyle(.tint)
-        case .failed:
-            Text("Couldn't check for updates.")
-                .foregroundStyle(.secondary)
         }
     }
 }
