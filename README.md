@@ -29,8 +29,11 @@ Capture is a small, native macOS app designed around it: plug in your iPhone, ta
 - [x] Live preview that fits the window
 - [x] Screenshots at full native resolution
 - [x] Screen recordings with sound
-- [ ] Recent captures library
-- [ ] Device frames (bezels) added when editing
+- [x] Screenshot editor: device frame with the display corners of each model, background (color, gradient, image), margin and shadow
+- [x] Export as PNG, JPEG or HEIC at ½x, 1x or 2x, or copy to the clipboard
+- [x] Recent captures
+- [x] Settings: save location, demo mode explained
+- [ ] Video editor
 - [ ] Signed and notarized DMG
 
 Screenshots and videos are saved to the folder chosen during onboarding (`~/Desktop/Capture` by default). Shortcuts: **⇧⌘S** for a screenshot, **⇧⌘R** to start or stop a recording.

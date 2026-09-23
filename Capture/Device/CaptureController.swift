@@ -11,9 +11,11 @@ final class CaptureController {
     var isRecording: Bool { recordingStartDate != nil }
 
     private let deviceManager: DeviceManager
+    private let library: CaptureLibrary
 
-    init(deviceManager: DeviceManager) {
+    init(deviceManager: DeviceManager, library: CaptureLibrary) {
         self.deviceManager = deviceManager
+        self.library = library
     }
 
     func takeScreenshot() {
@@ -25,6 +27,7 @@ final class CaptureController {
                     try session.writeScreenshot(to: url)
                     await MainActor.run {
                         self.screenshotCount += 1
+                        self.library.reload()
                         NSSound(named: "Grab")?.play()
                     }
                 } catch {
@@ -40,8 +43,10 @@ final class CaptureController {
         if isRecording {
             recordingStartDate = nil
             deviceManager.previewSession.stopRecording { error in
-                guard let error else { return }
-                Task { @MainActor in self.errorMessage = error.localizedDescription }
+                Task { @MainActor in
+                    self.library.reload()
+                    if let error { self.errorMessage = error.localizedDescription }
+                }
             }
             return
         }

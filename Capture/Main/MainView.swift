@@ -2,7 +2,7 @@ import AppKit
 import SwiftUI
 
 enum SidebarItem: Hashable, CaseIterable, Identifiable {
-    case preview, screenshots, videos
+    case preview, screenshots, videos, settings
 
     var id: Self { self }
 
@@ -11,6 +11,7 @@ enum SidebarItem: Hashable, CaseIterable, Identifiable {
         case .preview: "Preview"
         case .screenshots: "Screenshots"
         case .videos: "Videos"
+        case .settings: "Settings"
         }
     }
 
@@ -19,12 +20,14 @@ enum SidebarItem: Hashable, CaseIterable, Identifiable {
         case .preview: "display"
         case .screenshots: "camera"
         case .videos: "video"
+        case .settings: "gearshape"
         }
     }
 }
 
 struct MainView: View {
     @Environment(DeviceManager.self) private var deviceManager
+    @Environment(CaptureLibrary.self) private var library
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @State private var selection: SidebarItem = .preview
 
@@ -42,7 +45,9 @@ struct MainView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             deviceManager.refreshCameraAuthorization()
+            library.reload()
         }
+        .onAppear { library.reload() }
     }
 
     @ViewBuilder
@@ -57,17 +62,15 @@ struct MainView: View {
                 EmptyStateView()
             }
         case .screenshots:
-            ContentUnavailableView {
-                Label("No Screenshots Yet", systemImage: "camera")
-            } description: {
-                Text("Screenshots you take will appear here.")
-            }
+            ScreenshotsView()
         case .videos:
             ContentUnavailableView {
                 Label("No Videos Yet", systemImage: "video")
             } description: {
                 Text("Screen recordings you make will appear here.")
             }
+        case .settings:
+            SettingsView()
         }
     }
 

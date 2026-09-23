@@ -4,11 +4,15 @@ import SwiftUI
 struct CaptureApp: App {
     @State private var deviceManager: DeviceManager
     @State private var captureController: CaptureController
+    @State private var library: CaptureLibrary
+    @State private var exportSettings = ExportSettings()
 
     init() {
         let deviceManager = DeviceManager()
+        let library = CaptureLibrary()
         _deviceManager = State(initialValue: deviceManager)
-        _captureController = State(initialValue: CaptureController(deviceManager: deviceManager))
+        _library = State(initialValue: library)
+        _captureController = State(initialValue: CaptureController(deviceManager: deviceManager, library: library))
     }
 
     var body: some Scene {
@@ -16,6 +20,8 @@ struct CaptureApp: App {
             MainView()
                 .environment(deviceManager)
                 .environment(captureController)
+                .environment(library)
+                .environment(exportSettings)
                 .frame(minWidth: 860, minHeight: 600)
         }
         .defaultSize(width: 1180, height: 780)

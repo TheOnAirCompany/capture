@@ -146,7 +146,7 @@ private struct FeaturesPage: View {
                 FeatureRow(
                     systemImage: "clock.badge.checkmark",
                     title: "A Perfect Status Bar",
-                    message: "9:41, full battery and full signal. Automatically, with no notifications."
+                    message: "9:41, full battery and full signal, automatically."
                 )
                 FeatureRow(
                     systemImage: "iphone.gen3",
