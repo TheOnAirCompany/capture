@@ -5,8 +5,8 @@ import AppKit
 import SwiftUI
 
 let size = CGSize(width: 660, height: 400)
-let appCenter = CGPoint(x: 180, y: 190)
-let applicationsCenter = CGPoint(x: 480, y: 190)
+let appCenter = CGPoint(x: 180, y: 165)
+let applicationsCenter = CGPoint(x: 480, y: 165)
 
 struct Background: View {
     var body: some View {
@@ -40,7 +40,7 @@ struct Background: View {
                     .font(.system(size: 12))
                     .foregroundStyle(Color(white: 0.45))
             }
-            .position(x: size.width / 2, y: 330)
+            .position(x: size.width / 2, y: 300)
         }
         .frame(width: size.width, height: size.height)
     }

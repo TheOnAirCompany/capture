@@ -13,7 +13,8 @@ symlinks = {"Applications": "/Applications"}
 icon = os.path.join(app, "Contents/Resources/AppIcon.icns")
 
 background = "dmg/background.tiff"
-window_rect = ((200, 160), (660, 400))
+# The height includes the Finder title bar, so the whole 660 × 400 background shows.
+window_rect = ((200, 160), (660, 428))
 default_view = "icon-view"
 show_status_bar = False
 show_tab_view = False
@@ -25,6 +26,6 @@ show_icon_preview = False
 icon_size = 128
 text_size = 13
 icon_locations = {
-    app_name: (180, 190),
-    "Applications": (480, 190),
+    app_name: (180, 165),
+    "Applications": (480, 165),
 }

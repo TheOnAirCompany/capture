@@ -100,7 +100,7 @@ TEAM_ID=XXXXXXXXXX NOTARY_PROFILE=capture scripts/release.sh 0.2.0
 | `NOTARY_API_KEY_ID` / `NOTARY_API_ISSUER_ID` | Identifiers of that key |
 | `SPARKLE_PRIVATE_KEY` | Sparkle EdDSA private key, exported with `generate_keys -x` |
 
-The DMG window is described in `dmg/settings.py`. Its background is drawn by `scripts/make-dmg-background.swift`: replace `dmg/background.png` and `dmg/background@2x.png` with your own design (660 × 400 pt), keeping the icon centers at (180, 190) and (480, 190), then merge them with `tiffutil -cathidpicheck dmg/background.png dmg/background@2x.png -out dmg/background.tiff`.
+The DMG window is described in `dmg/settings.py`. Its background is drawn by `scripts/make-dmg-background.swift`: replace `dmg/background.png` and `dmg/background@2x.png` with your own design (660 × 400 pt), keeping the icon centers at (180, 165) and (480, 165), then merge them with `tiffutil -cathidpicheck dmg/background.png dmg/background@2x.png -out dmg/background.tiff`.
 
 ## Project structure
 
