@@ -82,8 +82,12 @@ KEY_ARGS=()
 
 if [[ "$PUBLISH" == 1 ]]; then
     echo "==> Publishing the GitHub release"
+    # Release notes come from the matching section of CHANGELOG.md, or from the commits.
+    NOTES="$(awk -v version="## $VERSION" '$0 == version { found = 1; next } /^## / { found = 0 } found' CHANGELOG.md)"
+    NOTES_ARGS=(--generate-notes)
+    [[ -n "${NOTES//[[:space:]]/}" ]] && NOTES_ARGS=(--notes "$NOTES")
     gh release create "v$VERSION" "$DMG" "$BUILD/appcast.xml" \
-        --repo "$REPO" --title "Capture $VERSION" --generate-notes $DRAFT
+        --repo "$REPO" --title "Capture $VERSION" "${NOTES_ARGS[@]}" $DRAFT
 fi
 
 echo "==> Done: $DMG"
