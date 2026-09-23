@@ -11,12 +11,102 @@
         }
       }
     },
+    "1080p (%@)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1080p (%@)"
+          }
+        }
+      }
+    },
+    "16:9": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "16:9"
+          }
+        }
+      }
+    },
+    "1:1": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1:1"
+          }
+        }
+      }
+    },
     "1x (Original Size)": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "1x (taille originale)"
+          }
+        }
+      }
+    },
+    "24 fps": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "24 ips"
+          }
+        }
+      }
+    },
+    "30 fps": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30 ips"
+          }
+        }
+      }
+    },
+    "4:5": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "4:5"
+          }
+        }
+      }
+    },
+    "60 fps": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "60 ips"
+          }
+        }
+      }
+    },
+    "720p (%@)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "720p (%@)"
+          }
+        }
+      }
+    },
+    "9:16": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "9:16"
           }
         }
       }
@@ -111,12 +201,42 @@
         }
       }
     },
+    "Add a Track (Music, Voice-Over…)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter une piste (musique, voix off…)"
+          }
+        }
+      }
+    },
     "Add an iPhone frame to your captures when you edit them.": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Ajoutez un cadre d’iPhone à vos captures lors de l’édition."
+          }
+        }
+      }
+    },
+    "Added Track": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Piste ajoutée"
+          }
+        }
+      }
+    },
+    "Adjustments": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustements"
           }
         }
       }
@@ -171,6 +291,26 @@
         }
       }
     },
+    "Aspect Ratio": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Format"
+          }
+        }
+      }
+    },
+    "Audio": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Audio"
+          }
+        }
+      }
+    },
     "Automatic (%@)": {
       "localizations": {
         "fr": {
@@ -217,6 +357,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bleu"
+          }
+        }
+      }
+    },
+    "Brightness": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Luminosité"
           }
         }
       }
@@ -371,6 +521,16 @@
         }
       }
     },
+    "Chrome": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chrome"
+          }
+        }
+      }
+    },
     "Close": {
       "localizations": {
         "fr": {
@@ -451,6 +611,16 @@
         }
       }
     },
+    "Contrast": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contraste"
+          }
+        }
+      }
+    },
     "Copied": {
       "localizations": {
         "fr": {
@@ -511,6 +681,16 @@
         }
       }
     },
+    "Couldn't Export the Video": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’exporter la vidéo"
+          }
+        }
+      }
+    },
     "Couldn't Save the Capture": {
       "localizations": {
         "fr": {
@@ -541,6 +721,16 @@
         }
       }
     },
+    "Crop": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recadrer"
+          }
+        }
+      }
+    },
     "Custom": {
       "localizations": {
         "fr": {
@@ -557,6 +747,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Personnalisez votre expérience avec Capture."
+          }
+        }
+      }
+    },
+    "Cut": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couper"
           }
         }
       }
@@ -617,6 +817,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Qualité par défaut"
+          }
+        }
+      }
+    },
+    "Delete Segment": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer le segment"
           }
         }
       }
@@ -761,6 +971,16 @@
         }
       }
     },
+    "Export Video…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exporter la vidéo…"
+          }
+        }
+      }
+    },
     "Export to the Capture Folder": {
       "localizations": {
         "fr": {
@@ -777,6 +997,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Exporté"
+          }
+        }
+      }
+    },
+    "Exporting…": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportation…"
           }
         }
       }
@@ -811,6 +1041,16 @@
         }
       }
     },
+    "Fade": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fondu"
+          }
+        }
+      }
+    },
     "File Name": {
       "localizations": {
         "fr": {
@@ -841,6 +1081,16 @@
         }
       }
     },
+    "Filters": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filtres"
+          }
+        }
+      }
+    },
     "Find all your captures in one place.": {
       "localizations": {
         "fr": {
@@ -857,6 +1107,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Format"
+          }
+        }
+      }
+    },
+    "Frame Rate": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fréquence d’images"
           }
         }
       }
@@ -961,12 +1221,32 @@
         }
       }
     },
+    "Include Sound": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inclure le son"
+          }
+        }
+      }
+    },
     "Include Sound (Video)": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Inclure le son (vidéo)"
+          }
+        }
+      }
+    },
+    "Instant": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instantané"
           }
         }
       }
@@ -1007,6 +1287,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Or clair"
+          }
+        }
+      }
+    },
+    "MOV (HEVC)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MOV (HEVC)"
+          }
+        }
+      }
+    },
+    "MP4 (Recommended)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MP4 (recommandé)"
           }
         }
       }
@@ -1071,6 +1371,16 @@
         }
       }
     },
+    "Mono": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mono"
+          }
+        }
+      }
+    },
     "Move all captures to the Trash?": {
       "localizations": {
         "fr": {
@@ -1087,6 +1397,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Placer dans la corbeille"
+          }
+        }
+      }
+    },
+    "Mute": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couper le son"
           }
         }
       }
@@ -1181,6 +1501,16 @@
         }
       }
     },
+    "Noir": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noir"
+          }
+        }
+      }
+    },
     "None": {
       "localizations": {
         "fr": {
@@ -1231,6 +1561,16 @@
         }
       }
     },
+    "Optimize for Web Sharing": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Optimiser pour le partage web"
+          }
+        }
+      }
+    },
     "Or pick a color": {
       "localizations": {
         "fr": {
@@ -1247,6 +1587,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Organiser par"
+          }
+        }
+      }
+    },
+    "Original": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Original"
           }
         }
       }
@@ -1291,12 +1641,32 @@
         }
       }
     },
+    "Pause": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause"
+          }
+        }
+      }
+    },
     "Pink": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Rose"
+          }
+        }
+      }
+    },
+    "Play": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lire"
           }
         }
       }
@@ -1321,6 +1691,16 @@
         }
       }
     },
+    "Process": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Traitement"
+          }
+        }
+      }
+    },
     "Purple": {
       "localizations": {
         "fr": {
@@ -1337,6 +1717,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Captures récentes"
+          }
+        }
+      }
+    },
+    "Recent Videos": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vidéos récentes"
           }
         }
       }
@@ -1381,12 +1771,32 @@
         }
       }
     },
+    "Redo": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rétablir"
+          }
+        }
+      }
+    },
     "Remove": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Supprimer"
+          }
+        }
+      }
+    },
+    "Remove Track": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retirer la piste"
           }
         }
       }
@@ -1401,12 +1811,32 @@
         }
       }
     },
+    "Reset": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réinitialiser"
+          }
+        }
+      }
+    },
     "Resolution": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Résolution"
+          }
+        }
+      }
+    },
+    "Rotate": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pivoter"
           }
         }
       }
@@ -1427,6 +1857,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Même écran que cette capture"
+          }
+        }
+      }
+    },
+    "Same as Source (%@)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comme la source (%@)"
+          }
+        }
+      }
+    },
+    "Same as Source (%lld fps)": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comme la source (%lld ips)"
+          }
+        }
+      }
+    },
+    "Saturation": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saturation"
           }
         }
       }
@@ -1561,6 +2021,16 @@
         }
       }
     },
+    "Sound keeps its pitch when the speed changes.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le son garde sa hauteur quand la vitesse change."
+          }
+        }
+      }
+    },
     "Space Black": {
       "localizations": {
         "fr": {
@@ -1577,6 +2047,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gris sidéral"
+          }
+        }
+      }
+    },
+    "Speed": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vitesse"
+          }
+        }
+      }
+    },
+    "Split at Playhead": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couper à la tête de lecture"
           }
         }
       }
@@ -1701,6 +2191,46 @@
         }
       }
     },
+    "Tonal": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tonal"
+          }
+        }
+      }
+    },
+    "Tools": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outils"
+          }
+        }
+      }
+    },
+    "Transfer": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transfert"
+          }
+        }
+      }
+    },
+    "Trim, adjust and export your videos.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coupez, ajustez et exportez vos vidéos."
+          }
+        }
+      }
+    },
     "Try unplugging your iPhone and plugging it back in.": {
       "localizations": {
         "fr": {
@@ -1727,6 +2257,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Outremer"
+          }
+        }
+      }
+    },
+    "Undo": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuler"
           }
         }
       }
@@ -1791,6 +2331,16 @@
         }
       }
     },
+    "Video Editor": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Éditeur vidéo"
+          }
+        }
+      }
+    },
     "Videos": {
       "localizations": {
         "fr": {
@@ -1807,6 +2357,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Voir la documentation"
+          }
+        }
+      }
+    },
+    "Volume": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volume"
           }
         }
       }
@@ -1871,12 +2431,42 @@
         }
       }
     },
+    "Zoom In": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zoom avant"
+          }
+        }
+      }
+    },
+    "Zoom Out": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zoom arrière"
+          }
+        }
+      }
+    },
     "edited": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "modifiée"
+          }
+        }
+      }
+    },
+    "iPhone Sound": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Son de l’iPhone"
           }
         }
       }

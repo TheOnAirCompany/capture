@@ -53,29 +53,60 @@ struct CompositionLayout {
         margin = device.width * style.margin
         canvas = CGSize(width: device.width + 2 * margin, height: device.height + 2 * margin)
     }
+
+    /// Top-left corner of the screen in the canvas (the layout is symmetric).
+    var screenOrigin: CGPoint {
+        CGPoint(x: margin + buttonDepth + border + band, y: margin + border + band)
+    }
+}
+
+/// Which part of a composition to draw. Videos are composed frame by frame between
+/// a still layer below the screen and one above it.
+enum CompositionPart {
+    case all
+    /// Background and device, with a black screen.
+    case belowScreen
+    /// Only what covers the screen: the notch or Dynamic Island.
+    case aboveScreen
 }
 
 /// A capture placed in an optional device frame, on an optional background.
 /// Laid out in pixels, so rendering it at scale 1 gives the native resolution.
 struct ScreenshotComposition: View {
-    let image: CGImage
+    let image: CGImage?
+    let imageSize: CGSize
     let style: CompositionStyle
+    var part = CompositionPart.all
     /// Shows a checkerboard behind transparent areas, for on-screen previews only.
     var showsTransparency = false
 
+    init(image: CGImage, style: CompositionStyle, showsTransparency: Bool = false) {
+        self.image = image
+        imageSize = CGSize(width: image.width, height: image.height)
+        self.style = style
+        self.showsTransparency = showsTransparency
+    }
+
+    init(imageSize: CGSize, style: CompositionStyle, part: CompositionPart) {
+        image = nil
+        self.imageSize = imageSize
+        self.style = style
+        self.part = part
+    }
+
     private var layout: CompositionLayout {
-        CompositionLayout(image: CGSize(width: image.width, height: image.height), style: style)
+        CompositionLayout(image: imageSize, style: style)
     }
 
     var body: some View {
         let layout = layout
         ZStack {
-            background(layout)
+            if part != .aboveScreen { background(layout) }
             device(layout)
                 // One shadow for the whole device, not one per part (such as the Dynamic Island).
                 .compositingGroup()
                 .shadow(
-                    color: .black.opacity(style.showsShadow && style.background != .none ? 0.28 : 0),
+                    color: .black.opacity(style.showsShadow && style.background != .none && part != .aboveScreen ? 0.28 : 0),
                     radius: layout.device.width * 0.035,
                     y: layout.device.width * 0.02
                 )
@@ -107,7 +138,7 @@ struct ScreenshotComposition: View {
         let frame = layout.border + layout.band
         let bandColors = style.finish?.bandColors ?? [.gray]
         return ZStack {
-            if frame > 0 {
+            if frame > 0, part != .aboveScreen {
                 SideButtons(layout: layout, colors: bandColors)
                 RoundedRectangle(cornerRadius: layout.screenRadius + frame, style: .continuous)
                     .fill(LinearGradient(colors: bandColors, startPoint: .leading, endPoint: .trailing))
@@ -121,12 +152,18 @@ struct ScreenshotComposition: View {
                     .padding(.horizontal, layout.buttonDepth + layout.band)
                     .padding(.vertical, layout.band)
             }
-            Image(decorative: image, scale: 1)
-                .resizable()
-                .scaledToFill()
-                .frame(width: layout.screen.width, height: layout.screen.height)
-                .clipShape(RoundedRectangle(cornerRadius: layout.screenRadius, style: .continuous))
-            if frame > 0, layout.isPortrait, let cutout = style.model?.cutout,
+            if let image {
+                Image(decorative: image, scale: 1)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: layout.screen.width, height: layout.screen.height)
+                    .clipShape(RoundedRectangle(cornerRadius: layout.screenRadius, style: .continuous))
+            } else if part == .belowScreen {
+                RoundedRectangle(cornerRadius: layout.screenRadius, style: .continuous)
+                    .fill(.black)
+                    .frame(width: layout.screen.width, height: layout.screen.height)
+            }
+            if frame > 0, part != .belowScreen, layout.isPortrait, let cutout = style.model?.cutout,
                cutout != .dynamicIsland || style.showsDynamicIsland {
                 Cutout(kind: cutout, pixelsPerPoint: layout.pixelsPerPoint)
                     .frame(width: layout.screen.width, height: layout.screen.height, alignment: .top)

@@ -23,7 +23,7 @@ struct ScreenshotsView: View {
                 VStack(spacing: 0) {
                     canvas
                     Divider()
-                    RecentStrip(items: library.screenshots, selection: $selection, showsAll: $showsAll)
+                    RecentStrip(title: "Recent Captures", items: library.screenshots, selection: $selection, showsAll: $showsAll)
                 }
             }
         }
@@ -37,7 +37,7 @@ struct ScreenshotsView: View {
             }
         }
         .sheet(isPresented: $showsAll) {
-            AllCapturesView(items: library.screenshots, selection: $selection)
+            AllCapturesView(title: "Screenshots", items: library.screenshots, selection: $selection)
         }
         .onAppear(perform: selectLatestIfNeeded)
         .onChange(of: library.screenshots) { selectLatestIfNeeded() }
@@ -75,7 +75,8 @@ struct ScreenshotsView: View {
     }
 }
 
-private struct RecentStrip: View {
+struct RecentStrip: View {
+    let title: LocalizedStringKey
     let items: [CaptureItem]
     @Binding var selection: CaptureItem?
     @Binding var showsAll: Bool
@@ -83,7 +84,7 @@ private struct RecentStrip: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text("Recent Captures").font(.headline)
+                Text(title).font(.headline)
                 Spacer()
                 Button("See All") { showsAll = true }
                     .buttonStyle(.link)
@@ -113,6 +114,14 @@ struct CaptureTile: View {
 
     var body: some View {
         CaptureThumbnail(url: item.url)
+            .overlay {
+                if item.isVideo {
+                    Image(systemName: "play.fill")
+                        .font(.title3)
+                        .foregroundStyle(.white)
+                        .shadow(radius: 3)
+                }
+            }
             .clipShape(.rect(cornerRadius: 10))
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
@@ -128,7 +137,8 @@ struct CaptureTile: View {
     }
 }
 
-private struct AllCapturesView: View {
+struct AllCapturesView: View {
+    let title: LocalizedStringKey
     let items: [CaptureItem]
     @Binding var selection: CaptureItem?
     @Environment(\.dismiss) private var dismiss
@@ -153,7 +163,7 @@ private struct AllCapturesView: View {
                 }
                 .padding(20)
             }
-            .navigationTitle(Text("Screenshots"))
+            .navigationTitle(Text(title))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Close") { dismiss() }

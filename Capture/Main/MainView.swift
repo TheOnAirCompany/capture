@@ -37,7 +37,8 @@ struct MainView: View {
                 .navigationSplitViewColumnWidth(min: 220, ideal: 250, max: 320)
         } detail: {
             detail
-                .navigationTitle(Text(selection.title))
+                .navigationTitle(selection == .videos ? Text("Video Editor") : Text(selection.title))
+                .navigationSubtitle(selection == .videos ? Text("Trim, adjust and export your videos.") : Text(verbatim: ""))
         }
         .sheet(isPresented: showsOnboarding) {
             OnboardingView { hasCompletedOnboarding = true }
@@ -64,11 +65,7 @@ struct MainView: View {
         case .screenshots:
             ScreenshotsView()
         case .videos:
-            ContentUnavailableView {
-                Label("No Videos Yet", systemImage: "video")
-            } description: {
-                Text("Screen recordings you make will appear here.")
-            }
+            VideosView()
         case .settings:
             SettingsView()
         }

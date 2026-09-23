@@ -33,7 +33,8 @@ Capture is a small, native macOS app designed around it: plug in your iPhone, ta
 - [x] Export as PNG, JPEG or HEIC at ½x, 1x or 2x, or copy to the clipboard
 - [x] Recent captures
 - [x] Settings: save location, erase data, default quality, theme, file name templates, folder organization, direct export to `_Exports`
-- [ ] Video editor
+- [x] Video editor: trim, split and delete segments with undo, crop, rotate, speed, volume, filters, adjustments, an added music or voice-over track, and the same device frame and background as screenshots
+- [x] Video export as MP4 or MOV (HEVC), at the source resolution, 1080p or 720p, and 24 to 60 fps
 - [ ] Automatic updates from GitHub releases
 - [ ] Signed and notarized DMG
 
@@ -87,6 +88,7 @@ Capture/
 ├── Library/        Captures found in the save folder
 ├── Onboarding/     First-launch walkthrough
 ├── Settings/       Preferences and the Settings screen
+├── Video/          Video editor: timeline, tools, rendering and export
 └── Resources/      Assets and string catalogs (en, fr)
 scripts/
 ├── make-icons.swift  Generates the AppIcon set from Design/AppIcon.png

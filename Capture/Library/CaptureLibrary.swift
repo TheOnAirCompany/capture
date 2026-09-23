@@ -1,3 +1,4 @@
+import AVFoundation
 import Observation
 import SwiftUI
 import UniformTypeIdentifiers
@@ -8,6 +9,7 @@ struct CaptureItem: Identifiable, Hashable {
 
     var id: URL { url }
     var name: String { url.deletingPathExtension().lastPathComponent }
+    var isVideo: Bool { UTType(filenameExtension: url.pathExtension)?.conforms(to: .movie) == true }
 }
 
 /// Screenshots and videos found in the capture folder and its subfolders, newest first.
@@ -78,7 +80,7 @@ final class CaptureLibrary {
     }
 }
 
-/// Small preview of an image file, decoded off the main thread.
+/// Small preview of an image or video file, decoded off the main thread.
 struct CaptureThumbnail: View {
     let url: URL
     var maxPixelSize: CGFloat = 320
@@ -98,12 +100,18 @@ struct CaptureThumbnail: View {
         .task(id: url) {
             let url = url, size = maxPixelSize
             image = await Task.detached(priority: .utility) {
-                Self.thumbnail(of: url, maxPixelSize: size)
+                await Self.thumbnail(of: url, maxPixelSize: size)
             }.value
         }
     }
 
-    nonisolated private static func thumbnail(of url: URL, maxPixelSize: CGFloat) -> CGImage? {
+    nonisolated private static func thumbnail(of url: URL, maxPixelSize: CGFloat) async -> CGImage? {
+        if UTType(filenameExtension: url.pathExtension)?.conforms(to: .movie) == true {
+            let generator = AVAssetImageGenerator(asset: AVURLAsset(url: url))
+            generator.appliesPreferredTrackTransform = true
+            generator.maximumSize = CGSize(width: maxPixelSize, height: maxPixelSize)
+            return try? await generator.image(at: .zero).image
+        }
         guard let source = CGImageSourceCreateWithURL(url as CFURL, nil) else { return nil }
         return CGImageSourceCreateThumbnailAtIndex(source, 0, [
             kCGImageSourceCreateThumbnailFromImageAlways: true,

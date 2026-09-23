@@ -38,21 +38,11 @@ struct ExportInspector: View {
                     .background(.quaternary.opacity(0.6), in: .rect(cornerRadius: 10))
                 }
 
-                BezelSection(image: image)
+                BezelSection(size: image.map { CGSize(width: $0.width, height: $0.height) })
 
                 BackgroundSection(suggestions: suggestions)
 
-                section("Margin") {
-                    HStack {
-                        Slider(value: $settings.margin, in: 0...0.3)
-                            .disabled(!settings.hasBackground)
-                        Text(settings.margin, format: .percent.precision(.fractionLength(0)))
-                            .monospacedDigit()
-                            .frame(width: 44, alignment: .trailing)
-                    }
-                    Toggle("Shadow", isOn: $settings.showsShadow)
-                        .disabled(!settings.hasBackground)
-                }
+                MarginSection()
             }
             .padding(20)
         }
@@ -174,11 +164,34 @@ private struct ResolutionOption: View {
     }
 }
 
-private struct BezelSection: View {
-    let image: CGImage?
+/// Margin and shadow around the device, shared by the screenshot and video editors.
+struct MarginSection: View {
     @Environment(ExportSettings.self) private var settings
 
-    private var size: CGSize? { image.map { CGSize(width: $0.width, height: $0.height) } }
+    var body: some View {
+        @Bindable var settings = settings
+
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Margin").font(.headline)
+            HStack {
+                Slider(value: $settings.margin, in: 0...0.3)
+                    .disabled(!settings.hasBackground)
+                Text(settings.margin, format: .percent.precision(.fractionLength(0)))
+                    .monospacedDigit()
+                    .frame(width: 44, alignment: .trailing)
+            }
+            Toggle("Shadow", isOn: $settings.showsShadow)
+                .disabled(!settings.hasBackground)
+        }
+    }
+}
+
+/// Device frame options, shared by the screenshot and video editors.
+struct BezelSection: View {
+    /// Size of the capture, used to suggest matching models.
+    let size: CGSize?
+    @Environment(ExportSettings.self) private var settings
+
     private var matching: [DeviceModel] { size.map(DeviceModel.matching) ?? [] }
     private var model: DeviceModel? { size.flatMap(settings.model(for:)) }
 
@@ -279,7 +292,8 @@ private struct FinishOption: View {
     }
 }
 
-private struct BackgroundSection: View {
+/// Background options, shared by the screenshot and video editors.
+struct BackgroundSection: View {
     let suggestions: SuggestedBackgrounds
     @Environment(ExportSettings.self) private var settings
     @State private var addsColor = false
