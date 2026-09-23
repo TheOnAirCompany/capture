@@ -41,6 +41,7 @@
 		E35F479814AE62E837D69E4F /* DevicePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = A876D61EAABADA01DB4056AF /* DevicePreview.swift */; };
 		F3F191B542621ED928834DA3 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4007BBDE6B834F0FA7C409D0 /* MainView.swift */; };
 		FE8C79C48D4ACEA9AE3C5405 /* VideoProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83EE4141FEAAA319C110BBE /* VideoProject.swift */; };
+		FF3F18F116213DB2AA38FDB5 /* AppMover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297FE453ADC5A14C5300026 /* AppMover.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		3D5F26BF3A02C1C0BF0C5AC7 /* ExportInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportInspector.swift; sourceTree = "<group>"; };
 		4007BBDE6B834F0FA7C409D0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		43B16851DFFEE0D862CA25F5 /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
+		5297FE453ADC5A14C5300026 /* AppMover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMover.swift; sourceTree = "<group>"; };
 		67CEA3E11D7C1CA3C0243BF9 /* CaptureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureController.swift; sourceTree = "<group>"; };
 		69BD76531EEF7711AC200E9D /* Capture.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Capture.entitlements; sourceTree = "<group>"; };
 		69D5BA942A8247E543839250 /* ConnectedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedView.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 		9550B6036C796AF490EBC5E5 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				5297FE453ADC5A14C5300026 /* AppMover.swift */,
 				B05635D390CEB0C46AB32BFA /* AppUpdater.swift */,
 				6C1F43CD8DC6EDE15E504124 /* Preferences.swift */,
 				D675959D7F8384D5334ACA07 /* SettingsView.swift */,
@@ -303,6 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF3F18F116213DB2AA38FDB5 /* AppMover.swift in Sources */,
 				6F18D59DBDE8B569F88BB4DB /* AppUpdater.swift in Sources */,
 				0B79E75052C3F11381B32CBE /* CaptureApp.swift in Sources */,
 				9CB4E79386ED69DFB7F30377 /* CaptureController.swift in Sources */,

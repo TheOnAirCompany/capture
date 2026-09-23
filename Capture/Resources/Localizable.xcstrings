@@ -221,6 +221,16 @@
         }
       }
     },
+    "Administrator permission is needed to write to the Applications folder.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’autorisation d’un administrateur est nécessaire pour écrire dans le dossier Applications."
+          }
+        }
+      }
+    },
     "Advanced Options": {
       "localizations": {
         "fr": {
@@ -257,6 +267,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vert alpin"
+          }
+        }
+      }
+    },
+    "Another copy of Capture is running from the Applications folder. Quit it and try again.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une autre copie de Capture est ouverte depuis le dossier Applications. Quittez-la et réessayez."
           }
         }
       }
@@ -401,6 +421,26 @@
         }
       }
     },
+    "Capture Couldn't Be Moved": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de déplacer Capture"
+          }
+        }
+      }
+    },
+    "Capture can only update itself from the Applications folder.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture ne peut se mettre à jour que depuis le dossier Applications."
+          }
+        }
+      }
+    },
     "Capture can't access this folder. Choose another one, or allow access in System Settings > Privacy & Security > Files and Folders.": {
       "localizations": {
         "fr": {
@@ -417,6 +457,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Capture a besoin de l’accès à la caméra pour afficher l’écran de votre iPhone."
+          }
+        }
+      }
+    },
+    "Capture will copy itself to the Applications folder and restart from there.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture va se copier dans le dossier Applications, puis se relancer depuis celui-ci."
           }
         }
       }
@@ -817,6 +867,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Appareil, date et heure"
+          }
+        }
+      }
+    },
+    "Drag Capture to the Applications folder yourself, then open it from there.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faites glisser Capture dans le dossier Applications, puis ouvrez-le depuis celui-ci."
           }
         }
       }
@@ -1321,12 +1381,32 @@
         }
       }
     },
+    "Move Capture to the Applications Folder?": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déplacer Capture dans le dossier Applications ?"
+          }
+        }
+      }
+    },
     "Move all captures to the Trash?": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Placer toutes les captures dans la corbeille ?"
+          }
+        }
+      }
+    },
+    "Move to Applications": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déplacer vers Applications"
           }
         }
       }
@@ -1437,6 +1517,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aucun"
+          }
+        }
+      }
+    },
+    "Not Now": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plus tard"
           }
         }
       }
@@ -2077,6 +2167,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sarcelle"
+          }
+        }
+      }
+    },
+    "The copied app couldn't be verified.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La copie de l’app n’a pas pu être vérifiée."
           }
         }
       }
