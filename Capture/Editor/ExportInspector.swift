@@ -38,6 +38,8 @@ struct ExportInspector: View {
                     .background(.quaternary.opacity(0.6), in: .rect(cornerRadius: 10))
                 }
 
+                LayoutSection()
+
                 BezelSection(size: image.map { CGSize(width: $0.width, height: $0.height) })
 
                 BackgroundSection(suggestions: suggestions)
@@ -164,6 +166,41 @@ private struct ResolutionOption: View {
     }
 }
 
+/// Orientation of the device and shape of the output, shared by the screenshot and video editors.
+struct LayoutSection: View {
+    @Environment(ExportSettings.self) private var settings
+
+    var body: some View {
+        @Bindable var settings = settings
+
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Layout").font(.headline)
+            HStack {
+                Text("Orientation")
+                Spacer()
+                Picker("Orientation", selection: $settings.orientation) {
+                    ForEach(DeviceOrientation.allCases) { Text($0.title).tag($0) }
+                }
+                .labelsHidden()
+                .fixedSize()
+            }
+            HStack {
+                Text("Ratio")
+                Spacer()
+                Picker("Ratio", selection: $settings.ratio) {
+                    ForEach(CanvasRatio.allCases) { Text($0.title).tag($0) }
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                .fixedSize()
+            }
+            Text("The device is resized to fit inside the chosen ratio.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+    }
+}
+
 /// Margin and shadow around the device, shared by the screenshot and video editors.
 struct MarginSection: View {
     @Environment(ExportSettings.self) private var settings
@@ -175,7 +212,7 @@ struct MarginSection: View {
             Text("Margin").font(.headline)
             HStack {
                 Slider(value: $settings.margin, in: 0...0.3)
-                    .disabled(!settings.hasBackground)
+                    .disabled(!settings.hasBackground && settings.ratio == .automatic)
                 Text(settings.margin, format: .percent.precision(.fractionLength(0)))
                     .monospacedDigit()
                     .frame(width: 44, alignment: .trailing)

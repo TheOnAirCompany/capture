@@ -16,81 +16,6 @@ nonisolated struct VideoSegment: Identifiable, Equatable, Sendable {
     var duration: Double { end - start }
 }
 
-nonisolated enum VideoFilter: String, CaseIterable, Identifiable, Sendable {
-    case none, mono, noir, tonal, chrome, fade, instant, process, transfer
-
-    var id: Self { self }
-
-    var title: LocalizedStringResource {
-        switch self {
-        case .none: "Original"
-        case .mono: "Mono"
-        case .noir: "Noir"
-        case .tonal: "Tonal"
-        case .chrome: "Chrome"
-        case .fade: "Fade"
-        case .instant: "Instant"
-        case .process: "Process"
-        case .transfer: "Transfer"
-        }
-    }
-
-    /// Core Image photo effect, or nil for no filter.
-    var ciFilterName: String? {
-        switch self {
-        case .none: nil
-        case .mono: "CIPhotoEffectMono"
-        case .noir: "CIPhotoEffectNoir"
-        case .tonal: "CIPhotoEffectTonal"
-        case .chrome: "CIPhotoEffectChrome"
-        case .fade: "CIPhotoEffectFade"
-        case .instant: "CIPhotoEffectInstant"
-        case .process: "CIPhotoEffectProcess"
-        case .transfer: "CIPhotoEffectTransfer"
-        }
-    }
-}
-
-nonisolated enum CropAspect: String, CaseIterable, Identifiable, Sendable {
-    case original, portrait, square, fourFive, landscape
-
-    var id: Self { self }
-
-    var title: LocalizedStringResource {
-        switch self {
-        case .original: "Original"
-        case .portrait: "9:16"
-        case .square: "1:1"
-        case .fourFive: "4:5"
-        case .landscape: "16:9"
-        }
-    }
-
-    /// Width divided by height, or nil to keep the whole frame.
-    var ratio: Double? {
-        switch self {
-        case .original: nil
-        case .portrait: 9.0 / 16
-        case .square: 1
-        case .fourFive: 4.0 / 5
-        case .landscape: 16.0 / 9
-        }
-    }
-
-    /// The largest centered rectangle with this aspect ratio inside `extent`.
-    func rect(in extent: CGRect) -> CGRect {
-        guard let ratio else { return extent }
-        var size = extent.size
-        if size.width / size.height > ratio {
-            size.width = size.height * ratio
-        } else {
-            size.height = size.width / ratio
-        }
-        return CGRect(x: extent.midX - size.width / 2, y: extent.midY - size.height / 2,
-                      width: size.width, height: size.height).integral
-    }
-}
-
 /// Everything the user changed on a video. Kept as a value so edits can be undone.
 nonisolated struct VideoEdits: Equatable, Sendable {
     var segments: [VideoSegment]
@@ -99,11 +24,6 @@ nonisolated struct VideoEdits: Equatable, Sendable {
     var isMuted = false
     /// Clockwise quarter turns.
     var rotation = 0
-    var crop = CropAspect.original
-    var filter = VideoFilter.none
-    var brightness = 0.0
-    var contrast = 1.0
-    var saturation = 1.0
     var musicURL: URL?
     var musicVolume = 1.0
 
@@ -149,8 +69,5 @@ nonisolated struct VideoEdits: Equatable, Sendable {
         return true
     }
 
-    var hasVideoAdjustments: Bool {
-        rotation % 4 != 0 || crop != .original || filter != .none
-            || brightness != 0 || contrast != 1 || saturation != 1
-    }
+    var hasVideoAdjustments: Bool { rotation % 4 != 0 }
 }

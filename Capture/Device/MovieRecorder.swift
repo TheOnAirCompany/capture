@@ -1,4 +1,5 @@
 import AVFoundation
+import CoreImage
 
 /// Writes the iPhone video and sound to a QuickTime movie.
 ///
@@ -9,6 +10,9 @@ nonisolated final class MovieRecorder: @unchecked Sendable {
     private let writer: AVAssetWriter
     private let audioFormat: CMAudioFormatDescription?
     private var videoInput: AVAssetWriterInput?
+    private var adaptor: AVAssetWriterInputPixelBufferAdaptor?
+    private var videoSize = CGSize.zero
+    private let imageContext = CIContext()
     private var audioInput: AVAssetWriterInput?
     private var hasStarted = false
     private var isFinishing = false
@@ -29,8 +33,15 @@ nonisolated final class MovieRecorder: @unchecked Sendable {
         if !hasStarted {
             guard start(with: sampleBuffer) else { return }
         }
-        if let videoInput, videoInput.isReadyForMoreMediaData {
-            videoInput.append(sampleBuffer)
+        guard let videoInput, videoInput.isReadyForMoreMediaData, let adaptor,
+              let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        let time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+        let size = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
+        if size == videoSize {
+            adaptor.append(pixelBuffer, withPresentationTime: time)
+        } else if let fitted = fitted(pixelBuffer, pool: adaptor.pixelBufferPool) {
+            // The iPhone was turned during the recording: keep the movie size, add black bars.
+            adaptor.append(fitted, withPresentationTime: time)
         }
     }
 
@@ -69,6 +80,12 @@ nonisolated final class MovieRecorder: @unchecked Sendable {
         guard writer.canAdd(video) else { return false }
         writer.add(video)
         videoInput = video
+        videoSize = CGSize(width: Int(dimensions.width), height: Int(dimensions.height))
+        adaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: video, sourcePixelBufferAttributes: [
+            kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
+            kCVPixelBufferWidthKey as String: Int(dimensions.width),
+            kCVPixelBufferHeightKey as String: Int(dimensions.height),
+        ])
 
         if let audio = makeAudioInput(), writer.canAdd(audio) {
             writer.add(audio)
@@ -79,6 +96,24 @@ nonisolated final class MovieRecorder: @unchecked Sendable {
         writer.startSession(atSourceTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
         hasStarted = true
         return true
+    }
+
+    /// Scales a frame of another size to fit the movie, centered on black.
+    private func fitted(_ pixelBuffer: CVPixelBuffer, pool: CVPixelBufferPool?) -> CVPixelBuffer? {
+        guard let pool else { return nil }
+        var output: CVPixelBuffer?
+        CVPixelBufferPoolCreatePixelBuffer(nil, pool, &output)
+        guard let output else { return nil }
+        let image = CIImage(cvPixelBuffer: pixelBuffer)
+        let scale = min(videoSize.width / image.extent.width, videoSize.height / image.extent.height)
+        let scaled = image.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
+        let centered = scaled.transformed(by: CGAffineTransform(
+            translationX: (videoSize.width - scaled.extent.width) / 2,
+            y: (videoSize.height - scaled.extent.height) / 2
+        ))
+        let background = CIImage(color: .black).cropped(to: CGRect(origin: .zero, size: videoSize))
+        imageContext.render(centered.composited(over: background), to: output)
+        return output
     }
 
     /// AAC with the sample rate and channel count of the iPhone sound.

@@ -5,14 +5,6 @@ struct SettingsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Settings")
-                        .font(.largeTitle.bold())
-                    Text("Customize your experience with Capture.")
-                        .font(.title3)
-                        .foregroundStyle(.secondary)
-                }
-
                 Grid(horizontalSpacing: 16, verticalSpacing: 16) {
                     GridRow {
                         StorageCard()

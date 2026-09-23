@@ -11,6 +11,8 @@ nonisolated struct FrameLayers: @unchecked Sendable {
     /// Screen rectangle in Core Image coordinates (origin at the bottom left).
     let screenRect: CGRect
     let canvas: CGSize
+    /// Clockwise quarter turns applied to each frame to match the turned device.
+    let contentTurns: Int
 
     /// Renders the layers for a video of `videoSize`, or nil when there is no frame or background.
     @MainActor
@@ -24,7 +26,7 @@ nonisolated struct FrameLayers: @unchecked Sendable {
             return renderer.cgImage.map { CIImage(cgImage: $0) }
         }
 
-        let screen = CGRect(origin: layout.screenOrigin, size: layout.screen)
+        let screen = layout.screenRect
         let maskView = ZStack(alignment: .topLeading) {
             Color.black
             RoundedRectangle(cornerRadius: layout.screenRadius, style: .continuous)
@@ -42,7 +44,8 @@ nonisolated struct FrameLayers: @unchecked Sendable {
             above: above,
             mask: mask,
             screenRect: CGRect(x: screen.minX, y: canvas.height - screen.maxY, width: screen.width, height: screen.height),
-            canvas: canvas
+            canvas: canvas,
+            contentTurns: layout.netContentTurns
         )
     }
 }
@@ -57,11 +60,9 @@ nonisolated enum VideoRenderer {
         let renderSize: CGSize
     }
 
-    /// Size of the video once rotated and cropped.
+    /// Size of the video once rotated.
     static func editedSize(source: CGSize, edits: VideoEdits) -> CGSize {
-        var size = source
-        if edits.rotation % 2 != 0 { size = CGSize(width: size.height, height: size.width) }
-        return edits.crop.rect(in: CGRect(origin: .zero, size: size)).size
+        edits.rotation % 2 != 0 ? CGSize(width: source.height, height: source.width) : source
     }
 
     static func build(
@@ -162,34 +163,22 @@ nonisolated enum VideoRenderer {
         }
     }
 
-    /// Rotation, crop, filter and adjustments.
     static func process(_ source: CIImage, edits: VideoEdits) -> CIImage {
-        var image = source
+        turned(source, quarterTurns: edits.rotation)
+    }
+
+    /// Turns an image clockwise and moves it back to the origin.
+    static func turned(_ image: CIImage, quarterTurns: Int) -> CIImage {
         let orientations: [CGImagePropertyOrientation] = [.up, .right, .down, .left]
-        if edits.rotation % 4 != 0 {
-            image = image.oriented(orientations[((edits.rotation % 4) + 4) % 4])
-            image = image.transformed(by: CGAffineTransform(translationX: -image.extent.minX, y: -image.extent.minY))
-        }
-        if edits.crop != .original {
-            let rect = edits.crop.rect(in: image.extent)
-            image = image.cropped(to: rect).transformed(by: CGAffineTransform(translationX: -rect.minX, y: -rect.minY))
-        }
-        if let name = edits.filter.ciFilterName, let filter = CIFilter(name: name) {
-            filter.setValue(image, forKey: kCIInputImageKey)
-            image = filter.outputImage ?? image
-        }
-        if edits.brightness != 0 || edits.contrast != 1 || edits.saturation != 1 {
-            image = image.applyingFilter("CIColorControls", parameters: [
-                kCIInputBrightnessKey: edits.brightness,
-                kCIInputContrastKey: edits.contrast,
-                kCIInputSaturationKey: edits.saturation,
-            ])
-        }
-        return image
+        let turns = (quarterTurns % 4 + 4) % 4
+        guard turns != 0 else { return image }
+        let rotated = image.oriented(orientations[turns])
+        return rotated.transformed(by: CGAffineTransform(translationX: -rotated.extent.minX, y: -rotated.extent.minY))
     }
 
     /// Places the frame in the screen, between the device layers.
-    static func compose(_ frame: CIImage, in layers: FrameLayers) -> CIImage {
+    static func compose(_ source: CIImage, in layers: FrameLayers) -> CIImage {
+        let frame = turned(source, quarterTurns: layers.contentTurns)
         let screen = layers.screenRect
         let scale = max(screen.width / frame.extent.width, screen.height / frame.extent.height)
         let scaled = frame.transformed(by: CGAffineTransform(scaleX: scale, y: scale))

@@ -1,41 +1,111 @@
 import SwiftUI
 
+/// How the device is held. The frame is drawn in portrait, then turned.
+nonisolated enum DeviceOrientation: String, CaseIterable, Identifiable, Sendable {
+    case automatic, portrait, landscapeLeft, landscapeRight, upsideDown
+
+    var id: Self { self }
+
+    var title: LocalizedStringResource {
+        switch self {
+        case .automatic: "Automatic"
+        case .portrait: "Portrait"
+        case .landscapeLeft: "Landscape Left"
+        case .landscapeRight: "Landscape Right"
+        case .upsideDown: "Upside Down"
+        }
+    }
+
+    /// Picks portrait or landscape from the shape of the capture.
+    func resolved(for image: CGSize) -> DeviceOrientation {
+        guard self == .automatic else { return self }
+        return image.width > image.height ? .landscapeLeft : .portrait
+    }
+
+    /// Clockwise rotation of the device, in quarter turns. Landscape left puts the top on the left.
+    var quarterTurns: Int {
+        switch self {
+        case .automatic, .portrait: 0
+        case .landscapeRight: 1
+        case .upsideDown: 2
+        case .landscapeLeft: 3
+        }
+    }
+
+    var isLandscape: Bool { quarterTurns % 2 == 1 }
+}
+
+/// Shape of the exported image or video.
+nonisolated enum CanvasRatio: String, CaseIterable, Identifiable, Sendable {
+    case automatic, square, portrait, landscape
+
+    var id: Self { self }
+
+    var title: LocalizedStringResource {
+        switch self {
+        case .automatic: "Auto"
+        case .square: "1:1"
+        case .portrait: "9:16"
+        case .landscape: "16:9"
+        }
+    }
+
+    /// Width divided by height, or nil to fit the device.
+    var value: CGFloat? {
+        switch self {
+        case .automatic: nil
+        case .square: 1
+        case .portrait: 9.0 / 16
+        case .landscape: 16.0 / 9
+        }
+    }
+}
+
 struct CompositionStyle: Equatable {
     var model: DeviceModel?
     var showsBezel: Bool
     var finish: DeviceFinish?
     var showsDynamicIsland = true
+    var orientation = DeviceOrientation.automatic
+    var ratio = CanvasRatio.automatic
     var background: CompositionBackground
-    /// Space around the device, as a fraction of the device width.
+    /// Space around the device, as a fraction of the device's longer side.
     var margin: Double
     var showsShadow: Bool
 }
 
-/// Sizes of a composed screenshot, in pixels of the device screen.
+/// Sizes of a composed capture, in pixels of the device screen.
+/// The device is laid out in portrait, then turned by `orientation`.
 struct CompositionLayout {
+    let orientation: DeviceOrientation
+    /// Portrait screen size.
     let screen: CGSize
-    let isPortrait: Bool
     let screenRadius: CGFloat
     /// Pixels per point of the device, to size the notch or Dynamic Island.
     let pixelsPerPoint: CGFloat
     let border: CGFloat
     let band: CGFloat
     let buttonDepth: CGFloat
+    /// Portrait device size.
     let device: CGSize
-    let margin: CGFloat
     let canvas: CGSize
+    /// Clockwise quarter turns that show the capture upright on the turned device.
+    let contentTurns: Int
+    let isCaptureLandscape: Bool
 
     init(image: CGSize, style: CompositionStyle) {
-        isPortrait = image.height >= image.width
+        orientation = style.orientation.resolved(for: image)
+        isCaptureLandscape = image.width > image.height
         let hasBezel = style.showsBezel && style.model != nil
+        let portraitImage = isCaptureLandscape ? CGSize(width: image.height, height: image.width) : image
 
         // With a frame, the screen takes the size of the chosen model.
         if hasBezel, let model = style.model {
-            screen = isPortrait ? model.screen : CGSize(width: model.screen.height, height: model.screen.width)
+            screen = model.screen
         } else {
-            screen = image
+            screen = portraitImage
         }
-        let shortSide = min(screen.width, screen.height)
+        let shortSide = screen.width
         if let model = style.model {
             screenRadius = shortSide * model.cornerRadius * model.scale / model.screen.width
             pixelsPerPoint = shortSide / (model.screen.width / model.scale)
@@ -46,18 +116,43 @@ struct CompositionLayout {
 
         border = hasBezel ? shortSide * 0.030 : 0
         band = hasBezel ? shortSide * 0.021 : 0
-        buttonDepth = hasBezel && isPortrait ? shortSide * 0.007 : 0
+        buttonDepth = hasBezel ? shortSide * 0.007 : 0
 
         let frame = border + band
         device = CGSize(width: screen.width + 2 * (frame + buttonDepth), height: screen.height + 2 * frame)
-        margin = device.width * style.margin
-        canvas = CGSize(width: device.width + 2 * margin, height: device.height + 2 * margin)
+
+        // A capture that matches the device orientation stays upright. Otherwise it is
+        // shown as it would be on the turned device: sideways.
+        let netTurns = isCaptureLandscape == orientation.isLandscape ? 0 : (orientation.isLandscape ? orientation.quarterTurns : 1)
+        contentTurns = ((netTurns - orientation.quarterTurns) % 4 + 4) % 4
+
+        let bounds = orientation.isLandscape ? CGSize(width: device.height, height: device.width) : device
+        let margin = max(bounds.width, bounds.height) * style.margin
+        var canvas = CGSize(width: bounds.width + 2 * margin, height: bounds.height + 2 * margin)
+        if let ratio = style.ratio.value {
+            if canvas.width / canvas.height < ratio {
+                canvas.width = canvas.height * ratio
+            } else {
+                canvas.height = canvas.width / ratio
+            }
+        }
+        self.canvas = canvas
     }
 
-    /// Top-left corner of the screen in the canvas (the layout is symmetric).
-    var screenOrigin: CGPoint {
-        CGPoint(x: margin + buttonDepth + border + band, y: margin + border + band)
+    /// Size of the turned device.
+    var deviceBounds: CGSize {
+        orientation.isLandscape ? CGSize(width: device.height, height: device.width) : device
     }
+
+    /// The screen in the canvas, top-left origin. The device is centered and symmetric.
+    var screenRect: CGRect {
+        let size = orientation.isLandscape ? CGSize(width: screen.height, height: screen.width) : screen
+        return CGRect(x: (canvas.width - size.width) / 2, y: (canvas.height - size.height) / 2,
+                      width: size.width, height: size.height)
+    }
+
+    /// Clockwise quarter turns of the capture as seen in the canvas.
+    var netContentTurns: Int { (contentTurns + orientation.quarterTurns) % 4 }
 }
 
 /// Which part of a composition to draw. Videos are composed frame by frame between
@@ -107,8 +202,8 @@ struct ScreenshotComposition: View {
                 .compositingGroup()
                 .shadow(
                     color: .black.opacity(style.showsShadow && style.background != .none && part != .aboveScreen ? 0.28 : 0),
-                    radius: layout.device.width * 0.035,
-                    y: layout.device.width * 0.02
+                    radius: layout.screen.width * 0.035,
+                    y: layout.screen.width * 0.02
                 )
         }
         .frame(width: layout.canvas.width, height: layout.canvas.height)
@@ -153,23 +248,35 @@ struct ScreenshotComposition: View {
                     .padding(.vertical, layout.band)
             }
             if let image {
-                Image(decorative: image, scale: 1)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: layout.screen.width, height: layout.screen.height)
+                screenContent(image, layout: layout)
                     .clipShape(RoundedRectangle(cornerRadius: layout.screenRadius, style: .continuous))
             } else if part == .belowScreen {
                 RoundedRectangle(cornerRadius: layout.screenRadius, style: .continuous)
                     .fill(.black)
                     .frame(width: layout.screen.width, height: layout.screen.height)
             }
-            if frame > 0, part != .belowScreen, layout.isPortrait, let cutout = style.model?.cutout,
+            if frame > 0, part != .belowScreen, let cutout = style.model?.cutout,
                cutout != .dynamicIsland || style.showsDynamicIsland {
                 Cutout(kind: cutout, pixelsPerPoint: layout.pixelsPerPoint)
                     .frame(width: layout.screen.width, height: layout.screen.height, alignment: .top)
             }
         }
         .frame(width: layout.device.width, height: layout.device.height)
+        .rotationEffect(.degrees(Double(layout.orientation.quarterTurns) * 90))
+        .frame(width: layout.deviceBounds.width, height: layout.deviceBounds.height)
+    }
+
+    /// The capture filling the portrait screen, turned to read correctly on the turned device.
+    private func screenContent(_ image: CGImage, layout: CompositionLayout) -> some View {
+        let turned = layout.contentTurns % 2 == 1
+        let size = turned ? CGSize(width: layout.screen.height, height: layout.screen.width) : layout.screen
+        return Image(decorative: image, scale: 1)
+            .resizable()
+            .scaledToFill()
+            .frame(width: size.width, height: size.height)
+            .clipped()
+            .rotationEffect(.degrees(Double(layout.contentTurns) * 90))
+            .frame(width: layout.screen.width, height: layout.screen.height)
     }
 }
 

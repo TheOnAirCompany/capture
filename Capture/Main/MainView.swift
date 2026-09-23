@@ -15,6 +15,20 @@ enum SidebarItem: Hashable, CaseIterable, Identifiable {
         }
     }
 
+    /// Window title, when it differs from the sidebar.
+    var windowTitle: LocalizedStringResource {
+        self == .videos ? "Video Editor" : title
+    }
+
+    var subtitle: LocalizedStringResource {
+        switch self {
+        case .preview: "See your iPhone screen live, then capture it."
+        case .screenshots: "Frame, style and export your screenshots."
+        case .videos: "Trim, adjust and export your videos."
+        case .settings: "Customize your experience with Capture."
+        }
+    }
+
     var systemImage: String {
         switch self {
         case .preview: "display"
@@ -37,8 +51,8 @@ struct MainView: View {
                 .navigationSplitViewColumnWidth(min: 220, ideal: 250, max: 320)
         } detail: {
             detail
-                .navigationTitle(selection == .videos ? Text("Video Editor") : Text(selection.title))
-                .navigationSubtitle(selection == .videos ? Text("Trim, adjust and export your videos.") : Text(verbatim: ""))
+                .navigationTitle(Text(selection.windowTitle))
+                .navigationSubtitle(Text(selection.subtitle))
         }
         .sheet(isPresented: showsOnboarding) {
             OnboardingView { hasCompletedOnboarding = true }

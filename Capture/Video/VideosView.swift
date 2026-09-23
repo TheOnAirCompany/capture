@@ -84,9 +84,11 @@ struct VideosView: View {
             RoundedRectangle(cornerRadius: 16)
                 .fill(.background.secondary)
             if let project {
+                // No playback controls here: the timeline has them. A click plays or pauses.
                 PlayerView(player: project.player)
-                    .clipShape(.rect(cornerRadius: 12))
                     .padding(16)
+                    .contentShape(.rect)
+                    .onTapGesture(perform: project.togglePlayback)
             }
         }
         .padding(12)
@@ -98,11 +100,6 @@ struct VideosView: View {
         Group {
             Button("Rotate") { project?.rotate() }
                 .keyboardShortcut("r", modifiers: .command)
-            Button("Crop") {
-                showsInspector = true
-                expandedTool = .crop
-            }
-            .keyboardShortcut("k", modifiers: .command)
         }
         .opacity(0)
         .allowsHitTesting(false)
@@ -130,20 +127,30 @@ struct VideosView: View {
     }
 }
 
-/// AppKit player view with floating controls, scaled to fit.
+/// The rendered video, scaled to fit, on a transparent background.
 private struct PlayerView: NSViewRepresentable {
     let player: AVPlayer
 
-    func makeNSView(context: Context) -> AVPlayerView {
-        let view = AVPlayerView()
-        view.controlsStyle = .floating
-        view.videoGravity = .resizeAspect
-        view.showsFullScreenToggleButton = true
-        view.player = player
-        return view
+    func makeNSView(context: Context) -> PlayerLayerView {
+        PlayerLayerView(player: player)
     }
 
-    func updateNSView(_ view: AVPlayerView, context: Context) {
-        if view.player !== player { view.player = player }
+    func updateNSView(_ view: PlayerLayerView, context: Context) {
+        if view.playerLayer.player !== player { view.playerLayer.player = player }
+    }
+
+    final class PlayerLayerView: NSView {
+        let playerLayer = AVPlayerLayer()
+
+        init(player: AVPlayer) {
+            super.init(frame: .zero)
+            playerLayer.player = player
+            playerLayer.videoGravity = .resizeAspect
+            wantsLayer = true
+        }
+
+        required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+        override func makeBackingLayer() -> CALayer { playerLayer }
     }
 }

@@ -71,16 +71,6 @@
         }
       }
     },
-    "4:5": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "4:5"
-          }
-        }
-      }
-    },
     "60 fps": {
       "localizations": {
         "fr": {
@@ -231,16 +221,6 @@
         }
       }
     },
-    "Adjustments": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajustements"
-          }
-        }
-      }
-    },
     "Advanced Options": {
       "localizations": {
         "fr": {
@@ -291,22 +271,32 @@
         }
       }
     },
-    "Aspect Ratio": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Format"
-          }
-        }
-      }
-    },
     "Audio": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Audio"
+          }
+        }
+      }
+    },
+    "Auto": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto"
+          }
+        }
+      }
+    },
+    "Automatic": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatique"
           }
         }
       }
@@ -357,16 +347,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bleu"
-          }
-        }
-      }
-    },
-    "Brightness": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Luminosité"
           }
         }
       }
@@ -521,16 +501,6 @@
         }
       }
     },
-    "Chrome": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chrome"
-          }
-        }
-      }
-    },
     "Close": {
       "localizations": {
         "fr": {
@@ -607,16 +577,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Continuer"
-          }
-        }
-      }
-    },
-    "Contrast": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Contraste"
           }
         }
       }
@@ -717,16 +677,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Compteur"
-          }
-        }
-      }
-    },
-    "Crop": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Recadrer"
           }
         }
       }
@@ -1041,16 +991,6 @@
         }
       }
     },
-    "Fade": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fondu"
-          }
-        }
-      }
-    },
     "File Name": {
       "localizations": {
         "fr": {
@@ -1081,16 +1021,6 @@
         }
       }
     },
-    "Filters": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Filtres"
-          }
-        }
-      }
-    },
     "Find all your captures in one place.": {
       "localizations": {
         "fr": {
@@ -1117,6 +1047,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Fréquence d’images"
+          }
+        }
+      }
+    },
+    "Frame, style and export your screenshots.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encadrez, mettez en forme et exportez vos captures."
           }
         }
       }
@@ -1241,16 +1181,6 @@
         }
       }
     },
-    "Instant": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instantané"
-          }
-        }
-      }
-    },
     "JPEG": {
       "localizations": {
         "fr": {
@@ -1261,12 +1191,42 @@
         }
       }
     },
+    "Landscape Left": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paysage à gauche"
+          }
+        }
+      }
+    },
+    "Landscape Right": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paysage à droite"
+          }
+        }
+      }
+    },
     "Lavender": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Lavande"
+          }
+        }
+      }
+    },
+    "Layout": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disposition"
           }
         }
       }
@@ -1367,16 +1327,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Modèle"
-          }
-        }
-      }
-    },
-    "Mono": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mono"
           }
         }
       }
@@ -1501,16 +1451,6 @@
         }
       }
     },
-    "Noir": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Noir"
-          }
-        }
-      }
-    },
     "None": {
       "localizations": {
         "fr": {
@@ -1591,12 +1531,12 @@
         }
       }
     },
-    "Original": {
+    "Orientation": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Original"
+            "value": "Orientation"
           }
         }
       }
@@ -1681,6 +1621,16 @@
         }
       }
     },
+    "Portrait": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Portrait"
+          }
+        }
+      }
+    },
     "Preview": {
       "localizations": {
         "fr": {
@@ -1691,22 +1641,22 @@
         }
       }
     },
-    "Process": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Traitement"
-          }
-        }
-      }
-    },
     "Purple": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Mauve"
+          }
+        }
+      }
+    },
+    "Ratio": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ratio"
           }
         }
       }
@@ -1881,16 +1831,6 @@
         }
       }
     },
-    "Saturation": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Saturation"
-          }
-        }
-      }
-    },
     "Screen Recordings": {
       "localizations": {
         "fr": {
@@ -1947,6 +1887,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tout voir"
+          }
+        }
+      }
+    },
+    "See your iPhone screen live, then capture it.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visualisez l’écran de votre iPhone en direct, puis capturez-le."
           }
         }
       }
@@ -2151,6 +2101,16 @@
         }
       }
     },
+    "The device is resized to fit inside the chosen ratio.": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’appareil est redimensionné pour tenir dans le ratio choisi."
+          }
+        }
+      }
+    },
     "The file could not be written.": {
       "localizations": {
         "fr": {
@@ -2191,32 +2151,12 @@
         }
       }
     },
-    "Tonal": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tonal"
-          }
-        }
-      }
-    },
     "Tools": {
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Outils"
-          }
-        }
-      }
-    },
-    "Transfer": {
-      "localizations": {
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Transfert"
           }
         }
       }
@@ -2287,6 +2227,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mises à jour"
+          }
+        }
+      }
+    },
+    "Upside Down": {
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "À l’envers"
           }
         }
       }

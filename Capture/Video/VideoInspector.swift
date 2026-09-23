@@ -29,6 +29,7 @@ struct VideoInspector: View {
                 Divider()
                 toolsSection
                 Divider()
+                LayoutSection()
                 BezelSection(size: project.sourceSize)
                 BackgroundSection(suggestions: suggestions)
                 MarginSection()
@@ -72,14 +73,24 @@ struct VideoInspector: View {
                 }
             }
 
-            DisclosureGroup("Advanced Options", isExpanded: $showsAdvanced) {
+            Button {
+                withAnimation(.snappy) { showsAdvanced.toggle() }
+            } label: {
+                HStack(spacing: 4) {
+                    Text("Advanced Options")
+                    Image(systemName: "chevron.down")
+                        .rotationEffect(.degrees(showsAdvanced ? 180 : 0))
+                }
+                .foregroundStyle(.tint)
+            }
+            .buttonStyle(.plain)
+
+            if showsAdvanced {
                 VStack(alignment: .leading, spacing: 8) {
                     Toggle("Include Sound", isOn: $includesAudio)
                     Toggle("Optimize for Web Sharing", isOn: $optimizesForNetwork)
                 }
-                .padding(.top, 6)
             }
-            .foregroundStyle(.tint)
 
             if let progress = project.exportProgress {
                 ProgressView(value: progress) {
@@ -174,13 +185,6 @@ struct VideoInspector: View {
             Text("Tools").font(.title3.bold())
 
             ToolRow(tool: .cut, expanded: $expandedTool, action: project.splitAtPlayhead)
-            ToolRow(tool: .crop, expanded: $expandedTool) {
-                Picker("Aspect Ratio", selection: binding(\.crop)) {
-                    ForEach(CropAspect.allCases) { Text($0.title).tag($0) }
-                }
-                .pickerStyle(.segmented)
-                .labelsHidden()
-            }
             ToolRow(tool: .rotate, expanded: $expandedTool, action: project.rotate)
             ToolRow(tool: .speed, expanded: $expandedTool) {
                 VStack(alignment: .leading, spacing: 8) {
@@ -207,20 +211,10 @@ struct VideoInspector: View {
                     }
                 }
             }
-            ToolRow(tool: .filters, expanded: $expandedTool) {
-                FilterPicker(poster: project.posterFrame, selection: binding(\.filter))
-            }
-            ToolRow(tool: .adjustments, expanded: $expandedTool) {
-                VStack(alignment: .leading, spacing: 8) {
-                    slider("Brightness", value: binding(\.brightness, coalescing: true), range: -0.5...0.5, format: .signed)
-                    slider("Contrast", value: binding(\.contrast, coalescing: true), range: 0.5...1.5, format: .relative)
-                    slider("Saturation", value: binding(\.saturation, coalescing: true), range: 0...2, format: .relative)
-                }
-            }
         }
     }
 
-    private enum ValueFormat { case percent, signed, relative }
+    private enum ValueFormat { case percent }
 
     private func slider(_ title: LocalizedStringKey, value: Binding<Double>, range: ClosedRange<Double>, format: ValueFormat) -> some View {
         VStack(alignment: .leading, spacing: 2) {
@@ -230,8 +224,6 @@ struct VideoInspector: View {
                 Group {
                     switch format {
                     case .percent: Text(value.wrappedValue, format: .percent.precision(.fractionLength(0)))
-                    case .signed: Text(value.wrappedValue * 200, format: .number.precision(.fractionLength(0)).sign(strategy: .always()))
-                    case .relative: Text((value.wrappedValue - 1) * 100, format: .number.precision(.fractionLength(0)).sign(strategy: .always()))
                     }
                 }
                 .monospacedDigit()
@@ -251,38 +243,31 @@ struct VideoInspector: View {
 }
 
 enum VideoTool: String, CaseIterable, Identifiable {
-    case cut, crop, rotate, speed, volume, filters, adjustments
+    case cut, rotate, speed, volume
 
     var id: Self { self }
 
     var title: LocalizedStringKey {
         switch self {
         case .cut: "Cut"
-        case .crop: "Crop"
         case .rotate: "Rotate"
         case .speed: "Speed"
         case .volume: "Volume"
-        case .filters: "Filters"
-        case .adjustments: "Adjustments"
         }
     }
 
     var systemImage: String {
         switch self {
         case .cut: "scissors"
-        case .crop: "crop"
         case .rotate: "rotate.right"
         case .speed: "gauge.with.dots.needle.33percent"
         case .volume: "speaker.wave.2"
-        case .filters: "camera.filters"
-        case .adjustments: "slider.horizontal.3"
         }
     }
 
     var shortcut: String? {
         switch self {
         case .cut: "⌘T"
-        case .crop: "⌘K"
         case .rotate: "⌘R"
         default: nil
         }
@@ -348,50 +333,5 @@ private struct ToolRow<Options: View>: View {
         }
         .background(.background.secondary, in: .rect(cornerRadius: 10))
         .overlay(RoundedRectangle(cornerRadius: 10).strokeBorder(.separator))
-    }
-}
-
-/// Filter thumbnails rendered from the first frame of the video.
-private struct FilterPicker: View {
-    let poster: CGImage?
-    @Binding var selection: VideoFilter
-    @State private var previews: [VideoFilter: CGImage] = [:]
-
-    var body: some View {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 3), spacing: 10) {
-            ForEach(VideoFilter.allCases) { filter in
-                Button { selection = filter } label: {
-                    VStack(spacing: 4) {
-                        Group {
-                            if let image = previews[filter] ?? poster {
-                                Image(decorative: image, scale: 1).resizable().scaledToFill()
-                            } else {
-                                Rectangle().fill(.quaternary)
-                            }
-                        }
-                        .frame(height: 64)
-                        .frame(maxWidth: .infinity)
-                        .clipShape(.rect(cornerRadius: 6))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 6)
-                                .strokeBorder(selection == filter ? AnyShapeStyle(.tint) : AnyShapeStyle(.clear), lineWidth: 2)
-                        )
-                        Text(filter.title).font(.caption)
-                    }
-                    .contentShape(.rect)
-                }
-                .buttonStyle(.plain)
-            }
-        }
-        .task(id: poster.map(ObjectIdentifier.init)) {
-            guard let poster else { return }
-            let context = CIContext()
-            for filter in VideoFilter.allCases {
-                var edits = VideoEdits(duration: 0)
-                edits.filter = filter
-                let image = VideoRenderer.process(CIImage(cgImage: poster), edits: edits)
-                previews[filter] = context.createCGImage(image, from: image.extent)
-            }
-        }
     }
 }

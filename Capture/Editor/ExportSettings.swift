@@ -74,6 +74,8 @@ final class ExportSettings {
     var modelID: String? { didSet { save(modelID, "modelID") } }
     var finishHex: String? { didSet { save(finishHex, "finishHex") } }
     var showsDynamicIsland: Bool { didSet { save(showsDynamicIsland, "showsDynamicIsland") } }
+    var orientation: DeviceOrientation { didSet { save(orientation.rawValue, "orientation") } }
+    var ratio: CanvasRatio { didSet { save(ratio.rawValue, "ratio") } }
     var backgroundKind: BackgroundKind { didSet { save(backgroundKind.rawValue, "backgroundKind") } }
     var hasBackground: Bool { didSet { save(hasBackground, "hasBackground") } }
     var colorHex: String { didSet { save(colorHex, "colorHex") } }
@@ -96,6 +98,8 @@ final class ExportSettings {
         modelID = d.string(forKey: p + "modelID")
         finishHex = d.string(forKey: p + "finishHex")
         showsDynamicIsland = d.object(forKey: p + "showsDynamicIsland") as? Bool ?? true
+        orientation = DeviceOrientation(rawValue: d.string(forKey: p + "orientation") ?? "") ?? .automatic
+        ratio = CanvasRatio(rawValue: d.string(forKey: p + "ratio") ?? "") ?? .automatic
         backgroundKind = BackgroundKind(rawValue: d.string(forKey: p + "backgroundKind") ?? "") ?? .gradient
         hasBackground = d.object(forKey: p + "hasBackground") as? Bool ?? true
         colorHex = d.string(forKey: p + "colorHex") ?? Self.defaultColors[0]
@@ -139,8 +143,10 @@ final class ExportSettings {
             showsBezel: showsBezel && model != nil,
             finish: model.map(finish(for:)),
             showsDynamicIsland: showsDynamicIsland,
+            orientation: orientation,
+            ratio: ratio,
             background: background,
-            margin: background == .none ? 0 : margin,
+            margin: background == .none && ratio == .automatic ? 0 : margin,
             showsShadow: showsShadow
         )
     }
