@@ -10,7 +10,7 @@
 #   NOTARY_PROFILE          A keychain profile made with `xcrun notarytool store-credentials`.
 #   NOTARY_KEY_PATH, NOTARY_KEY_ID, NOTARY_ISSUER_ID   An App Store Connect API key (CI).
 # Sparkle signing, optional:
-#   SPARKLE_KEY_FILE        Private EdDSA key file. Defaults to ~/Desktop/_BACKUP/Capture/sparkle-private-key.txt
+#   SPARKLE_KEY_FILE        Private EdDSA key file. Defaults to ~/Documents/02_Code/TheOnAirCompany/_BACKUP/Capture/sparkle-private-key.txt
 #                           when it exists, otherwise to the key in the login keychain.
 set -euo pipefail
 
@@ -112,7 +112,7 @@ else
     echo "Warning: no section for $VERSION in CHANGELOG.md and CHANGELOG.fr.md, the update window will show no release notes."
 fi
 KEY_ARGS=()
-SPARKLE_KEY_FILE="${SPARKLE_KEY_FILE:-$HOME/Desktop/_BACKUP/Capture/sparkle-private-key.txt}"
+SPARKLE_KEY_FILE="${SPARKLE_KEY_FILE:-$HOME/Documents/02_Code/TheOnAirCompany/_BACKUP/Capture/sparkle-private-key.txt}"
 [[ -f "$SPARKLE_KEY_FILE" ]] && KEY_ARGS=(--ed-key-file "$SPARKLE_KEY_FILE")
 "$SPARKLE_BIN/generate_appcast" ${KEY_ARGS[@]+"${KEY_ARGS[@]}"} \
     --download-url-prefix "https://github.com/$REPO/releases/download/v$VERSION/" \
